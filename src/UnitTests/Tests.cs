@@ -23,7 +23,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Gemstone.GemTem.UnitTests
+namespace Gemstone.Security.UnitTests
 {
     [TestClass]
     public class Tests
