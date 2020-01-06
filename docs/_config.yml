@@ -2,7 +2,7 @@ theme: jekyll-theme-cayman
 title: Gemstone.Security
 description: GPA Gemstone Security Library
 github:
-  repository_name: Gemstone.Security
+  repository_name: gemstone/security
   owner_url: https://www.gridprotectionalliance.org
   owner_name: Grid Protection Alliance
 plugins:
