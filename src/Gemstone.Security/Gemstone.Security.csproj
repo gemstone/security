@@ -12,7 +12,7 @@
     <Description>GPA Gemstone Security Library</Description>
     <Copyright>Copyright © 2019</Copyright>
     <PackageProjectUrl>https://github.com/gemstone</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gemstone/gemstone.security</RepositoryUrl>
+    <RepositoryUrl>https://github.com/gemstone/security</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
