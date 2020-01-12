@@ -10,7 +10,7 @@
     <PackageDescription>GPA Gemstone Security Library</PackageDescription>
     <PackageIcon>gemstone-square-128.png</PackageIcon>
     <Description>GPA Gemstone Security Library</Description>
-    <Copyright>Copyright © 2019</Copyright>
+    <Copyright>Copyright © 2020</Copyright>
     <PackageProjectUrl>https://github.com/gemstone</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gemstone/security</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
