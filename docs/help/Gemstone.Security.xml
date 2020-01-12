@@ -1,22 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <doc>
   <assembly>
-    <name>gemstone.security</name>
+    <name>Gemstone.Security</name>
   </assembly>
   <members>
-    <member name="T:gemstone.security.Class">
+    <member name="T:Gemstone.Security.Cryptography.RandomInt24">
       <summary>
-            Sample class for new Security library.
+            Generates cryptographically strong random <see cref="T:Gemstone.Numeric.Int24" /> numbers.
             </summary>
     </member>
-    <member name="M:gemstone.security.Class.#ctor">
+    <member name="P:Gemstone.Security.Cryptography.RandomInt24.Value">
       <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>gemstone.security.Class</parameter>
-          </include>
-        </markup>
-      </summary>
+            Generates a cryptographically strong 24-bit random integer.
+            </summary>
+      <exception cref="T:System.Security.Cryptography.CryptographicException">The cryptographic service provider (CSP) cannot be acquired.</exception>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.RandomInt24.ValueBetween(Gemstone.Numeric.Int24,Gemstone.Numeric.Int24)">
+      <summary>
+            Generates a cryptographically strong 24-bit random integer between specified values.
+            </summary>
+      <param name="startNumber">A <see cref="T:Gemstone.Numeric.Int24" /> that is the low end of our range.</param>
+      <param name="stopNumber">A <see cref="T:Gemstone.Numeric.Int24" /> that is the high end of our range.</param>
+      <returns>A <see cref="T:Gemstone.Numeric.Int24" /> that is generated between the <paramref name="startNumber" /> and the <paramref name="stopNumber" />.</returns>
+      <exception cref="T:System.Security.Cryptography.CryptographicException">The cryptographic service provider (CSP) cannot be acquired.</exception>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.RandomUInt24">
+      <summary>
+            Generates cryptographically strong random <see cref="T:Gemstone.Numeric.UInt24" /> numbers.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.RandomUInt24.Value">
+      <summary>
+            Generates a cryptographically strong unsigned 24-bit random integer.
+            </summary>
+      <exception cref="T:System.Security.Cryptography.CryptographicException">The cryptographic service provider (CSP) cannot be acquired.</exception>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.RandomUInt24.ValueBetween(Gemstone.Numeric.UInt24,Gemstone.Numeric.UInt24)">
+      <summary>
+            Generates a cryptographically strong unsigned 24-bit random integer between specified values.
+            </summary>
+      <param name="startNumber">A <see cref="T:Gemstone.Numeric.UInt24" /> that is the low end of our range.</param>
+      <param name="stopNumber">A <see cref="T:Gemstone.Numeric.UInt24" /> that is the high end of our range.</param>
+      <returns>A <see cref="T:Gemstone.Numeric.UInt24" /> that is generated between the <paramref name="startNumber" /> and the <paramref name="stopNumber" />.</returns>
+      <exception cref="T:System.Security.Cryptography.CryptographicException">The cryptographic service provider (CSP) cannot be acquired.</exception>
     </member>
   </members>
 </doc>

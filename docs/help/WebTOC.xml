@@ -1,11 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpTOC>
 
-  <HelpTOCNode Id="847bf2b0-7390-4604-86b3-a8ccea188506" Title="gemstone" Url="html/gemstone.htm">
-    <HelpTOCNode Id="4adcd79e-dc8b-4795-8f83-cf5a229f0a6c" Title="gemstone.security" Url="html/N_gemstone_security.htm">
-      <HelpTOCNode Id="ff2fc181-36a5-41a0-ac38-35c8df796a02" Title="Class Class" Url="html/T_gemstone_security_Class.htm">
-        <HelpTOCNode Title="Class Constructor " Url="html/M_gemstone_security_Class__ctor.htm" />
-        <HelpTOCNode Title="Class Methods" Url="html/Methods_T_gemstone_security_Class.htm" />
+  <HelpTOCNode Title="About" Url="html/About.htm" />
+  <HelpTOCNode Id="579e0e0a-e033-4a50-942e-66bf1ad3538e" Title="Gemstone.Security.Cryptography" Url="html/N_Gemstone_Security_Cryptography.htm">
+    <HelpTOCNode Id="4b86ef27-f998-451b-992f-5382fba1ca54" Title="RandomInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm">
+      <HelpTOCNode Id="e030b781-758e-4fad-8ef1-056593cc6355" Title="RandomInt24 Properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomInt24.htm">
+        <HelpTOCNode Title="Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomInt24_Value.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="e546933c-4d51-4d1f-abd0-6f3ed91227af" Title="RandomInt24 Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomInt24.htm">
+        <HelpTOCNode Title="ValueBetween Method " Url="html/M_Gemstone_Security_Cryptography_RandomInt24_ValueBetween.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="f1f8cb0d-7954-42ff-b680-5b67711591dd" Title="RandomUInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomUInt24.htm">
+      <HelpTOCNode Id="c1b9e822-dc74-443d-b20f-61b9894d4458" Title="RandomUInt24 Properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomUInt24.htm">
+        <HelpTOCNode Title="Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomUInt24_Value.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="2004bf0b-db99-41cb-ba2d-452daeaaf4c5" Title="RandomUInt24 Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomUInt24.htm">
+        <HelpTOCNode Title="ValueBetween Method " Url="html/M_Gemstone_Security_Cryptography_RandomUInt24_ValueBetween.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
   </HelpTOCNode>
