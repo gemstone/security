@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topics>
+  <topic id="About" type="MAML" />
+  <topic id="N:Gemstone.Security.Cryptography" type="API" />
+  <topic id="T:Gemstone.Security.Cryptography.RandomInt24" type="API" />
+  <topic id="Methods.T:Gemstone.Security.Cryptography.RandomInt24" type="API" />
+  <topic id="Properties.T:Gemstone.Security.Cryptography.RandomInt24" type="API" />
+  <topic id="P:Gemstone.Security.Cryptography.RandomInt24.Value" type="API" />
+  <topic id="M:Gemstone.Security.Cryptography.RandomInt24.ValueBetween(Gemstone.Numeric.Int24,Gemstone.Numeric.Int24)" type="API" />
+  <topic id="T:Gemstone.Security.Cryptography.RandomUInt24" type="API" />
+  <topic id="Methods.T:Gemstone.Security.Cryptography.RandomUInt24" type="API" />
+  <topic id="Properties.T:Gemstone.Security.Cryptography.RandomUInt24" type="API" />
+  <topic id="P:Gemstone.Security.Cryptography.RandomUInt24.Value" type="API" />
+  <topic id="M:Gemstone.Security.Cryptography.RandomUInt24.ValueBetween(Gemstone.Numeric.UInt24,Gemstone.Numeric.UInt24)" type="API" />
+</topics>
