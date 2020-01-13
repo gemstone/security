@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="Gemstone.Security.Cryptography namespace" Url="html/N_Gemstone_Security_Cryptography.htm" />
+  <HelpKINode Title="Gemstone.Security.Cryptography.RandomInt24 class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm" />
+  <HelpKINode Title="Gemstone.Security.Cryptography.RandomUInt24 class" Url="html/T_Gemstone_Security_Cryptography_RandomUInt24.htm" />
+  <HelpKINode Title="RandomInt24 class">
+    <HelpKINode Title="RandomInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomInt24.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomInt24.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RandomInt24.Value property" Url="html/P_Gemstone_Security_Cryptography_RandomInt24_Value.htm" />
+  <HelpKINode Title="RandomInt24.ValueBetween method" Url="html/M_Gemstone_Security_Cryptography_RandomInt24_ValueBetween.htm" />
+  <HelpKINode Title="RandomUInt24 class">
+    <HelpKINode Title="RandomUInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomUInt24.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomUInt24.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomUInt24.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RandomUInt24.Value property" Url="html/P_Gemstone_Security_Cryptography_RandomUInt24_Value.htm" />
+  <HelpKINode Title="RandomUInt24.ValueBetween method" Url="html/M_Gemstone_Security_Cryptography_RandomUInt24_ValueBetween.htm" />
+  <HelpKINode Title="Value property">
+    <HelpKINode Title="RandomInt24.Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomInt24_Value.htm" />
+    <HelpKINode Title="RandomUInt24.Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomUInt24_Value.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ValueBetween method">
+    <HelpKINode Title="RandomInt24.ValueBetween Method " Url="html/M_Gemstone_Security_Cryptography_RandomInt24_ValueBetween.htm" />
+    <HelpKINode Title="RandomUInt24.ValueBetween Method " Url="html/M_Gemstone_Security_Cryptography_RandomUInt24_ValueBetween.htm" />
+  </HelpKINode>
+  <HelpKINode Title="welcome">
+    <HelpKINode Title="getting started, root, gemstone" Url="html/About.htm" />
+  </HelpKINode>
+</HelpKI>
