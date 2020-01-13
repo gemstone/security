@@ -28,7 +28,7 @@ namespace Gemstone.Security
     /// <summary>
     /// The <see cref="Gemstone.Security"/> namespace organizes all Gemstone library functionality
     /// related to security. The root security namespace also includes common security classes,
-    /// e.g., <see cref="Class"/>.
+    /// e.g., <see cref="Cryptography.RandomInt24"/>.
     /// </summary>
     [CompilerGenerated]
     class NamespaceDoc
