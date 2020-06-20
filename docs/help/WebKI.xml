@@ -1,8 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpKI>
+  <HelpKINode Title="AccessControlListBuilder(Of TIdentity, TResource) class">
+    <HelpKINode Title="AccessControlListBuilder(TIdentity, TResource) Class" Url="html/T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AccessControlListBuilder(Of TIdentity, TResource).AccessControlListBuilder constructor" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2__ctor.htm" />
+  <HelpKINode Title="AccessControlListBuilder(Of TIdentity, TResource).Allow method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Allow.htm" />
+  <HelpKINode Title="AccessControlListBuilder(Of TIdentity, TResource).AllowAllExcept method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_AllowAllExcept.htm" />
+  <HelpKINode Title="AccessControlListBuilder(Of TIdentity, TResource).Build method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Build.htm" />
+  <HelpKINode Title="AccessControlListBuilder(Of TIdentity, TResource).Deny method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Deny.htm" />
+  <HelpKINode Title="AccessControlListBuilder(Of TIdentity, TResource).DenyAllExcept method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_DenyAllExcept.htm" />
+  <HelpKINode Title="AccessControlListBuilder&lt;TIdentity, TResource&gt; class">
+    <HelpKINode Title="AccessControlListBuilder(TIdentity, TResource) Class" Url="html/T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AccessControlListBuilder&lt;TIdentity, TResource&gt;.AccessControlListBuilder constructor" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2__ctor.htm" />
+  <HelpKINode Title="AccessControlListBuilder&lt;TIdentity, TResource&gt;.Allow method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Allow.htm" />
+  <HelpKINode Title="AccessControlListBuilder&lt;TIdentity, TResource&gt;.AllowAllExcept method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_AllowAllExcept.htm" />
+  <HelpKINode Title="AccessControlListBuilder&lt;TIdentity, TResource&gt;.Build method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Build.htm" />
+  <HelpKINode Title="AccessControlListBuilder&lt;TIdentity, TResource&gt;.Deny method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Deny.htm" />
+  <HelpKINode Title="AccessControlListBuilder&lt;TIdentity, TResource&gt;.DenyAllExcept method" Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_DenyAllExcept.htm" />
+  <HelpKINode Title="Allow method">
+    <HelpKINode Title="AccessControlListBuilder(TIdentity, TResource).Allow Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Allow.htm" />
+    <HelpKINode Title="IAccessControlListBuilder(TIdentity, TResource).Allow Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Allow.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AllowAllExcept method">
+    <HelpKINode Title="AccessControlListBuilder(TIdentity, TResource).AllowAllExcept Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_AllowAllExcept.htm" />
+    <HelpKINode Title="IAccessControlListBuilder(TIdentity, TResource).AllowAllExcept Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_AllowAllExcept.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Build method">
+    <HelpKINode Title="AccessControlListBuilder(TIdentity, TResource).Build Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Build.htm" />
+    <HelpKINode Title="IAccessControlListBuilder(TIdentity, TResource).Build Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Build.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Deny method">
+    <HelpKINode Title="AccessControlListBuilder(TIdentity, TResource).Deny Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Deny.htm" />
+    <HelpKINode Title="IAccessControlListBuilder(TIdentity, TResource).Deny Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Deny.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DenyAllExcept method">
+    <HelpKINode Title="AccessControlListBuilder(TIdentity, TResource).DenyAllExcept Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_DenyAllExcept.htm" />
+    <HelpKINode Title="IAccessControlListBuilder(TIdentity, TResource).DenyAllExcept Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_DenyAllExcept.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Gemstone.Security.AccessControl namespace" Url="html/N_Gemstone_Security_AccessControl.htm" />
+  <HelpKINode Title="Gemstone.Security.AccessControl.AccessControlListBuilder(Of TIdentity, TResource) class" Url="html/T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm" />
+  <HelpKINode Title="Gemstone.Security.AccessControl.AccessControlListBuilder&lt;TIdentity, TResource&gt; class" Url="html/T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm" />
+  <HelpKINode Title="Gemstone.Security.AccessControl.IAccessControlList(Of TResource) interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlList_1.htm" />
+  <HelpKINode Title="Gemstone.Security.AccessControl.IAccessControlList&lt;TResource&gt; interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlList_1.htm" />
+  <HelpKINode Title="Gemstone.Security.AccessControl.IAccessControlListBuilder(Of TIdentity, TResource) interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
+  <HelpKINode Title="Gemstone.Security.AccessControl.IAccessControlListBuilder&lt;TIdentity, TResource&gt; interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
   <HelpKINode Title="Gemstone.Security.Cryptography namespace" Url="html/N_Gemstone_Security_Cryptography.htm" />
   <HelpKINode Title="Gemstone.Security.Cryptography.RandomInt24 class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm" />
   <HelpKINode Title="Gemstone.Security.Cryptography.RandomUInt24 class" Url="html/T_Gemstone_Security_Cryptography_RandomUInt24.htm" />
+  <HelpKINode Title="HasAccess method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlList_1_HasAccess.htm" />
+  <HelpKINode Title="IAccessControlList(Of TResource) interface">
+    <HelpKINode Title="IAccessControlList(TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlList_1.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlList_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IAccessControlList(Of TResource).HasAccess method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlList_1_HasAccess.htm" />
+  <HelpKINode Title="IAccessControlList&lt;TResource&gt; interface">
+    <HelpKINode Title="IAccessControlList(TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlList_1.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlList_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IAccessControlList&lt;TResource&gt;.HasAccess method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlList_1_HasAccess.htm" />
+  <HelpKINode Title="IAccessControlListBuilder(Of TIdentity, TResource) interface">
+    <HelpKINode Title="IAccessControlListBuilder(TIdentity, TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IAccessControlListBuilder(Of TIdentity, TResource).Allow method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Allow.htm" />
+  <HelpKINode Title="IAccessControlListBuilder(Of TIdentity, TResource).AllowAllExcept method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_AllowAllExcept.htm" />
+  <HelpKINode Title="IAccessControlListBuilder(Of TIdentity, TResource).Build method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Build.htm" />
+  <HelpKINode Title="IAccessControlListBuilder(Of TIdentity, TResource).Deny method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Deny.htm" />
+  <HelpKINode Title="IAccessControlListBuilder(Of TIdentity, TResource).DenyAllExcept method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_DenyAllExcept.htm" />
+  <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt; interface">
+    <HelpKINode Title="IAccessControlListBuilder(TIdentity, TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.Allow method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Allow.htm" />
+  <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.AllowAllExcept method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_AllowAllExcept.htm" />
+  <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.Build method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Build.htm" />
+  <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.Deny method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Deny.htm" />
+  <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.DenyAllExcept method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_DenyAllExcept.htm" />
   <HelpKINode Title="RandomInt24 class">
     <HelpKINode Title="RandomInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomInt24.htm" />
