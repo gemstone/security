@@ -7,6 +7,7 @@ The Gemstone Security Library organizes all Gemstone functionality related to se
 
 [![GitHub license](https://img.shields.io/github/license/gemstone/security?color=4CC61E)](https://github.com/gemstone/security/blob/master/LICENSE)
 [![Build status](https://ci.appveyor.com/api/projects/status/cqdx58x30krgb7o5?svg=true)](https://ci.appveyor.com/project/ritchiecarroll/security)
+![CodeQL](https://github.com/gemstone/security/workflows/CodeQL/badge.svg)
 
 This library includes helpful security classes like the following:
 
