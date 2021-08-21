@@ -50,6 +50,7 @@
   <HelpKINode Title="Gemstone.Security.AccessControl.IAccessControlListBuilder(Of TIdentity, TResource) interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
   <HelpKINode Title="Gemstone.Security.AccessControl.IAccessControlListBuilder&lt;TIdentity, TResource&gt; interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm" />
   <HelpKINode Title="Gemstone.Security.Cryptography namespace" Url="html/N_Gemstone_Security_Cryptography.htm" />
+  <HelpKINode Title="Gemstone.Security.Cryptography.PasswordHasher class" Url="html/T_Gemstone_Security_Cryptography_PasswordHasher.htm" />
   <HelpKINode Title="Gemstone.Security.Cryptography.RandomInt24 class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm" />
   <HelpKINode Title="Gemstone.Security.Cryptography.RandomUInt24 class" Url="html/T_Gemstone_Security_Cryptography_RandomUInt24.htm" />
   <HelpKINode Title="HasAccess method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlList_1_HasAccess.htm" />
@@ -81,6 +82,13 @@
   <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.Build method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Build.htm" />
   <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.Deny method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Deny.htm" />
   <HelpKINode Title="IAccessControlListBuilder&lt;TIdentity, TResource&gt;.DenyAllExcept method" Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_DenyAllExcept.htm" />
+  <HelpKINode Title="PasswordHasher class">
+    <HelpKINode Title="PasswordHasher Class" Url="html/T_Gemstone_Security_Cryptography_PasswordHasher.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Gemstone_Security_Cryptography_PasswordHasher__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_Cryptography_PasswordHasher.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PasswordHasher.PasswordHasher constructor" Url="html/M_Gemstone_Security_Cryptography_PasswordHasher__ctor.htm" />
+  <HelpKINode Title="PasswordHasher.Test method" Url="html/M_Gemstone_Security_Cryptography_PasswordHasher_Test.htm" />
   <HelpKINode Title="RandomInt24 class">
     <HelpKINode Title="RandomInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomInt24.htm" />
@@ -95,6 +103,7 @@
   </HelpKINode>
   <HelpKINode Title="RandomUInt24.Value property" Url="html/P_Gemstone_Security_Cryptography_RandomUInt24_Value.htm" />
   <HelpKINode Title="RandomUInt24.ValueBetween method" Url="html/M_Gemstone_Security_Cryptography_RandomUInt24_ValueBetween.htm" />
+  <HelpKINode Title="Test method" Url="html/M_Gemstone_Security_Cryptography_PasswordHasher_Test.htm" />
   <HelpKINode Title="Value property">
     <HelpKINode Title="RandomInt24.Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomInt24_Value.htm" />
     <HelpKINode Title="RandomUInt24.Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomUInt24_Value.htm" />
