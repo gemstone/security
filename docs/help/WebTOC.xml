@@ -2,10 +2,10 @@
 <HelpTOC>
 
   <HelpTOCNode Title="About" Url="html/About.htm" />
-  <HelpTOCNode Id="5fd19236-d54c-4e3e-ae5d-f9ea89959d73" Title="Gemstone.Security.AccessControl" Url="html/N_Gemstone_Security_AccessControl.htm">
-    <HelpTOCNode Id="b5eb2ece-2a14-42f0-aa72-c0b9352db6f3" Title="AccessControlListBuilder(TIdentity, TResource) Class" Url="html/T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm">
+  <HelpTOCNode Id="6c2093a5-e546-4622-9dd9-8ac674fa771c" Title="Gemstone.Security.AccessControl" Url="html/N_Gemstone_Security_AccessControl.htm">
+    <HelpTOCNode Id="59e14b2b-b788-451c-9702-4f07eb210d0b" Title="AccessControlListBuilder(TIdentity, TResource) Class" Url="html/T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm">
       <HelpTOCNode Title="AccessControlListBuilder(TIdentity, TResource) Constructor " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2__ctor.htm" />
-      <HelpTOCNode Id="5d37984b-daee-4a1e-b0b6-41c552442daf" Title="AccessControlListBuilder(TIdentity, TResource) Methods" Url="html/Methods_T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm">
+      <HelpTOCNode Id="029121cb-2817-4483-a8e5-bc023a2b27fc" Title="AccessControlListBuilder(TIdentity, TResource) Methods" Url="html/Methods_T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm">
         <HelpTOCNode Title="Allow Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Allow.htm" />
         <HelpTOCNode Title="AllowAllExcept Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_AllowAllExcept.htm" />
         <HelpTOCNode Title="Build Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_Build.htm" />
@@ -13,13 +13,13 @@
         <HelpTOCNode Title="DenyAllExcept Method " Url="html/M_Gemstone_Security_AccessControl_AccessControlListBuilder_2_DenyAllExcept.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="8339e8ff-46ab-4e20-b0f1-4819fc35dde8" Title="IAccessControlList(TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlList_1.htm">
-      <HelpTOCNode Id="15e9aa51-1fd7-4a68-8844-036116211abf" Title="IAccessControlList(TResource) Methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlList_1.htm">
+    <HelpTOCNode Id="1ab59707-aceb-4cab-a4b7-e94fd8d75e4c" Title="IAccessControlList(TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlList_1.htm">
+      <HelpTOCNode Id="bce80046-fcaf-46ca-9aaa-6b925a27710d" Title="IAccessControlList(TResource) Methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlList_1.htm">
         <HelpTOCNode Title="HasAccess Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlList_1_HasAccess.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="4ecd7c9c-cdfd-4fe7-92e2-c0d366270a71" Title="IAccessControlListBuilder(TIdentity, TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm">
-      <HelpTOCNode Id="078a74dc-35d1-4c6f-879e-3fcde5974dc0" Title="IAccessControlListBuilder(TIdentity, TResource) Methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm">
+    <HelpTOCNode Id="0caf90a1-7ab7-4281-8a8a-3ef895f24e9d" Title="IAccessControlListBuilder(TIdentity, TResource) Interface" Url="html/T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm">
+      <HelpTOCNode Id="1ac14bca-cef2-4e16-8553-85c5b6efa858" Title="IAccessControlListBuilder(TIdentity, TResource) Methods" Url="html/Methods_T_Gemstone_Security_AccessControl_IAccessControlListBuilder_2.htm">
         <HelpTOCNode Title="Allow Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Allow.htm" />
         <HelpTOCNode Title="AllowAllExcept Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_AllowAllExcept.htm" />
         <HelpTOCNode Title="Build Method " Url="html/M_Gemstone_Security_AccessControl_IAccessControlListBuilder_2_Build.htm" />
@@ -28,26 +28,26 @@
       </HelpTOCNode>
     </HelpTOCNode>
   </HelpTOCNode>
-  <HelpTOCNode Id="81d8d896-9d7c-4343-bc01-740d2935b9a2" Title="Gemstone.Security.Cryptography" Url="html/N_Gemstone_Security_Cryptography.htm">
-    <HelpTOCNode Id="a963d287-3e0e-4c5a-95b3-4c9e7cceb8e8" Title="PasswordHasher Class" Url="html/T_Gemstone_Security_Cryptography_PasswordHasher.htm">
+  <HelpTOCNode Id="fa91c936-35af-4ac5-9b8c-c1a307a14b3a" Title="Gemstone.Security.Cryptography" Url="html/N_Gemstone_Security_Cryptography.htm">
+    <HelpTOCNode Id="464bf290-187c-4b90-85aa-84898a1ec37d" Title="PasswordHasher Class" Url="html/T_Gemstone_Security_Cryptography_PasswordHasher.htm">
       <HelpTOCNode Title="PasswordHasher Constructor " Url="html/M_Gemstone_Security_Cryptography_PasswordHasher__ctor.htm" />
-      <HelpTOCNode Id="3b3243ad-b9b0-4462-aa2c-19f514097947" Title="PasswordHasher Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_PasswordHasher.htm">
+      <HelpTOCNode Id="3e7a0cd6-6058-4aa3-9de8-1063dc71a2fa" Title="PasswordHasher Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_PasswordHasher.htm">
         <HelpTOCNode Title="Test Method " Url="html/M_Gemstone_Security_Cryptography_PasswordHasher_Test.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="cdd9f2c3-6580-4b4e-87e2-7af55fd5780c" Title="RandomInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm">
-      <HelpTOCNode Id="380951dd-261d-4bab-9284-9910aa8b6c32" Title="RandomInt24 Properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomInt24.htm">
+    <HelpTOCNode Id="5731c9d1-e275-4e75-b5db-f326f5269096" Title="RandomInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomInt24.htm">
+      <HelpTOCNode Id="5c26dca7-b4b6-4665-a650-a7fadbff11ea" Title="RandomInt24 Properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomInt24.htm">
         <HelpTOCNode Title="Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomInt24_Value.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="f1917091-e3d5-452c-be02-e99424ce0ee9" Title="RandomInt24 Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomInt24.htm">
+      <HelpTOCNode Id="39ff5d56-9161-4ec4-8453-f4ccc2d1cc69" Title="RandomInt24 Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomInt24.htm">
         <HelpTOCNode Title="ValueBetween Method " Url="html/M_Gemstone_Security_Cryptography_RandomInt24_ValueBetween.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="a9ffffb0-93e0-46eb-a745-a2d68e70e7e9" Title="RandomUInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomUInt24.htm">
-      <HelpTOCNode Id="05a9bba9-0794-4fb2-8d90-f5501da834d9" Title="RandomUInt24 Properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomUInt24.htm">
+    <HelpTOCNode Id="6c89ea21-c42c-4bc1-a87e-99e23a59f932" Title="RandomUInt24 Class" Url="html/T_Gemstone_Security_Cryptography_RandomUInt24.htm">
+      <HelpTOCNode Id="1bbb95fa-e57b-44c2-8ee9-f78a22978bff" Title="RandomUInt24 Properties" Url="html/Properties_T_Gemstone_Security_Cryptography_RandomUInt24.htm">
         <HelpTOCNode Title="Value Property " Url="html/P_Gemstone_Security_Cryptography_RandomUInt24_Value.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="284510ae-242b-4f71-b3e4-4d9b9cac9069" Title="RandomUInt24 Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomUInt24.htm">
+      <HelpTOCNode Id="daf021dd-f08d-4e30-a678-63d0c1371eb8" Title="RandomUInt24 Methods" Url="html/Methods_T_Gemstone_Security_Cryptography_RandomUInt24.htm">
         <HelpTOCNode Title="ValueBetween Method " Url="html/M_Gemstone_Security_Cryptography_RandomUInt24_ValueBetween.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
