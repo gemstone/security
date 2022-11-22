@@ -176,7 +176,7 @@ namespace Gemstone.Security.AccessControl
         public IAccessControlList<TResource> Build(TIdentity identity)
         {
             IEnumerable<TResource> resources = Enumerable.Empty<TResource>();
-            ResourceList resourceList = new ResourceList(true, true, resources);
+            ResourceList resourceList = new(true, true, resources);
 
             foreach (Func<TIdentity, ResourceList> resourceListFactory in ResourceListFactories)
             {
@@ -189,8 +189,7 @@ namespace Gemstone.Security.AccessControl
 
         private IAccessControlListBuilder<TIdentity, TResource> AddResourceList(bool allow, bool inclusive, Func<TIdentity, IEnumerable<TResource>> allowedResourcesFunc)
         {
-            ResourceList CreateResourceList(TIdentity identity) =>
-                new ResourceList(allow, inclusive, allowedResourcesFunc(identity));
+            ResourceList CreateResourceList(TIdentity identity) => new(allow, inclusive, allowedResourcesFunc(identity));
 
             ResourceListFactories.Add(CreateResourceList);
 
@@ -201,7 +200,7 @@ namespace Gemstone.Security.AccessControl
         {
             bool allow = resourceList.Allow ^ !resourceList.Inclusive;
             IEnumerable<TResource> resources = resourceList.Resources;
-            HashSet<TResource> resourceSet = new HashSet<TResource>(resources);
+            HashSet<TResource> resourceSet = new(resources);
             return new AccessControlList(allow, resourceSet);
         }
     }
