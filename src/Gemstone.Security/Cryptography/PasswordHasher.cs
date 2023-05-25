@@ -21,11 +21,6 @@
 //
 //******************************************************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace Gemstone.Security.Cryptography
 {
     public class PasswordHasher

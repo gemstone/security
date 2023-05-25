@@ -74,11 +74,11 @@ namespace Gemstone.Security.AccessControl
 
                 if (sameAccessControl && other.Inclusive)
                     return Union(other);
-                else if (sameAccessControl && !other.Inclusive)
+                if (sameAccessControl && !other.Inclusive)
                     return ReverseExceptThenComplement(other);
-                else if (!sameAccessControl && other.Inclusive)
+                if (!sameAccessControl && other.Inclusive)
                     return Except(other);
-                else if (!sameAccessControl && !other.Inclusive)
+                if (!sameAccessControl && !other.Inclusive)
                     return Intersect(other);
 
                 throw new InvalidOperationException("Invalid resource list combination.");
