@@ -23,13 +23,13 @@
 
 namespace Gemstone.Security.Cryptography
 {
-    public class PasswordHasher
-    {
-        public void Test()
-        {
-            //Rfc2898DeriveBytes thingy = new Rfc2898DeriveBytes();
-            //thingy.CryptDeriveKey();
-            //thingy.
-        }
-    }
+    //public class PasswordHasher
+    //{
+    //    public void Test()
+    //    {
+    //        //Rfc2898DeriveBytes thingy = new Rfc2898DeriveBytes();
+    //        //thingy.CryptDeriveKey();
+    //        //thingy.
+    //    }
+    //}
 }
