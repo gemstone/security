@@ -107,35 +107,6 @@
       <param name="deniedResourcesFunc">Function that returns the list of resources that are not included in the rule.</param>
       <returns>The builder, for chaining.</returns>
     </member>
-    <member name="T:Gemstone.Security.Cryptography.PasswordHasher">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>T:Gemstone.Security.Cryptography.PasswordHasher</parameter>
-          </include>
-        </markup>
-      </summary>
-    </member>
-    <member name="M:Gemstone.Security.Cryptography.PasswordHasher.#ctor">
-      <summary>
-        <markup>
-          <include item="SMCAutoDocConstructor">
-            <parameter>Gemstone.Security.Cryptography.PasswordHasher</parameter>
-          </include>
-        </markup>
-      </summary>
-    </member>
-    <member name="M:Gemstone.Security.Cryptography.PasswordHasher.Test">
-      <summary>
-        <markup>
-          <include item="SMCMissingTag">
-            <parameter>summary</parameter>
-            <parameter>M:Gemstone.Security.Cryptography.PasswordHasher.Test</parameter>
-          </include>
-        </markup>
-      </summary>
-    </member>
     <member name="T:Gemstone.Security.Cryptography.RandomInt24">
       <summary>
             Generates cryptographically strong random <see cref="T:Gemstone.Numeric.Int24" /> numbers.
