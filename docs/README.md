@@ -12,8 +12,12 @@ The Gemstone Security Library organizes all Gemstone functionality related to se
 
 This library includes helpful security classes like the following:
 
-* [Class](https://gemstone.github.io/security/help/html/T_gemstone_security_Class.htm):
-  * Represents a security class for handling security operations.
+* [AccessControlListBuilder](https://gemstone.github.io/security/help/html/T_Gemstone_Security_AccessControl_AccessControlListBuilder_2.htm):
+  * Builds access control lists for users given a collection of rules.
+* [RandomInt24](https://gemstone.github.io/security/help/html/T_Gemstone_Security_Cryptography_RandomInt24.htm):
+  * Generates cryptographically strong random [Int24](https://gemstone.github.io/numeric/help/html/T_Gemstone_Numeric_Int24.htm) numbers.
+* [RandomUInt24](https://gemstone.github.io/security/help/html/T_Gemstone_Security_Cryptography_RandomUInt24.htm):
+  * Generates cryptographically strong random [UInt24](https://gemstone.github.io/numeric/help/html/T_Gemstone_Numeric_UInt24.htm) numbers.
 
 Among others.
 
