@@ -59,6 +59,7 @@
                 <targetFormatter>
                   <steps>
                     <replace pattern=":|\.|`" with="_" />
+                    <replace pattern="\(([^\)]*)\)" with="" />
                   </steps>
                 </targetFormatter>
                 <urlFormatter format="https://gemstone.github.io/numeric/help/html/{target}.htm" target="_self" />
@@ -70,6 +71,7 @@
                 <targetFormatter>
                   <steps>
                     <replace pattern=":|\.|`" with="_" />
+                    <replace pattern="\(([^\)]*)\)" with="" />
                   </steps>
                 </targetFormatter>
                 <urlFormatter format="https://gemstone.github.io/common/help/html/{target}.htm" target="_self" />
