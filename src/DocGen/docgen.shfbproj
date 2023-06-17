@@ -55,7 +55,7 @@
           <configuration>
             <urlProviders>
               <formattedProvider title="Gemstone.Numeric URL Provider">
-                <targetMatcher pattern=".:Gemstone\.Numeric\..+" fullyQualifiedMemberName="false" />
+                <targetMatcher pattern=".:Gemstone\.Numeric(\.|$).*" fullyQualifiedMemberName="false" />
                 <targetFormatter>
                   <steps>
                     <replace pattern=":|\.|`" with="_" />
@@ -67,7 +67,7 @@
               <!-- Add Gemstone root namespace last because it has the widest match criteria -->
               <!-- Pattern excludes target namespace so local memmbers are not redirected to common -->
               <formattedProvider title="Gemstone Common URL Provider">
-                <targetMatcher pattern=".:Gemstone\.(?!Security\.)..+" fullyQualifiedMemberName="false" />
+                <targetMatcher pattern=".:Gemstone\.(?!Security(\.|$)).*" fullyQualifiedMemberName="false" />
                 <targetFormatter>
                   <steps>
                     <replace pattern=":|\.|`" with="_" />
