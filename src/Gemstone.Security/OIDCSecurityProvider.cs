@@ -25,19 +25,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
-using GSF.Collections;
-using GSF.Configuration;
-using GSF.Data;
-using GSF.Diagnostics;
+using Gemstone.Collections.CollectionExtensions;
+using Gemstone.Data;
+using Gemstone.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -45,7 +42,7 @@ using Newtonsoft.Json.Linq;
 #pragma warning disable 67
 #pragma warning disable 169
 
-namespace GSF.Security
+namespace Gemstone.Security
 {
     /// <summary>
     /// Defines a JSON token response for the <see cref="OIDCSecurityProvider"/>.
@@ -230,28 +227,28 @@ namespace GSF.Security
             base.LoadSettings();
 
             // Make sure default settings exist
-            ConfigurationFile config = ConfigurationFile.Current;
-            CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
+            //ConfigurationFile config = ConfigurationFile.Current;
+            //CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
 
-            settings.Add(nameof(ClientID), "", "Defines the ClientID as required per OpenID Connect Standard.");
-            settings.Add(nameof(Scope), "", "Defines the Scope as required per OpenID Connect Standard.");
-            settings.Add(nameof(AuthorizationEndpoint), "", "Defines the Endpoint to redirect the user for Authorization.");
-            settings.Add(nameof(RedirectURI), "", "Defines the URI the User get's redirected to after signing in.");
-            settings.Add(nameof(ClientSecret), "", "Defines the Client Secret as required per OpenID Connect Standard for decrypting User Information.");
-            settings.Add(nameof(TokenEndpoint), "", "Defines the Endpoint to use to grab the User Token.");
-            settings.Add(nameof(RolesClaim), "roles", "Defines the claim used to identify the users roles.");
-            settings.Add(nameof(SelfVerifiedNonce), "", "Defines a nonce that is verified manually.");
-            settings.Add(nameof(ShowDetailedError), "false", "Indicates if the Login Page should display detailed Debuging Information when OAuth Fails.");
+            //settings.Add(nameof(ClientID), "", "Defines the ClientID as required per OpenID Connect Standard.");
+            //settings.Add(nameof(Scope), "", "Defines the Scope as required per OpenID Connect Standard.");
+            //settings.Add(nameof(AuthorizationEndpoint), "", "Defines the Endpoint to redirect the user for Authorization.");
+            //settings.Add(nameof(RedirectURI), "", "Defines the URI the User get's redirected to after signing in.");
+            //settings.Add(nameof(ClientSecret), "", "Defines the Client Secret as required per OpenID Connect Standard for decrypting User Information.");
+            //settings.Add(nameof(TokenEndpoint), "", "Defines the Endpoint to use to grab the User Token.");
+            //settings.Add(nameof(RolesClaim), "roles", "Defines the claim used to identify the users roles.");
+            //settings.Add(nameof(SelfVerifiedNonce), "", "Defines a nonce that is verified manually.");
+            //settings.Add(nameof(ShowDetailedError), "false", "Indicates if the Login Page should display detailed Debuging Information when OAuth Fails.");
 
-            ClientID = settings[nameof(ClientID)].ValueAs(ClientID);
-            Scope = settings[nameof(Scope)].ValueAs(Scope);
-            AuthorizationEndpoint = settings[nameof(AuthorizationEndpoint)].ValueAs(AuthorizationEndpoint);
-            RedirectURI = settings[nameof(RedirectURI)].ValueAs(RedirectURI);
-            ClientSecret = settings[nameof(ClientSecret)].ValueAs(ClientSecret);
-            TokenEndpoint = settings[nameof(TokenEndpoint)].ValueAs(TokenEndpoint);
-            RolesClaim = settings[nameof(RolesClaim)].ValueAs(RolesClaim);
-            SelfVerifiedNonce = settings[nameof(SelfVerifiedNonce)].ValueAs(SelfVerifiedNonce);
-            ShowDetailedError = settings[nameof(ShowDetailedError)].ValueAs(ShowDetailedError);
+            //ClientID = settings[nameof(ClientID)].ValueAs(ClientID);
+            //Scope = settings[nameof(Scope)].ValueAs(Scope);
+            //AuthorizationEndpoint = settings[nameof(AuthorizationEndpoint)].ValueAs(AuthorizationEndpoint);
+            //RedirectURI = settings[nameof(RedirectURI)].ValueAs(RedirectURI);
+            //ClientSecret = settings[nameof(ClientSecret)].ValueAs(ClientSecret);
+            //TokenEndpoint = settings[nameof(TokenEndpoint)].ValueAs(TokenEndpoint);
+            //RolesClaim = settings[nameof(RolesClaim)].ValueAs(RolesClaim);
+            //SelfVerifiedNonce = settings[nameof(SelfVerifiedNonce)].ValueAs(SelfVerifiedNonce);
+            //ShowDetailedError = settings[nameof(ShowDetailedError)].ValueAs(ShowDetailedError);
         }
 
         /// <summary>

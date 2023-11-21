@@ -46,11 +46,8 @@ using System.Reflection;
 using System.Security;
 using System.Security.Principal;
 using Gemstone.Identity;
-using Gemstone.Security;
-using GSF.Configuration;
-using GSF.Identity;
 
-namespace GSF.Security
+namespace Gemstone.Security
 {
     /// <summary>
     /// Represents an <see cref="ISecurityProvider"/> that uses Active Directory for its backend data store and credential authentication.
@@ -212,14 +209,14 @@ namespace GSF.Security
                 return;
 
             // Save settings under the specified category.
-            ConfigurationFile config = ConfigurationFile.Current;
-            CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
+            //ConfigurationFile config = ConfigurationFile.Current;
+            //CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
 
-            settings["EnableOfflineCaching", true].Update(EnableOfflineCaching);
-            settings["CacheRetryDelayInterval", true].Update(CacheRetryDelayInterval);
-            settings["CacheMaximumRetryAttempts", true].Update(CacheMaximumRetryAttempts);
+            //settings["EnableOfflineCaching", true].Update(EnableOfflineCaching);
+            //settings["CacheRetryDelayInterval", true].Update(CacheRetryDelayInterval);
+            //settings["CacheMaximumRetryAttempts", true].Update(CacheMaximumRetryAttempts);
 
-            config.Save();
+            //config.Save();
         }
 
         /// <summary>
@@ -233,16 +230,16 @@ namespace GSF.Security
                 return;
 
             // Load settings from the specified category.
-            ConfigurationFile config = ConfigurationFile.Current;
-            CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
+            //ConfigurationFile config = ConfigurationFile.Current;
+            //CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
 
-            settings.Add("EnableOfflineCaching", EnableOfflineCaching, "True to enable caching of user group information for authentication in offline state, otherwise False.");
-            settings.Add("CacheRetryDelayInterval", CacheRetryDelayInterval, "Wait interval, in milliseconds, before retrying load of user data cache.");
-            settings.Add("CacheMaximumRetryAttempts", CacheMaximumRetryAttempts, "Maximum retry attempts allowed for loading user data cache.");
+            //settings.Add("EnableOfflineCaching", EnableOfflineCaching, "True to enable caching of user group information for authentication in offline state, otherwise False.");
+            //settings.Add("CacheRetryDelayInterval", CacheRetryDelayInterval, "Wait interval, in milliseconds, before retrying load of user data cache.");
+            //settings.Add("CacheMaximumRetryAttempts", CacheMaximumRetryAttempts, "Maximum retry attempts allowed for loading user data cache.");
 
-            EnableOfflineCaching = settings["EnableOfflineCaching"].ValueAs(EnableOfflineCaching);
-            CacheRetryDelayInterval = settings["CacheRetryDelayInterval"].ValueAs(CacheRetryDelayInterval);
-            CacheMaximumRetryAttempts = settings["CacheMaximumRetryAttempts"].ValueAs(CacheMaximumRetryAttempts);
+            //EnableOfflineCaching = settings["EnableOfflineCaching"].ValueAs(EnableOfflineCaching);
+            //CacheRetryDelayInterval = settings["CacheRetryDelayInterval"].ValueAs(CacheRetryDelayInterval);
+            //CacheMaximumRetryAttempts = settings["CacheMaximumRetryAttempts"].ValueAs(CacheMaximumRetryAttempts);
         }
 
         /// <summary>

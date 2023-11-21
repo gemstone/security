@@ -1,4 +1,4 @@
-﻿//******************************************************************************************************
+﻿                                                               //******************************************************************************************************
 //  AzureADSettings.cs - Gbtc
 //
 //  Copyright © 2023, Grid Protection Alliance.  All Rights Reserved.
@@ -24,16 +24,11 @@
 //******************************************************************************************************
 
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Gemstone.IO;
-using GSF.Configuration;
-using GSF.IO;
 using Microsoft.Graph;
-using Microsoft.Identity.Client;
-using Microsoft.Identity.Web;
 using Newtonsoft.Json;
 using File = System.IO.File;
 
@@ -160,23 +155,23 @@ public class AzureADSettings
             settingsCategory = SecurityProviderBase.DefaultSettingsCategory;
 
         // Make sure default settings exist
-        ConfigurationFile config = ConfigurationFile.Current;
-        CategorizedSettingsElementCollection settings = config.Settings[settingsCategory];
+        //ConfigurationFile config = ConfigurationFile.Current;
+        //CategorizedSettingsElementCollection settings = config.Settings[settingsCategory];
 
-        settings.Add(AzureADSecretKey, $"env({nameof(AzureADSecretKey)})", "Defines the Azure AD secret value to be used for user info and group lookups, post authentication.");
-        config.Save(ConfigurationSaveMode.Modified);
+        //settings.Add(AzureADSecretKey, $"env({nameof(AzureADSecretKey)})", "Defines the Azure AD secret value to be used for user info and group lookups, post authentication.");
+        //config.Save(ConfigurationSaveMode.Modified);
 
-        string secret = settings[AzureADSecretKey].ValueAs("");
+        //string secret = settings[AzureADSecretKey].ValueAs("");
 
-        if (string.IsNullOrEmpty(secret))
-            throw new InvalidOperationException($"Cannot create GraphServiceClient: No Azure AD secret value is defined in \"{settingsCategory}\" settings category.");
+        //if (string.IsNullOrEmpty(secret))
+        //    throw new InvalidOperationException($"Cannot create GraphServiceClient: No Azure AD secret value is defined in \"{settingsCategory}\" settings category.");
 
-        IConfidentialClientApplication clientApplication = ConfidentialClientApplicationBuilder.Create(ClientID)
-            .WithClientSecret(secret)
-            .WithAuthority(Authority)
-            .Build();
+        //IConfidentialClientApplication clientApplication = ConfidentialClientApplicationBuilder.Create(ClientID)
+        //    .WithClientSecret(secret)
+        //    .WithAuthority(Authority)
+        //    .Build();
 
-        clientApplication.AddInMemoryTokenCache();
+        //clientApplication.AddInMemoryTokenCache();
 
         LastException = null;
 
@@ -216,15 +211,17 @@ public class AzureADSettings
             settingsCategory = SecurityProviderBase.DefaultSettingsCategory;
 
         // Make sure default settings exist
-        ConfigurationFile config = ConfigurationFile.Current;
-        CategorizedSettingsElementCollection settings = config.Settings[settingsCategory];
+        //ConfigurationFile config = ConfigurationFile.Current;
+        //CategorizedSettingsElementCollection settings = config.Settings[settingsCategory];
 
-        settings.Add(AzureADConfigSource, DefaultAzureADConfigSource, "Azure AD configuration source. Either 'appsettings.json' file path or settings category to use.");
-        string configSource = settings[AzureADConfigSource].ValueAs(DefaultAzureADConfigSource).Trim();
+        //settings.Add(AzureADConfigSource, DefaultAzureADConfigSource, "Azure AD configuration source. Either 'appsettings.json' file path or settings category to use.");
+        //string configSource = settings[AzureADConfigSource].ValueAs(DefaultAzureADConfigSource).Trim();
 
-        return configSource.EndsWith(".json", StringComparison.OrdinalIgnoreCase) ?
-            LoadFromAppSettings(configSource) :
-            LoadFromConfig(configSource);
+        //return configSource.EndsWith(".json", StringComparison.OrdinalIgnoreCase) ?
+        //    LoadFromAppSettings(configSource) :
+        //    LoadFromConfig(configSource);
+        return null;
+
     }
 
     /// <summary>
@@ -269,26 +266,26 @@ public class AzureADSettings
             settingsCategory = DefaultSettingsCategory;
 
         // Make sure default settings exist
-        ConfigurationFile config = ConfigurationFile.Current;
-        CategorizedSettingsElementCollection settings = config.Settings[settingsCategory];
+        //ConfigurationFile config = ConfigurationFile.Current;
+        //CategorizedSettingsElementCollection settings = config.Settings[settingsCategory];
 
-        settings.Add(nameof(Instance), DefaultInstance, "Azure AD instance URL.");
-        settings.Add(nameof(TenantID), DefaultTenantID, "Azure AD tenant ID.");
-        settings.Add(nameof(ClientID), DefaultClientID, "Azure AD client ID.");
-        settings.Add(nameof(RedirectURI), DefaultRedirectURI, "URI where authentication responses can be received by the application");
-        settings.Add(nameof(CallbackPath), DefaultCallbackPath, "Azure AD call-back path.");
-        settings.Add(nameof(SignedOutCallbackPath), DefaultSignedOutCallbackPath, "Azure AD signed out call-back path.");
-        settings.Add(nameof(Enabled), DefaultEnabled, "Flag that determines if Azure AD is enabled.");
+        //settings.Add(nameof(Instance), DefaultInstance, "Azure AD instance URL.");
+        //settings.Add(nameof(TenantID), DefaultTenantID, "Azure AD tenant ID.");
+        //settings.Add(nameof(ClientID), DefaultClientID, "Azure AD client ID.");
+        //settings.Add(nameof(RedirectURI), DefaultRedirectURI, "URI where authentication responses can be received by the application");
+        //settings.Add(nameof(CallbackPath), DefaultCallbackPath, "Azure AD call-back path.");
+        //settings.Add(nameof(SignedOutCallbackPath), DefaultSignedOutCallbackPath, "Azure AD signed out call-back path.");
+        //settings.Add(nameof(Enabled), DefaultEnabled, "Flag that determines if Azure AD is enabled.");
 
         return new AzureADSettings
         {
-            Instance = settings[nameof(Instance)].ValueAs(DefaultInstance),
-            TenantID = settings[nameof(TenantID)].ValueAs(DefaultTenantID),
-            ClientID = settings[nameof(ClientID)].ValueAs(DefaultClientID),
-            RedirectURI = settings[nameof(RedirectURI)].ValueAs(DefaultRedirectURI),
-            CallbackPath = settings[nameof(CallbackPath)].ValueAs(DefaultCallbackPath),
-            SignedOutCallbackPath = settings[nameof(SignedOutCallbackPath)].ValueAs(DefaultSignedOutCallbackPath),
-            Enabled = settings[nameof(Enabled)].ValueAs(DefaultEnabled),
+            //Instance = settings[nameof(Instance)].ValueAs(DefaultInstance),
+            //TenantID = settings[nameof(TenantID)].ValueAs(DefaultTenantID),
+            //ClientID = settings[nameof(ClientID)].ValueAs(DefaultClientID),
+            //RedirectURI = settings[nameof(RedirectURI)].ValueAs(DefaultRedirectURI),
+            //CallbackPath = settings[nameof(CallbackPath)].ValueAs(DefaultCallbackPath),
+            //SignedOutCallbackPath = settings[nameof(SignedOutCallbackPath)].ValueAs(DefaultSignedOutCallbackPath),
+            //Enabled = settings[nameof(Enabled)].ValueAs(DefaultEnabled),
         };
     }
 }

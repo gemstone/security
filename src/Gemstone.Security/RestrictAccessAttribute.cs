@@ -20,13 +20,15 @@
 //       Generated original version of source code.
 //  12/20/2012 - Starlynn Danyelle Gilliam
 //       Modified Header.
+//  11/09/2023 - Lillian Gensolin
+//       Converted code to .NET core.
 //
 //******************************************************************************************************
 
 using System;
 using System.Threading;
 
-namespace GSF.Security
+namespace Gemstone.Security
 {
     /// <summary>
     /// Represents an <see cref="Attribute"/> that can be used restrict access to a class when using role-based security.

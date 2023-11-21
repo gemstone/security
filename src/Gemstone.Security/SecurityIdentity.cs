@@ -20,15 +20,15 @@
 //       Generated original version of source code.
 //  12/20/2012 - Starlynn Danyelle Gilliam
 //       Modified Header.
+//  11/09/2023 - Lillian Gensolin
+//       Converted code to .NET core.
 //
 //******************************************************************************************************
 
 using System;
 using System.Security.Principal;
+using Gemstone.Diagnostics;
 using Gemstone.Identity;
-using Gemstone.Security;
-using GSF.Diagnostics;
-using GSF.Identity;
 
 namespace Gemstone.Security;
 

@@ -26,11 +26,59 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Gemstone.ComponentModel.DataAnnotations;
-using GSF.ComponentModel;
-using GSF.ComponentModel.DataAnnotations;
-using GSF.Data.Model;
+using Gemstone.Data.Model;
+using Gemstone.Expressions.Model;
 
 namespace Gemstone.Security.Model;
+
+// TODO: Move lines 34-81 out of Gemstone Security. 
+// original namespace GSF.Data.Model
+/// <summary>
+/// Defines an attribute that will allow setting GET function roles for a modeled table.
+/// </summary>
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public sealed class GetRolesAttribute : Attribute
+{
+    /// <summary>
+    /// Gets field name to use for property.
+    /// </summary>
+    public string Roles
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="GetRolesAttribute"/>.
+    /// </summary>
+    /// <param name="roles">Comma separated string of roles allowed for GET functions.</param>
+    public GetRolesAttribute(string roles)
+    {
+        Roles = roles;
+    }
+}
+
+/// <summary>
+/// Defines an attribute that will allow setting View only functions for a modeled table.
+/// </summary>
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public sealed class ViewOnlyAttribute : Attribute
+{
+    /// <summary>
+    /// Gets field name to use for property.
+    /// </summary>
+    public bool ViewOnly
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="ViewOnlyAttribute"/>.
+    /// </summary>
+    public ViewOnlyAttribute()
+    {
+        ViewOnly = true;
+    }
+}
 
 /// <summary>
 /// Model for ApplicationRole table.

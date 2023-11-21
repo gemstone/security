@@ -38,6 +38,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security;
@@ -45,9 +46,14 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Gemstone.Collections.CollectionExtensions;
+using Gemstone.Data;
+using Gemstone.Data.DataExtensions;
+using Gemstone.Diagnostics;
 using Gemstone.Identity;
 using Gemstone.StringExtensions;
-using Group = Microsoft.Graph.Group;
+using Microsoft.Graph;
+using Microsoft.Graph.Models;
+using Group = System.Text.RegularExpressions.Group;
 
 namespace Gemstone.Security;
 
@@ -306,25 +312,25 @@ public class AdoSecurityProvider : LdapSecurityProvider
         base.LoadSettings();
 
         // Make sure default settings exist
-        ConfigurationFile config = ConfigurationFile.Current;
-        CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
+        //ConfigurationFile config = ConfigurationFile.Current;
+        //CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
 
-        settings.Add("DataProviderString", "Eval(systemSettings.DataProviderString)", "Configuration database ADO.NET data provider assembly type creation string to be used for connection to the back-end security data store.");
-        settings.Add("LdapPath", "", "Specifies the LDAP path used to initialize the security provider.");
-        settings.Add("PasswordRequirementsRegex", DefaultPasswordRequirementsRegex, "Regular expression used to validate new passwords for database users.");
-        settings.Add("PasswordRequirementsError", DefaultPasswordRequirementsError, "Error message to be displayed when new database user password fails regular expression test.");
-        settings.Add("UseDatabaseLogging", DefaultUseDatabaseLogging, "Flag that determines if provider should write logs to the database.");
-        settings.Add("DefaultRoles", DefaultDefaultRoles, "If set this is a list of Roles assigned to a user that has no defined Roles.");
-        settings.Add("MessageUserNotDefined", DefaultMessageUserNotDefined, "Defines the displayed message for user is not defined. Use '{0}' to insert user login ID into message.");
-        settings.Add("MessageUserIsDisabled", DefaultMessageUserIsDisabled, "Defines the displayed message for user is disabled. Use '{0}' to insert user login ID into message.");
-        settings.Add("MessageUserIsLockedOut", DefaultMessageUserIsLockedOut, "Defines the displayed message for user is locked out. Use '{0}' to insert user login ID into message.");
-        settings.Add("MessageUserPasswordExpired", DefaultMessageUserPasswordExpired, "Defines the displayed message for user has an expired password. Use '{0}' to insert user login ID into message.");
-        settings.Add("MessageUserHasNoRoles", DefaultMessageUserHasNoRoles, "Defines the displayed message for user has no roles. Use '{0}' to insert user login ID into message.");
+        //settings.Add("DataProviderString", "Eval(systemSettings.DataProviderString)", "Configuration database ADO.NET data provider assembly type creation string to be used for connection to the back-end security data store.");
+        //settings.Add("LdapPath", "", "Specifies the LDAP path used to initialize the security provider.");
+        //settings.Add("PasswordRequirementsRegex", DefaultPasswordRequirementsRegex, "Regular expression used to validate new passwords for database users.");
+        //settings.Add("PasswordRequirementsError", DefaultPasswordRequirementsError, "Error message to be displayed when new database user password fails regular expression test.");
+        //settings.Add("UseDatabaseLogging", DefaultUseDatabaseLogging, "Flag that determines if provider should write logs to the database.");
+        //settings.Add("DefaultRoles", DefaultDefaultRoles, "If set this is a list of Roles assigned to a user that has no defined Roles.");
+        //settings.Add("MessageUserNotDefined", DefaultMessageUserNotDefined, "Defines the displayed message for user is not defined. Use '{0}' to insert user login ID into message.");
+        //settings.Add("MessageUserIsDisabled", DefaultMessageUserIsDisabled, "Defines the displayed message for user is disabled. Use '{0}' to insert user login ID into message.");
+        //settings.Add("MessageUserIsLockedOut", DefaultMessageUserIsLockedOut, "Defines the displayed message for user is locked out. Use '{0}' to insert user login ID into message.");
+        //settings.Add("MessageUserPasswordExpired", DefaultMessageUserPasswordExpired, "Defines the displayed message for user has an expired password. Use '{0}' to insert user login ID into message.");
+        //settings.Add("MessageUserHasNoRoles", DefaultMessageUserHasNoRoles, "Defines the displayed message for user has no roles. Use '{0}' to insert user login ID into message.");
 
-        DefaultRoles = settings["DefaultRoles"].ValueAs(DefaultRoles);
+        //DefaultRoles = settings["DefaultRoles"].ValueAs(DefaultRoles);
 
-        m_passwordRequirementsRegex = settings["PasswordRequirementsRegex"].ValueAs(m_passwordRequirementsRegex);
-        m_passwordRequirementsError = settings["PasswordRequirementsError"].ValueAs(m_passwordRequirementsError);
+        //m_passwordRequirementsRegex = settings["PasswordRequirementsRegex"].ValueAs(m_passwordRequirementsRegex);
+        //m_passwordRequirementsError = settings["PasswordRequirementsError"].ValueAs(m_passwordRequirementsError);
     }
 
     /// <summary>
@@ -394,8 +400,8 @@ public class AdoSecurityProvider : LdapSecurityProvider
                 throw new SecurityException($"{connectionException.Message}{Environment.NewLine}{Environment.NewLine}Also {exceptionMessage.ToCamelCase()}", connectionException);
             }
 
-            if (securityContext.Tables[ApplicationRoleTable].Rows.Count == 0 && string.IsNullOrEmpty(DefaultRoles))
-                throw new SecurityException($"Failed to load a valid security context - no application roles were found for node ID '{DefaultNodeID}', verify the node ID in the config file '{ConfigurationFile.Current.Configuration.FilePath}'. Cannot proceed with user authentication.");
+            //if (securityContext.Tables[ApplicationRoleTable].Rows.Count == 0 && string.IsNullOrEmpty(DefaultRoles))
+                //throw new SecurityException($"Failed to load a valid security context - no application roles were found for node ID '{DefaultNodeID}', verify the node ID in the config file '{ConfigurationFile.Current.Configuration.FilePath}'. Cannot proceed with user authentication.");
 
             DataRow userAccount = null;
             Guid userAccountID = Guid.Empty;
@@ -573,10 +579,12 @@ public class AdoSecurityProvider : LdapSecurityProvider
                     // the group name back to it's human readable name (from a SID). The UserInfo.SIDToAccountName
                     // function will return the original parameter value if name cannot be converted - this allows
                     // the function to work for database group names as well.
-                    string groupName = UserInfo.SIDToAccountName(Convert.ToString(securityGroup["Name"]));
 
-                    if (!userData.Groups.Contains(groupName, StringComparer.OrdinalIgnoreCase))
-                        userData.Groups.Add(groupName);
+                    // TODO: Add SIDToAccountName to UserInfo?
+                    //string groupName = UserInfo.SIDToAccountName(Convert.ToString(securityGroup["Name"]));
+
+                    //if (!userData.Groups.Contains(groupName, StringComparer.OrdinalIgnoreCase))
+                    //    userData.Groups.Add(groupName);
                 }
             }
 
@@ -723,10 +731,12 @@ public class AdoSecurityProvider : LdapSecurityProvider
             string settingValue;
 
             try
-            {
-                ConfigurationFile config = ConfigurationFile.Current;
-                CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
-                settingValue = settings[settingName].ValueAs(defaultValue);
+            { 
+
+                // TODO: Config stuff
+                //ConfigurationFile config = ConfigurationFile.Current;
+                //CategorizedSettingsElementCollection settings = config.Settings[SettingsCategory];
+                //settingValue = settings[settingName].ValueAs(defaultValue);
             }
             catch (Exception ex)
             {
@@ -734,7 +744,8 @@ public class AdoSecurityProvider : LdapSecurityProvider
                 settingValue = defaultValue;
             }
 
-            return string.Format(settingValue, UserData.LoginID);
+            //return string.Format(settingValue, UserData.LoginID);
+            return null;
         }
 
         // Test for pre-authentication failure modes. Note that blank password should be allowed so that LDAP
@@ -1079,13 +1090,13 @@ public class AdoSecurityProvider : LdapSecurityProvider
     /// Gets the LDAP path.
     /// </summary>
     /// <returns>The LDAP path.</returns>
-    protected override string GetLdapPath()
-    {
-        // Load connection settings from the system settings category				
-        ConfigurationFile config = ConfigurationFile.Current;
-        CategorizedSettingsElementCollection configSettings = config.Settings[SettingsCategory];
-        return configSettings["LdapPath"].Value;
-    }
+    //protected override string GetLdapPath()
+    //{
+    //    // Load connection settings from the system settings category				
+    //    ConfigurationFile config = ConfigurationFile.Current;
+    //    CategorizedSettingsElementCollection configSettings = config.Settings[SettingsCategory];
+    //    return configSettings["LdapPath"].Value;
+    //}
 
     // Cache last user roles and monitor for changes
     private void CacheLastUserRoles(object state)
@@ -1375,39 +1386,39 @@ public class AdoSecurityProvider : LdapSecurityProvider
     // Static Constructor
     static AdoSecurityProvider()
     {
-        // Access configuration file system settings
-        CategorizedSettingsElementCollection systemSettings = ConfigurationFile.Current.Settings["systemSettings"];
+        //// Access configuration file system settings
+        //CategorizedSettingsElementCollection systemSettings = ConfigurationFile.Current.Settings["systemSettings"];
 
-        // Make sure NodeID setting exists
-        systemSettings.Add("NodeID", Guid.NewGuid().ToString(), "Unique Node ID");
+        //// Make sure NodeID setting exists
+        //systemSettings.Add("NodeID", Guid.NewGuid().ToString(), "Unique Node ID");
 
-        // Get NodeID as currently defined in configuration file
-        DefaultNodeID = Guid.Parse(systemSettings["NodeID"].Value.ToNonNullString(Guid.NewGuid().ToString()));
+        //// Get NodeID as currently defined in configuration file
+        //DefaultNodeID = Guid.Parse(systemSettings["NodeID"].Value.ToNonNullString(Guid.NewGuid().ToString()));
 
-        // Determine whether the node exists in the database and create it if it doesn't
-        if (DefaultNodeID == Guid.Empty)
-            return;
+        //// Determine whether the node exists in the database and create it if it doesn't
+        //if (DefaultNodeID == Guid.Empty)
+        //    return;
 
-        try
-        {
-            using AdoDataConnection connection = new(DefaultSettingsCategory);
+        //try
+        //{
+        //    using AdoDataConnection connection = new(DefaultSettingsCategory);
 
-            const string NodeCountFormat = "SELECT COUNT(*) FROM Node";
-            const string NodeInsertFormat = "INSERT INTO Node(Name, Description, Enabled) VALUES('Default', 'Default node', 1)";
-            const string NodeUpdateFormat = "UPDATE Node SET ID = {0}";
+        //    const string NodeCountFormat = "SELECT COUNT(*) FROM Node";
+        //    const string NodeInsertFormat = "INSERT INTO Node(Name, Description, Enabled) VALUES('Default', 'Default node', 1)";
+        //    const string NodeUpdateFormat = "UPDATE Node SET ID = {0}";
 
-            int nodeCount = connection.ExecuteScalar<int?>(NodeCountFormat) ?? 0;
+        //    int nodeCount = connection.ExecuteScalar<int?>(NodeCountFormat) ?? 0;
 
-            if (nodeCount != 0)
-                return;
+        //    if (nodeCount != 0)
+        //        return;
 
-            connection.ExecuteNonQuery(NodeInsertFormat);
-            connection.ExecuteNonQuery(NodeUpdateFormat, connection.Guid(DefaultNodeID));
-        }
-        catch (Exception ex)
-        {
-            Logger.SwallowException(ex, "AdoSecurityProvider: Failed to create default database node ID");
-        }
+        //    connection.ExecuteNonQuery(NodeInsertFormat);
+        //    connection.ExecuteNonQuery(NodeUpdateFormat, connection.Guid(DefaultNodeID));
+        //}
+        //catch (Exception ex)
+        //{
+        //    Logger.SwallowException(ex, "AdoSecurityProvider: Failed to create default database node ID");
+        //}
     }
 
     // Static Methods

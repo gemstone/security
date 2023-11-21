@@ -40,19 +40,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 using Gemstone.Collections.CollectionExtensions;
-using Gemstone.IO.StreamExtensions;
 using Gemstone.IO;
+using Gemstone.IO.StreamExtensions;
 using Gemstone.Security.Cryptography;
-using Gemstone.Security;
-using GSF.Collections;
-using GSF.IO;
-using GSF.Security.Cryptography;
-using GSF.Threading;
+using Gemstone.Threading;
 
-namespace GSF.Security
+namespace Gemstone.Security
 {
     /// <summary>
     /// Represents a secured inter-process cache for a <see cref="Dictionary{TKey,TValue}"/> of serialized <see cref="UserData"/>.

@@ -35,8 +35,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security;
 using System.Security.Principal;
-using Gemstone.Security;
-using GSF.Configuration;
 
 namespace Gemstone.Security;
 
@@ -52,7 +50,8 @@ public delegate void LogEventFunctionSignature(string source, string message, Ev
 /// <summary>
 /// Defines a provider of role-based security in applications.
 /// </summary>
-public interface ISecurityProvider : IPersistSettings
+public interface ISecurityProvider
+// extends IPersistSettings
 {
     #region [ Properties ]
 

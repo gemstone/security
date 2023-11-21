@@ -23,14 +23,13 @@
 //
 //******************************************************************************************************
 
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using Gemstone.ComponentModel.DataAnnotations;
+using Gemstone.Data.Model;
+using Gemstone.Expressions.Model;
 using Gemstone.Identity;
-using GSF.ComponentModel;
-using GSF.ComponentModel.DataAnnotations;
-using GSF.Data.Model;
-using GSF.Identity;
 
 namespace Gemstone.Security.Model;
 
@@ -92,9 +91,10 @@ public class SecurityGroup
     [UpdateValueExpression("UserInfo.CurrentUserID")]
     public string UpdatedBy { get; set; }
 
-    /// <summary>
-    /// Group account name, converted from security ID as needed.
-    /// </summary>
-    [NonRecordField]
-    public string AccountName => UserInfo.SIDToAccountName(Name);
+    // TODO: Resolve issues with inability to resolve SIDToAccountName from Gemstone.Identity.UserInfo.
+    ///// <summary>
+    ///// Group account name, converted from security ID as needed.
+    ///// </summary>
+    //[NonRecordField]
+    //public string AccountName => UserInfo.SIDToAccountName(Name);
 }

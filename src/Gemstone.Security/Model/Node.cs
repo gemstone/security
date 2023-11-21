@@ -26,9 +26,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Gemstone.ComponentModel.DataAnnotations;
-using GSF.ComponentModel;
-using GSF.ComponentModel.DataAnnotations;
-using GSF.Data.Model;
+using Gemstone.Data.Model;
+using Gemstone.Expressions.Model;
 
 namespace Gemstone.Security.Model;
 

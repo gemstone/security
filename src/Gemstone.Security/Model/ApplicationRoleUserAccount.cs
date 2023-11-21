@@ -23,7 +23,7 @@
 //
 //******************************************************************************************************
 
-using GSF.Data.Model;
+using Gemstone.Data.Model;
 using System;
 using System.ComponentModel.DataAnnotations;
 

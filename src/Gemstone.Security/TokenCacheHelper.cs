@@ -25,78 +25,74 @@
 
 using System;
 using System.IO;
-using System.Security.Cryptography;
-using Microsoft.Identity.Client;
-using GSF.IO;
-using GSF.Security.Cryptography;
-using Logger = GSF.Diagnostics.Logger;
 using Gemstone.IO;
+using Gemstone.Security.Cryptography;
+using Logger = Gemstone.Diagnostics.Logger;
 
-namespace GSF.Security
+namespace Gemstone.Security;
+
+/// <summary>
+/// Defines a helper class for token cache management.
+/// </summary>
+public static class TokenCacheHelper
 {
-    /// <summary>
-    /// Defines a helper class for token cache management.
-    /// </summary>
-    public static class TokenCacheHelper
+    static TokenCacheHelper()
     {
-        static TokenCacheHelper()
+        string appDataFolder = FilePath.GetApplicationDataFolder();
+
+        try
         {
-            string appDataFolder = FilePath.GetApplicationDataFolder();
-
-            try
-            {
-                if (!Directory.Exists(appDataFolder))
-                    Directory.CreateDirectory(appDataFolder);
-            }
-            catch (Exception ex)
-            {
-                Logger.SwallowException(ex);
-            }
-
-            CacheFilePath = Path.Combine(appDataFolder, "msalv3.cache");
+            if (!Directory.Exists(appDataFolder))
+                Directory.CreateDirectory(appDataFolder);
+        }
+        catch (Exception ex)
+        {
+            Logger.SwallowException(ex);
         }
 
-        /// <summary>
-        /// Path to the token cache.
-        /// </summary>
-        public static string CacheFilePath { get; }
+        CacheFilePath = Path.Combine(appDataFolder, "msalv3.cache");
+    }
 
-        private static readonly object s_fileLock = new();
+    /// <summary>
+    /// Path to the token cache.
+    /// </summary>
+    public static string CacheFilePath { get; }
 
-        private static void BeforeAccessNotification(TokenCacheNotificationArgs args)
+    private static readonly object s_fileLock = new();
+
+    private static void BeforeAccessNotification(TokenCacheNotificationArgs args)
+    {
+        byte[] msal = null;
+
+        if (File.Exists(CacheFilePath))
         {
-            byte[] msal = null;
-
-            if (File.Exists(CacheFilePath))
-            {
-                // Even though this cache will be for the current system user, we cannot guarantee that the 
-                // current user context will match the user system context, e.g., when using an Azure AD
-                // account or database user, so we will use the local machine to ensure consistent access.
-                lock (s_fileLock)
-                    msal = DataProtection.Unprotect(File.ReadAllBytes(CacheFilePath), null, DataProtectionScope.LocalMachine);
-            }
-
-            args.TokenCache.DeserializeMsalV3(msal);
-        }
-
-        private static void AfterAccessNotification(TokenCacheNotificationArgs args)
-        {
-            if (!args.HasStateChanged)
-                return;
-
             // Even though this cache will be for the current system user, we cannot guarantee that the 
             // current user context will match the user system context, e.g., when using an Azure AD
             // account or database user, so we will use the local machine to ensure consistent access.
-            byte[] msal = DataProtection.Protect(args.TokenCache.SerializeMsalV3(), null, DataProtectionScope.LocalMachine);
-
             lock (s_fileLock)
-                File.WriteAllBytes(CacheFilePath, msal);
+                msal = DataProtection.Unprotect(File.ReadAllBytes(CacheFilePath), null, DataProtectionScope.LocalMachine);
         }
 
-        internal static void EnableSerialization(ITokenCache tokenCache)
-        {
-            tokenCache.SetBeforeAccess(BeforeAccessNotification);
-            tokenCache.SetAfterAccess(AfterAccessNotification);
-        }
+        args.TokenCache.DeserializeMsalV3(msal);
+    }
+
+    private static void AfterAccessNotification(TokenCacheNotificationArgs args)
+    {
+        if (!args.HasStateChanged)
+            return;
+
+        // Even though this cache will be for the current system user, we cannot guarantee that the 
+        // current user context will match the user system context, e.g., when using an Azure AD
+        // account or database user, so we will use the local machine to ensure consistent access.
+        byte[] msal = DataProtection.Protect(args.TokenCache.SerializeMsalV3(), null, DataProtectionScope.LocalMachine);
+
+        lock (s_fileLock)
+            File.WriteAllBytes(CacheFilePath, msal);
+    }
+
+    internal static void EnableSerialization(ITokenCache tokenCache)
+    {
+        tokenCache.SetBeforeAccess(BeforeAccessNotification);
+        tokenCache.SetAfterAccess(AfterAccessNotification);
     }
 }

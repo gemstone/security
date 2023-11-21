@@ -18,13 +18,15 @@
 //  ----------------------------------------------------------------------------------------------------
 //  02/27/2016 - J. Ritchie Carroll
 //       Generated original version of source code.
+//  11/09/2023 - Lillian Gensolin
+//       Converted code to .NET core.
 //
 //******************************************************************************************************
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using GSF.ComponentModel;
-using GSF.Data.Model;
+using Gemstone.Data.Model;
+using Gemstone.Expressions.Model;
 
 namespace Gemstone.Security.Model;
 

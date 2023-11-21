@@ -55,10 +55,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\Gemstone\Gemstone.Common.csproj" Condition="'$(Configuration)'=='Development'" />
-    <PackageReference Include="Gemstone.Common" Version="1.0.101" Condition="'$(Configuration)'!='Development'" />
+    <PackageReference Include="Gemstone.Common" Version="1.0.102" Condition="'$(Configuration)'!='Development'" />
+    <PackageReference Include="Gemstone.Data" Version="1.0.102" />
+    <PackageReference Include="Gemstone.Diagnostics" Version="1.0.102" />
+    <PackageReference Include="Gemstone.IO" Version="1.0.102" />
+    <PackageReference Include="Gemstone.Threading" Version="1.0.102" />
+    <PackageReference Include="Microsoft.Graph" Version="5.35.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.0" />
 
      <ProjectReference Include="..\..\..\numeric\src\Gemstone.Numeric\Gemstone.Numeric.csproj" Condition="'$(Configuration)'=='Development'" /> 
-     <PackageReference Include="Gemstone.Numeric" Version="1.0.101" Condition="'$(Configuration)'!='Development'" /> 
+     <PackageReference Include="Gemstone.Numeric" Version="1.0.102" Condition="'$(Configuration)'!='Development'" /> 
   </ItemGroup>
 
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
