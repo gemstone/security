@@ -29,12 +29,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Gemstone.Security.Model;
 
-/// <summary>
-/// Model for ApplicationRoleUserAccount table.
-/// </summary>
-[PostRoles("Administrator")]
-[PatchRoles("Administrator")]
-[DeleteRoles("Administrator")]
+
 public class ApplicationRoleUserAccount
 {
     /// <summary>

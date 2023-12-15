@@ -39,6 +39,8 @@
 //
 //******************************************************************************************************
 
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +48,7 @@ using System.Reflection;
 using System.Security;
 using System.Security.Principal;
 using Gemstone.Identity;
+using Gemstone.StringExtensions;
 
 namespace Gemstone.Security
 {

@@ -61,6 +61,7 @@
     <PackageReference Include="Gemstone.IO" Version="1.0.102" />
     <PackageReference Include="Gemstone.Threading" Version="1.0.102" />
     <PackageReference Include="Microsoft.Graph" Version="5.35.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
     <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.0" />
 

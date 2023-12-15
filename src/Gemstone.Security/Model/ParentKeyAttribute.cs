@@ -1,5 +1,5 @@
 ﻿//******************************************************************************************************
-//  OIDCUserData.cs - Gbtc
+//  ParentKeyAttribute.cs - Gbtc
 //
 //  Copyright © 2021, Grid Protection Alliance.  All Rights Reserved.
 //
@@ -16,54 +16,37 @@
 //
 //  Code Modification History:
 //  ----------------------------------------------------------------------------------------------------
-//  11/24/2021 - J. Ritchie Carroll
+//  06/11/2021 - Billy Ernest
 //       Generated original version of source code.
-//  11/09/2023 - Lillian Gensolin
-//       Converted code to .NET core.
 //
 //******************************************************************************************************
 
-using System.Collections.Generic;
-using Gemstone.Security;
-using System.Data;
-using System.Text.RegularExpressions;
 
-namespace Gemstone.Security;
+using System;
+
+namespace Gemstone.Security.Model;
 
 /// <summary>
-/// Defines <see cref="UserData"/> for the <see cref="OIDCSecurityProvider"/>.
+/// Defines an attribute that will allow a foreign key in the model to point back to parent table 
 /// </summary>
-public class OIDCUserData : UserData
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+public sealed class ParentKeyAttribute : Attribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="OIDCUserData"/> class.
+    /// Gets field name to use for property.
     /// </summary>
-    public OIDCUserData()
-        : this(string.Empty)
+    public Type Model
     {
+        get;
     }
 
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="OIDCUserData"/> class.
+    /// Creates a new <see cref="ParentKeyAttribute"/>.
     /// </summary>
-    /// <param name="username">User's logon name.</param>
-    public OIDCUserData(string username)
+    /// <param name="model">Type of modeled table that key points back to.</param>
+    public ParentKeyAttribute(Type model)
     {
-        LoginID = username;
-        Username = username;
-        Groups = new List<string>();
-        Roles = new List<string>();
-
-        Initialize();
+        Model = model;
     }
-
-    /// <summary>
-    /// Gets or sets OIDC Nonce value associated with this user.
-    /// </summary>
-    public string Nonce { get; set; }
-
-    /// <summary>
-    /// Gets or sets the <see cref="TokenResponse"/> associated with this user.
-    /// </summary>
-    internal TokenResponse Token { get; set; }
 }
