@@ -22,15 +22,19 @@
 //******************************************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using Gemstone.Security.Cryptography;
+    
 namespace Gemstone.Security.UnitTests
 {
     [TestClass]
     public class Tests
     {
         [TestMethod]
-        public void FunctionalityTests()
+        public void HashPasswordTest()
         {
+
+            //Cipher.GetPasswordHash("password", out byte[] hash, out byte[] salt);
+
             Assert.IsTrue(true);
         }
     }

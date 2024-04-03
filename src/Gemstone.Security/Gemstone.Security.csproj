@@ -40,7 +40,15 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Development'">
     <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Cryptography\Argon2Hash\Argon2.DumpTestVector.cs" />
+    <Compile Remove="Cryptography\Blake2BHash\Blake2BCore-Inline.cs" />
+    <Compile Remove="Cryptography\Blake2BHash\Blake2BCore-Simple.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\docs\README.md" Link="README.md" Visible="false">
@@ -57,8 +65,8 @@
     <ProjectReference Include="..\..\..\common\src\Gemstone\Gemstone.Common.csproj" Condition="'$(Configuration)'=='Development'" />
     <PackageReference Include="Gemstone.Common" Version="1.0.110" Condition="'$(Configuration)'!='Development'" />
 
-     <ProjectReference Include="..\..\..\numeric\src\Gemstone.Numeric\Gemstone.Numeric.csproj" Condition="'$(Configuration)'=='Development'" /> 
-     <PackageReference Include="Gemstone.Numeric" Version="1.0.110" Condition="'$(Configuration)'!='Development'" /> 
+    <ProjectReference Include="..\..\..\numeric\src\Gemstone.Numeric\Gemstone.Numeric.csproj" Condition="'$(Configuration)'=='Development'" /> 
+    <PackageReference Include="Gemstone.Numeric" Version="1.0.110" Condition="'$(Configuration)'!='Development'" />
   </ItemGroup>
 
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
