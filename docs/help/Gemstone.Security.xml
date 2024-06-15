@@ -107,6 +107,304 @@
       <param name="deniedResourcesFunc">Function that returns the list of resources that are not included in the rule.</param>
       <returns>The builder, for chaining.</returns>
     </member>
+    <member name="T:Gemstone.Security.Cryptography.Cipher">
+      <summary>
+            Provides general use cryptographic functions.
+            </summary>
+      <remarks>
+            This class exists to simplify usage of basic cryptography functionality.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.ConfigDecrypt(System.String)">
+      <summary>
+            Decrypts a configuration setting in the format of "KeyName:EncodedValue" that was previously
+            encrypted using the <see cref="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.String,System.String,Gemstone.Security.Cryptography.CipherStrength)" /> method
+            using a <see cref="F:Gemstone.Security.Cryptography.CipherStrength.Aes256" /> key size.
+            </summary>
+      <param name="value">Encoded configuration setting value.</param>
+      <returns>Decoded configuration setting.</returns>
+      <remarks>
+        <para>
+            If no key name is specified, value is assumed to not be encoded and is returned as is.
+            </para>
+        <para>
+            It is recommended to use this method at the last possible moment, e.g., in stack variables,
+            to avoid storing decrypted data in memory for longer periods of time.
+            </para>
+      </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Decrypt(System.Byte[],System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of decrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to decrypt.</param>
+      <param name="key">Encryption key to use to decrypt data.</param>
+      <param name="iv">Initialization vector to use to decrypt data.</param>
+      <param name="strength">Cryptographic strength to use when decrypting data.</param>
+      <returns>A decrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Decrypt(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of decrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to decrypt.</param>
+      <param name="startIndex">Offset into <paramref name="source" /> buffer.</param>
+      <param name="length">Number of bytes in <paramref name="source" /> buffer to decrypt starting from <paramref name="startIndex" /> offset.</param>
+      <param name="key">Encryption key to use to decrypt data.</param>
+      <param name="iv">Initialization vector to use to decrypt data.</param>
+      <param name="strength">Cryptographic strength to use when decrypting data.</param>
+      <returns>A decrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Decrypt(System.Byte[],System.Int32,System.Int32,System.String,Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of decrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to decrypt.</param>
+      <param name="startIndex">Offset into <paramref name="source" /> buffer.</param>
+      <param name="length">Number of bytes in <paramref name="source" /> buffer to decrypt starting from <paramref name="startIndex" /> offset.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when decrypting data.</param>
+      <returns>A decrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Decrypt(System.Byte[],System.String,Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of decrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to decrypt.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when decrypting data.</param>
+      <returns>A decrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Decrypt(System.IO.Stream,System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a stream of decrypted data for the given parameters.
+            </summary>
+      <param name="source">Source stream that contains data to decrypt.</param>
+      <param name="key">Encryption key to use to decrypt stream.</param>
+      <param name="iv">Initialization vector to use to decrypt stream.</param>
+      <param name="strength">Cryptographic strength to use when decrypting stream.</param>
+      <returns>A decrypted version of the source stream.</returns>
+      <remarks>
+            This returns a memory stream of the decrypted results, if the incoming stream is
+            very large this will consume a large amount of memory.  In this case use the overload
+            that takes the destination stream as a parameter instead.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Decrypt(System.IO.Stream,System.IO.Stream,System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength,System.Action{Gemstone.ProcessProgress{System.Int64}})">
+      <summary>
+            Decrypts input stream onto output stream for the given parameters.
+            </summary>
+      <param name="source">Source stream that contains data to decrypt.</param>
+      <param name="destination">Destination stream used to hold decrypted data.</param>
+      <param name="key">Encryption key to use to decrypt stream.</param>
+      <param name="iv">Initialization vector to use to decrypt stream.</param>
+      <param name="strength">Cryptographic strength to use when decrypting stream.</param>
+      <param name="progressHandler">Optional delegate to handle progress updates for decrypting large streams.</param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Decrypt(System.String,System.String,Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a decrypted string from a Base64 encoded string of binary encrypted data from the given
+            parameters.
+            </summary>
+      <param name="source">Source string to decrypt.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when decrypting string.</param>
+      <returns>A decrypted version of the source string.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.DecryptFile(System.String,System.String,System.String,Gemstone.Security.Cryptography.CipherStrength,System.Action{Gemstone.ProcessProgress{System.Int64}})">
+      <summary>
+            Creates a decrypted file from source file data.
+            </summary>
+      <param name="sourceFileName">Source file name.</param>
+      <param name="destinationFileName">Destination file name.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when decrypting file.</param>
+      <param name="progressHandler">Optional delegate to handle progress updates for decrypting large files.</param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.Byte[],System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of encrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to encrypt.</param>
+      <param name="key">Encryption key to use to encrypt data.</param>
+      <param name="iv">Initialization vector to use to encrypt data.</param>
+      <param name="strength">Cryptographic strength to use when encrypting data.</param>
+      <returns>An encrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of encrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to encrypt.</param>
+      <param name="startIndex">Offset into <paramref name="source" /> buffer.</param>
+      <param name="length">Number of bytes in <paramref name="source" /> buffer to encrypt starting from <paramref name="startIndex" /> offset.</param>
+      <param name="key">Encryption key to use to encrypt data.</param>
+      <param name="iv">Initialization vector to use to encrypt data.</param>
+      <param name="strength">Cryptographic strength to use when encrypting data.</param>
+      <returns>An encrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.Byte[],System.Int32,System.Int32,System.String,Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of encrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to encrypt.</param>
+      <param name="startIndex">Offset into <paramref name="source" /> buffer.</param>
+      <param name="length">Number of bytes in <paramref name="source" /> buffer to encrypt starting from <paramref name="startIndex" /> offset.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when encrypting data.</param>
+      <returns>An encrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.Byte[],System.String,Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a binary array of encrypted data for the given parameters.
+            </summary>
+      <param name="source">Binary array of data to encrypt.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when encrypting data.</param>
+      <returns>An encrypted version of the source data.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.IO.Stream,System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a stream of encrypted data for the given parameters.
+            </summary>
+      <param name="source">Source stream that contains data to encrypt.</param>
+      <param name="key">Encryption key to use to encrypt stream.</param>
+      <param name="iv">Initialization vector to use to encrypt stream.</param>
+      <param name="strength">Cryptographic strength to use when encrypting stream.</param>
+      <returns>An encrypted version of the source stream.</returns>
+      <remarks>
+            This returns a memory stream of the encrypted results, if the incoming stream is
+            very large this will consume a large amount of memory.  In this case use the overload
+            that takes the destination stream as a parameter instead.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.IO.Stream,System.IO.Stream,System.Byte[],System.Byte[],Gemstone.Security.Cryptography.CipherStrength,System.Action{Gemstone.ProcessProgress{System.Int64}})">
+      <summary>
+            Encrypts input stream onto output stream for the given parameters.
+            </summary>
+      <param name="source">Source stream that contains data to encrypt.</param>
+      <param name="destination">Destination stream used to hold encrypted data.</param>
+      <param name="key">Encryption key to use to encrypt stream.</param>
+      <param name="iv">Initialization vector to use to encrypt stream.</param>
+      <param name="strength">Cryptographic strength to use when encrypting stream.</param>
+      <param name="progressHandler">Optional delegate to handle progress updates for encrypting large streams.</param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.Encrypt(System.String,System.String,Gemstone.Security.Cryptography.CipherStrength)">
+      <summary>
+            Returns a Base64 encoded string of the returned binary array of the encrypted data, generated with
+            the given parameters.
+            </summary>
+      <param name="source">Source string to encrypt.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when encrypting string.</param>
+      <returns>An encrypted version of the source string.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.EncryptFile(System.String,System.String,System.String,Gemstone.Security.Cryptography.CipherStrength,System.Action{Gemstone.ProcessProgress{System.Int64}})">
+      <summary>
+            Creates an encrypted file from source file data.
+            </summary>
+      <param name="sourceFileName">Source file name.</param>
+      <param name="destinationFileName">Destination file name.</param>
+      <param name="password">User password used for key lookup.</param>
+      <param name="strength">Cryptographic strength to use when encrypting file.</param>
+      <param name="progressHandler">Optional delegate to handle progress updates for encrypting large files.</param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.ExportKeyIV(System.String,System.Int32)">
+      <summary>
+            Exports a key and initialization vector from the local system key cache.
+            </summary>
+      <param name="password">User password used for key lookup.</param>
+      <param name="keySize">Specifies the desired key size.</param>
+      <returns>Text based key and initialization vector exported from local key cache.</returns>
+      <remarks>
+            This method is used to manually export a key to be installed on another computer. 
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.FlushCache(System.Int32)">
+      <summary>
+            Blocks current thread and waits for any pending save of local system key cache to complete.
+            </summary>
+      <param name="millisecondsTimeout">The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite" />(-1) to wait indefinitely.</param>
+      <remarks>
+        <para>
+            This method only needs to be used if crypto cache changes could be pending during application shutdown (i.e., executing ciphers with
+            new keys that have not been saved, using existing keys does not queue crypto cache updates) to ensure keys are flushed before exit.
+            </para>
+        <para>
+            For most applications it is expected that this method would rarely be needed. However, possible usage scenarios would include:<br /><list type="bullet"><item><description>
+                Writing an application that establishes crypto keys where application lifetime would be very short (i.e., run, create keys, exit).
+                </description></item><item><description>
+                Creating new crypto keys during application shutdown (i.e., performing ciphers with non-existing keys at shutdown).
+                </description></item></list></para>
+      </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.GetPasswordHash(System.String,System.Int32)">
+      <summary>
+            Gets the Base64 encoded SHA-256 hash of given user password.
+            </summary>
+      <param name="password">User password to get hash for.</param>
+      <param name="categoryID">Specifies the optional category ID.</param>
+      <returns>Base64 encoded SHA-256 hash of user password.</returns>
+      <remarks>
+            The optional <paramref name="categoryID" /> will be appended to the <paramref name="password" /> to allow
+            the same password to be used in different contexts and return different results, when useful.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.ImportKeyIV(System.String,System.Int32,System.String)">
+      <summary>
+            Imports a key and initialization vector into the local system key cache.
+            </summary>
+      <param name="password">User password used for key lookups.</param>
+      <param name="keySize">Specifies the desired key size.</param>
+      <param name="keyIVText">Text based key and initialization vector to import into local key cache.</param>
+      <remarks>
+            This method is used to manually import a key created on another computer.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.KeyIVExists(System.String,System.Int32)">
+      <summary>
+            Determines if a key and initialization vector exists for the given <paramref name="password" /> in the local system key cache.
+            </summary>
+      <param name="password">User password used for key lookups.</param>
+      <param name="keySize">Specifies the desired key size.</param>
+      <returns>
+        <c>true</c> if a key and initialization vector exists for the given <paramref name="password" />; otherwise <c>false</c>.</returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.ReloadCache">
+      <summary>
+            Manually loads keys into the local system key cache.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Cipher.SystemAllowsManagedEncryption">
+      <summary>
+            Gets a flag that determines if system will allow use of managed, i.e., non-FIPS compliant, security algorithms.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Cipher.VerifyPasswordHash(System.String,System.String,System.Int32)">
+      <summary>
+            Verifies the given user password against a given hash.
+            </summary>
+      <param name="hash">Stored hash.</param>
+      <param name="password">User provide password.</param>
+      <param name="categoryID">Specifies the optional category ID.</param>
+      <returns>
+        <c>true</c> if the given user password matches the stored hash; otherwise, <c>false</c>.
+            </returns>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.CipherStrength">
+      <summary>
+            Cryptographic strength enumeration.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.CipherStrength.None">
+      <summary>Uses no encryption.</summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.CipherStrength.Aes128">
+      <summary>Uses AES 128-bit encryption.</summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.CipherStrength.Aes256">
+      <summary>Uses AES 256-bit encryption.</summary>
+    </member>
     <member name="T:Gemstone.Security.Cryptography.RandomInt24">
       <summary>
             Generates cryptographically strong random <see cref="T:Gemstone.Numeric.Int24" /> numbers.
@@ -146,6 +444,1207 @@
       <param name="stopNumber">A <see cref="T:Gemstone.Numeric.UInt24" /> that is the high end of our range.</param>
       <returns>A <see cref="T:Gemstone.Numeric.UInt24" /> that is generated between the <paramref name="startNumber" /> and the <paramref name="stopNumber" />.</returns>
       <exception cref="T:System.Security.Cryptography.CryptographicException">The cryptographic service provider (CSP) cannot be acquired.</exception>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.ZeroedBuffer`1">
+      <summary>
+            Represents a buffer that is zeroed when disposed.
+            </summary>
+      <param name="size">The number of elements in the array.</param>
+      <typeparam name="T">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>typeparam</parameter>
+            <parameter>T</parameter>
+            <parameter>T:Gemstone.Security.Cryptography.ZeroedBuffer`1</parameter>
+          </include>
+        </markup>
+      </typeparam>
+      <remarks>
+        <para>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.ZeroedBuffer`1" /> class.
+            </para>
+        <para>
+            If type <typeparamref name="T" /> is a reference type, the buffer will be zeroed by setting all elements to <c>null</c>.
+            </para>
+      </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.ZeroedBuffer`1.#ctor(System.Int32)">
+      <summary>
+            Represents a buffer that is zeroed when disposed.
+            </summary>
+      <param name="size">The number of elements in the array.</param>
+      <remarks>
+        <para>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.ZeroedBuffer`1" /> class.
+            </para>
+        <para>
+            If type <typeparamref name="T" /> is a reference type, the buffer will be zeroed by setting all elements to <c>null</c>.
+            </para>
+      </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.ZeroedBuffer`1.Buffer">
+      <summary>
+            Gets the buffer array instance.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.ZeroedBuffer`1.Dispose">
+      <summary>
+            Zero buffer and release resources.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.ZeroedBuffer`1.Item(System.Int32)">
+      <summary>
+            Accesses element in the <see cref="T:Gemstone.Security.Cryptography.ZeroedBuffer`1" />&gt; by reference.
+            </summary>
+      <param name="index">The index of the element to access.</param>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2">
+      <summary>
+            Argon2 Hashing of passwords.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.#ctor(Gemstone.Security.Cryptography.Argon2Hash.Argon2Config)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2" /> class.
+            </summary>
+      <param name="config">
+            The configuration to use.
+            </param>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.BlockSize">
+      <summary>
+            The Argon2 block size in bytes.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.CsharpMaxBlocksPerArray">
+      <summary>
+            C# has a limit of 0X7FEFFFFF elements per array (0x7FFFFFC7 per byte array). The blocks are
+            1024 bytes long, the elements are 8 bytes (ulong). This gives 0X7FEFFFFF / 128 blocks per
+            C# array.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Dispose">
+      <summary>
+            Zero sensitive memories and dispose of resources.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.FixedTimeEquals(Gemstone.Security.Cryptography.ZeroedBuffer{System.Byte},Gemstone.Security.Cryptography.ZeroedBuffer{System.Byte})">
+      <summary>
+            Compare two ZeroedBuffers without leaking timing information.
+            </summary>
+      <param name="left">The first ZeroedBuffer to compare.</param>
+      <param name="right">The second ZeroedBuffer to compare.</param>
+      <returns>true if left and right have the same values for Length and the same contents; otherwise, false.</returns>
+      <remarks>
+            Uses <see href="https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals">System.Security.Cryptography.CryptographicOperations.FixedTimeEquals()</see>
+            when available; otherwise implements a similar algorithm.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Hash">
+      <summary>
+            Perform the hash.
+            </summary>
+      <returns>
+            The hash bytes.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Hash(Gemstone.Security.Cryptography.Argon2Hash.Argon2Config)">
+      <summary>
+            Hash the given password to an Argon2 hash string.
+            </summary>
+      <param name="configToHash">
+            Contains all the information used to create the hash returned.
+            </param>
+      <returns>
+            The Argon2 hash of the given password.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Hash(System.Byte[],System.Byte[],System.Int32,System.Int32,System.Int32,Gemstone.Security.Cryptography.Argon2Hash.Argon2Type,System.Int32)">
+      <summary>
+            Hash the given password to an Argon2 hash string.
+            </summary>
+      <param name="password">
+            The password to hash. Gets UTF-8 encoded before hashing.
+            </param>
+      <param name="secret">
+            The secret to use in creating the hash.
+            </param>
+      <param name="timeCost">
+            The time cost to use. Defaults to 3.
+            </param>
+      <param name="memoryCost">
+            The target memory cost to use. Defaults to 65536 (65536 * 1024 = 64MB). <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.MemoryCost" /> for detail on calculating the actual memory
+            used from this value.
+            </param>
+      <param name="parallelism">
+            The parallelism to use. Default to 1 (single threaded).
+            </param>
+      <param name="type">
+            Data-dependent, data-independent, or hybrid. Defaults to hybrid
+            (as recommended for password hashing).
+            </param>
+      <param name="hashLength">
+            The length of the hash in bytes. Note, the string returned base-64
+            encodes this with other parameters so the resulting string is
+            significantly longer.
+            </param>
+      <returns>
+            The Argon2 hash of the given password.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Hash(System.String,System.Int32,System.Int32,System.Int32,Gemstone.Security.Cryptography.Argon2Hash.Argon2Type,System.Int32)">
+      <summary>
+            Hash the given password to an Argon2 hash string.
+            </summary>
+      <param name="password">
+            The password to hash. Gets UTF-8 encoded before hashing.
+            </param>
+      <param name="timeCost">
+            The time cost to use. Defaults to 3.
+            </param>
+      <param name="memoryCost">
+            The target memory cost to use. Defaults to 65536 (65536 * 1024 = 64MB). <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.MemoryCost" /> for detail on calculating the actual memory
+            used from this value.
+            </param>
+      <param name="parallelism">
+            The parallelism to use. Defaults to 1 (single threaded).
+            </param>
+      <param name="type">
+            Data-dependent, data-independent, or hybrid. Defaults to hybrid
+            (as recommended for password hashing).
+            </param>
+      <param name="hashLength">
+            The length of the hash in bytes. Note, the string returned base-64
+            encodes this with other parameters so the resulting string is
+            significantly longer.
+            </param>
+      <returns>
+            The Argon2 hash of the given password.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Hash(System.String,System.String,System.Int32,System.Int32,System.Int32,Gemstone.Security.Cryptography.Argon2Hash.Argon2Type,System.Int32)">
+      <summary>
+            Hash the given password to an Argon2 hash string.
+            </summary>
+      <param name="password">
+            The password to hash. Gets UTF-8 encoded before hashing.
+            </param>
+      <param name="secret">
+            The secret to use in creating the hash. UTF-8 encoded before hashing. May be null. A
+            <c>string.Empty</c> is treated the same as null.
+            </param>
+      <param name="timeCost">
+            The time cost to use. Defaults to 3.
+            </param>
+      <param name="memoryCost">
+            The target memory cost to use. Defaults to 65536 (65536 * 1024 = 64MB). <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.MemoryCost" /> for detail on calculating the actual memory
+            used from this value.
+            </param>
+      <param name="parallelism">
+            The parallelism to use. Default to 1 (single threaded).
+            </param>
+      <param name="type">
+            Data-dependent, data-independent, or hybrid. Defaults to hybrid
+            (as recommended for password hashing).
+            </param>
+      <param name="hashLength">
+            The length of the hash in bytes. Note, the string returned base-64
+            encodes this with other parameters so the resulting string is
+            significantly longer.
+            </param>
+      <returns>
+            The Argon2 hash of the given password.
+            </returns>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2.LaneBlockCount">
+      <summary>
+            Gets the number of memory blocks per lane. <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SegmentBlockCount" /> * <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount" />.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Memory">
+      <summary>
+            Gets the <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2.MemoryBlockCount" /> blocks.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2.MemoryBlockCount">
+      <summary>
+            Gets the number of memory blocks, (<see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" />*<see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2.LaneBlockCount" />).
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.PrehashDigestLength">
+      <summary>
+            The number of bytes hashed in initializing Argon2.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.PrehashSeedLength">
+      <summary>
+            Bytes required in the buffer passed into the <see cref="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.FillFirstBlocks(System.Byte[])" /> method.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.QwordsInBlock">
+      <summary>
+            The number of 8-byte words in an Argon2 block.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SegmentBlockCount">
+      <summary>
+            Gets the number of memory blocks per segment. This value gets
+            derived from the memory cost. The memory cost value is a request
+            for that number of blocks. If that request is less than (2 *
+            <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount" />) times the number of lanes requested,
+            it is first bumped up to that amount. Then, it may be reduced to
+            fit on a <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount" /> times the number of lanes
+            requested boundary.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount">
+      <summary>
+            Number of synchronization points between lanes per pass.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,Gemstone.Security.Cryptography.Argon2Hash.Argon2Config)">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="configToVerify">
+            The configuration that contains the values used to created <paramref name="encoded" />.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.Byte[])">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.Byte[],System.Byte[])">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify.
+            </param>
+      <param name="secret">
+            The secret hashed into the password.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.Byte[],System.Byte[],System.Int32)">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify.
+            </param>
+      <param name="secret">
+            The secret hashed into the password.
+            </param>
+      <param name="threads">
+            The number of threads to use. Setting this to a higher number than
+            the "p=" parameter in the <paramref name="encoded" /> string doesn't
+            cause even more parallelism.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.Byte[],System.Int32)">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify.
+            </param>
+      <param name="threads">
+            The number of threads to use. Setting this to a higher number than
+            the "p=" parameter in the <paramref name="encoded" /> string doesn't
+            cause even more parallelism.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.String)">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify. This gets UTF-8 encoded.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.String,System.Int32)">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify. This gets UTF-8 encoded.
+            </param>
+      <param name="threads">
+            The number of threads to use. Setting this to a higher number than
+            the "p=" parameter in the <paramref name="encoded" /> string doesn't
+            cause even more parallelism.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.String,System.String)">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify. This gets UTF-8 encoded.
+            </param>
+      <param name="secret">
+            The secret used in the creation of <paramref name="encoded" />. UTF-8 encoded to create the byte-buffer actually used in the verification.
+            May be null for no secret. <c>string.Empty</c> is treated as null.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2.Verify(System.String,System.String,System.String,System.Int32)">
+      <summary>
+            Verify the given Argon2 hash as being that of the given password.
+            </summary>
+      <param name="encoded">
+            The Argon2 hash string. This has the actual hash along with other parameters used in the hash.
+            </param>
+      <param name="password">
+            The password to verify. This gets UTF-8 encoded.
+            </param>
+      <param name="secret">
+            The secret used in the creation of <paramref name="encoded" />. UTF-8 encoded to create the byte-buffer actually used in the verification.
+            May be null for no secret. <c>string.Empty</c> is treated as null.
+            </param>
+      <param name="threads">
+            The number of threads to use. Setting this to a higher number than
+            the "p=" parameter in the <paramref name="encoded" /> string doesn't
+            cause even more parallelism.
+            </param>
+      <returns>
+            True on success; false otherwise.
+            </returns>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config">
+      <summary>
+            Holds configuration needed to perform an Argon2 hash.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gemstone.Security.Cryptography.Argon2Hash.Argon2Config</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.AssociatedData">
+      <summary>
+            Gets or sets the associated data used in the password hash.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.ClearPassword">
+      <summary>
+            Gets or sets a value indicating whether to clear the password as
+            soon as it is no longer needed.
+            </summary>
+      <remarks>
+            If true and the configuration has a password, the configuration
+            cannot be used more than once without resetting the password
+            (unless you want an all zero password).
+            </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.ClearSecret">
+      <summary>
+            Gets or sets a value indicating whether to clear the secret as
+            soon as it is no longer needed.
+            </summary>
+      <remarks>
+            If true and the configuration has a secret, the configuration
+            cannot be used more than once without resetting the secret
+            (unless you want an all zero secret).
+            </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.HashLength">
+      <summary>
+            Gets or sets the hash length to output. Minimum of 4. Default 32.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes">
+      <summary>
+            Gets or sets the lanes used in the password hash. Minimum of 1. Defaults to 4.
+            </summary>
+      <remarks>
+            This describes the maximum parallelism that can be achieved. Each "lane" can
+            be processed individually in its own thread. Setting <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Threads" />
+            to a value greater than one when there is more than one lane will allow the
+            use of multiple cores to speed up hashing.
+            </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.MemoryCost">
+      <summary>
+            Gets or sets the memory cost used in the password hash. Minimum of 1. Defaults to 65536.
+            </summary>
+      <remarks>
+        <para>
+            This translates into a target count of memory blocks to use for hashing. A memory block
+            is 1024 bytes so the default 65536 is for a 64MB hash.
+            </para>
+        <para>
+            If this value is less than 2*<see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount" />*<see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" />,
+            than 2*<see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount" />*<see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" /> will be used.
+            </para>
+        <para>
+            If this value is not a multiple of <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount" />*<see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" />, then it is rounded down to a multiple of <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.SyncPointCount" />*<see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" />.
+            </para>
+      </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Password">
+      <summary>
+            Gets or sets the password to hash.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Salt">
+      <summary>
+            Gets or sets the salt used in the password hash. If non-null, must be at least 8 bytes.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Secret">
+      <summary>
+            Gets or sets the secret used in the password hash.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Threads">
+      <summary>
+            Gets or sets the threads used in the password hash. Minimum of 1. Defaults to 1.
+            </summary>
+      <remarks>
+        <para>
+            This value makes no difference in the result. A value greater than one causes that
+            many threads to get spawned to do the work on top of the main thread that orchestrates
+            which thread does what work.
+            </para>
+        <para>
+          <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" /> defines the maximum parallelism that can be achieved. Setting
+            <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Threads" /> to a value greater than <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" /> will not result
+            in more than <see cref="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Lanes" /> threads running.
+            </para>
+      </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.TimeCost">
+      <summary>
+            Gets or sets the time cost used in the password hash. Minimum of 1. Defaults to 3.
+            </summary>
+      <remarks>
+            This is the number of iterations to perform. There are attacks on the
+            <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version" />.<see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version.Sixteen" /> with less than
+            three iterations (if I'm reading the paper correctly). So, use a value
+            greater than 3 here if you are not using <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version" />.
+            <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version.Nineteen" />.
+            </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Type">
+      <summary>
+            Gets or sets the Argon2 type. Default to hybrid.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Argon2Config.Version">
+      <summary>
+            Gets or sets the Argon2 version used in the password hash. Defaults to
+            <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version" />.<see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version.Nineteen" /> (0x13).
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2Type">
+      <summary>
+            Argon2 can hash in two different ways, data-dependent and data-independent.
+            </summary>
+      <remarks>
+        <para>
+            From the Argon2 paper:
+            </para>
+        <para>
+            Argon2 has two variants: Argon2d [data-dependent] and Argon2i [data-independent].
+            Argon2d is faster and uses data-depending memory access, which makes it suitable
+            for crypto-currencies and applications with no threats from side-channel timing
+            attacks. Argon2i uses data-independent memory access, which is preferred for
+            password hashing and password-based key derivation. Argon2i is slower as it
+            makes more passes over the memory to protect from tradeoff attacks.
+            </para>
+      </remarks>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Type.DataDependentAddressing">
+      <summary>
+            Use data-dependent addressing. This is faster but susceptible to
+            side-channel attacks.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Type.DataIndependentAddressing">
+      <summary>
+            Use data-independent addressing. This is slower and recommended for password
+            hashing and password-based key derivation.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Type.HybridAddressing">
+      <summary>
+            Use a hybrid of data-dependent and data-independent addressing.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version">
+      <summary>
+            There are two versions, 16 and 19. 19 is 5%-15% slower but fixes a vulnerability
+            where an attacker could take advantage of short time spans where memory blocks
+            were not used to reduce the overall memory cost by up to a factor of about 3.5.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version.Sixteen">
+      <summary>
+            For Argon2 versions 1.2.1 or earlier.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2Version.Nineteen">
+      <summary>
+            For Argon2 version 1.3.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.Blocks">
+      <summary>
+            Break a byte array into blocks for Argon2 to use.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.Blocks.#ctor(System.Collections.Generic.IEnumerable{System.UInt64[]})">
+      <summary>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.Blocks" /> class.
+            </summary>
+      <param name="memories">
+            The arrays to use under the blocks.
+            </param>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Blocks.Item(System.Int32)">
+      <summary>
+            Gets or sets the <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> element at the specified index.
+            </summary>
+      <param name="i">
+            The <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> element to get or set.
+            </param>
+      <returns>
+            The requested <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> element.
+            </returns>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.Blocks.Length">
+      <summary>
+            Gets the total number of <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> in the <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.Blocks" />.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues">
+      <summary>
+            Gets the values from a ulong array. Block lengths are <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.QwordsInBlock" />
+            elements long.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.BlockValues.#ctor(System.UInt64[],System.Int32)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> class.
+            </summary>
+      <param name="memory">
+            The array of ulong elements the <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> will use.
+            </param>
+      <param name="blockIndex">
+            The index of the block in <paramref name="memory" /> the <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> will use. Blocks are <see cref="F:Gemstone.Security.Cryptography.Argon2Hash.Argon2.QwordsInBlock" />
+            elements long.
+            </param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.BlockValues.Copy(Gemstone.Security.Cryptography.Argon2Hash.BlockValues)">
+      <summary>
+            Copy <paramref name="other" /> into this.
+            </summary>
+      <param name="other">
+            The <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> to copy.
+            </param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.BlockValues.Init(System.UInt64)">
+      <summary>
+            Copy <paramref name="value" /> into every ulong of this.
+            </summary>
+      <param name="value">
+            The value to copy into this.
+            </param>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Argon2Hash.BlockValues.Item(System.Int32)">
+      <summary>
+            Gets or sets the ulong element at the specified index.
+            </summary>
+      <param name="i">
+            The ulong element to get or set.
+            </param>
+      <returns>
+            The requested ulong element.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.BlockValues.Xor(Gemstone.Security.Cryptography.Argon2Hash.BlockValues)">
+      <summary>
+            XOR <paramref name="other" /> with this and store the result into this.
+            </summary>
+      <param name="other">
+            The <see cref="T:Gemstone.Security.Cryptography.Argon2Hash.BlockValues" /> to XOR.
+            </param>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.DecodeExtension">
+      <summary>
+            Extension to decode Argon2 hash strings.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.DecodeExtension.DecodeString(Gemstone.Security.Cryptography.Argon2Hash.Argon2Config,System.String,Gemstone.Security.Cryptography.ZeroedBuffer{System.Byte}@)">
+      <summary>
+            Decodes an Argon2 hash string into an Argon2 class instance.
+            </summary>
+      <param name="config">
+            The configuration to populate with the data found in <paramref name="str" />.
+            </param>
+      <param name="str">
+            The string to decode.
+            </param>
+      <param name="hash">
+            Loaded with the hash found in <paramref name="str" />; set to null if
+            <paramref name="str" /> does not contain a hash.
+            </param>
+      <returns>
+            True on success; false otherwise. <paramref name="hash" /> set to
+            null on failure.
+            </returns>
+      <remarks>
+        <para>
+            Expected format:
+            </para>
+        <para>
+            $argon2&lt;T&gt;[$v=&lt;num&gt;]$m=&lt;num&gt;,t=&lt;num&gt;,p=&lt;num&gt;[,keyid=&lt;bin&gt;][,data=&lt;bin&gt;][$&lt;bin&gt;[$&lt;bin&gt;]].
+            </para>
+        <para>
+            where &lt;T&gt; is either 'd' or 'i', &lt;num&gt; is a decimal integer (positive, fits in
+            an 'unsigned long'), and &lt;bin&gt; is Base64-encoded data (no '=' padding
+            characters, no newline or whitespace).
+            The "keyid" is a binary identifier for a key (up to 8 bytes);
+            "data" is associated data (up to 32 bytes). When the 'keyid'
+            (resp. the 'data') is empty, then it is omitted from the output.
+            </para>
+        <para>
+            The last two binary chunks (encoded in Base64) are, in that order,
+            the salt and the output. Both are optional, but you cannot have an
+            output without a salt. The binary salt length is between 8 and 48 bytes.
+            The output length is always exactly 32 bytes.
+            </para>
+      </remarks>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Argon2Hash.EncodeExtension">
+      <summary>
+            Extension to encode an Argon2 hash string.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.EncodeExtension.EncodeString(Gemstone.Security.Cryptography.Argon2Hash.Argon2Config,System.Byte[])">
+      <summary>
+            Encodes an Argon2 instance into a string.
+            </summary>
+      <param name="config">
+            To encode.
+            </param>
+      <param name="hash">
+            The hash to put in the encoded string. May be null.
+            </param>
+      <returns>
+            The encoded Argon2 instance.
+            </returns>
+      <remarks>
+        <para>
+            Resulting format:
+            </para>
+        <para>
+            $argon2&lt;T&gt;[$v=&lt;num&gt;]$m=&lt;num&gt;,t=&lt;num&gt;,p=&lt;num&gt;[,keyid=&lt;bin&gt;][,data=&lt;bin&gt;][$&lt;bin&gt;[$&lt;bin&gt;]].
+            </para>
+        <para>
+            where &lt;T&gt; is either 'd' or 'i', &lt;num&gt; is a decimal integer (positive, fits in
+            an 'unsigned long'), and &lt;bin&gt; is Base64-encoded data (no '=' padding
+            characters, no newline or whitespace).
+            The "keyid" is a binary identifier for a key (up to 8 bytes);
+            "data" is associated data (up to 32 bytes). When the 'keyid'
+            (resp. the 'data') is empty, then it is omitted from the output.
+            </para>
+        <para>
+            The last two binary chunks (encoded in Base64) are, in that order,
+            the salt and the output. Both are optional, but you cannot have an
+            output without a salt. The binary salt length is between 8 and 48 bytes.
+            The output length is always exactly 32 bytes.
+            </para>
+      </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Argon2Hash.EncodeExtension.ToB64String(System.Byte[])">
+      <summary>
+            Make an Argon2 B64 string which is an RFC 4648 Base64 string without the trailing '=' padding.
+            </summary>
+      <param name="buf">The buffer to convert to a string.</param>
+      <returns>The Argon2 B64 string.</returns>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2B">
+      <summary>
+            Convenience calls for performing Blake2 hashes.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[])">
+      <summary>
+            Perform a default Blake2 hash on the given buffer.
+            </summary>
+      <param name="data">
+            The buffer to hash.
+            </param>
+      <returns>
+            The hash of the buffer.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)">
+      <summary>
+            Perform a Blake2 hash on the given buffer using the given Blake2
+            configuration.
+            </summary>
+      <param name="data">
+            The buffer to hash.
+            </param>
+      <param name="config">
+            The configuration to use.
+            </param>
+      <returns>
+            The hash of the buffer.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32)">
+      <summary>
+            Perform a default Blake2 hash on the given buffer.
+            </summary>
+      <param name="data">
+            The buffer to hash.
+            </param>
+      <param name="start">
+            The byte in the buffer to start hashing.
+            </param>
+      <param name="count">
+            The number of bytes to hash.
+            </param>
+      <returns>
+            The hash of the buffer.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32,Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)">
+      <summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32,Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)</parameter>
+          </include>
+        </markup>
+      </summary>
+      <param name="data">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>data</parameter>
+            <parameter>M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32,Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="start">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>start</parameter>
+            <parameter>M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32,Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="count">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>count</parameter>
+            <parameter>M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32,Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="config">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>config</parameter>
+            <parameter>M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32,Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.ComputeHash(System.Byte[],System.Int32,System.Int32,Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.Create">
+      <summary>
+            Create a default Blake2 hash.
+            </summary>
+      <returns>
+            A <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Hasher" /> that can be converted to a <see cref="T:System.Security.Cryptography.HashAlgorithm" />.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.Create(Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig)">
+      <summary>
+            Create a Blake2 hash with the given configuration.
+            </summary>
+      <param name="config">
+            The configuration to use.
+            </param>
+      <returns>
+            A <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Hasher" /> that can be converted to a <see cref="T:System.Security.Cryptography.HashAlgorithm" />.
+            </returns>
+    </member>
+    <member name="F:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.OutputLength">
+      <summary>
+            The output length of the Blake2 hash in bytes.
+            </summary>
+      <remarks>
+        <para>
+            This is the maximum length buffer a Blake2 hash can produce Blake2
+            will always hash to this length even when configured to hash to a
+            shorter value - the final step is to truncate the result.
+            </para>
+        <para>
+            Note, the length of the expected result is hashed into the result
+            so the <see cref="F:Gemstone.Security.Cryptography.Blake2BHash.Blake2B.OutputLength" />-byte buffer will hold different
+            values depending on the configured output length. Do not run Blake2
+            using the default length and then truncate and expect to get the
+            same result as if you configured Blake2 to produce a shorter
+            result.
+            </para>
+      </remarks>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig">
+      <summary>
+            Configuration for the Blake2 hash.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig" /> class.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Key">
+      <summary>
+            Gets or sets the key value used in the hash. If not null, must be 128 bytes or shorter.
+            </summary>
+      <remarks>
+            Blake2 keyed hashing can be used for authentication as a faster and
+            simpler replacement for HMAC.
+            </remarks>
+      <exception cref="T:System.ArgumentException">
+            Attempt to set <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Key" /> greater than 128 bytes.
+            </exception>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.OutputSizeInBits">
+      <summary>
+            Gets or sets the output size in bits. Must be a multiple of 8.
+            </summary>
+      <exception cref="T:System.ArgumentException">
+            Attempt to set <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.OutputSizeInBits" /> to a value not a multiple of 8 bits.
+            </exception>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.OutputSizeInBytes">
+      <summary>
+            Gets or sets the output size in bytes. Must be less than or equal to 64.
+            </summary>
+      <remarks>
+            Blake2 incorporates this value into the hash. The array returned by the
+            <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BHasher" />.<see cref="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BHasher.Finish" /> call will
+            be this length unless the <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Result64ByteBuffer" /> value is non-null.
+            If that property is non-null, that buffer gets returned by the <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BHasher" />.<see cref="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BHasher.Finish" /> call regardless of
+            the <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.OutputSizeInBytes" /> property. In that case, you can copy the
+            first <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.OutputSizeInBytes" /> bytes of the <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Result64ByteBuffer" /> array to get the value that Blake2 would have
+            returned.
+            </remarks>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Personalization">
+      <summary>
+            Gets or sets the personalization value used in the hash. If not null, must be 16 bytes.
+            </summary>
+      <exception cref="T:System.ArgumentException">
+            Attempt to set <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Personalization" /> to non-null other than 16 bytes.
+            </exception>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Result64ByteBuffer">
+      <summary>
+            Gets or sets the 64-byte result buffer the Blake2 algorithm will use.
+            </summary>
+      <remarks>
+            If not null, this is the buffer that will get returned by the
+            <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BHasher" />.<see cref="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BHasher.Finish" /> call
+            regardless of the value of <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.OutputSizeInBytes" />.
+            </remarks>
+      <exception cref="T:System.ArgumentException">
+            Attempt to set <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Result64ByteBuffer" /> to non-null other than 64 bytes.
+            </exception>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Salt">
+      <summary>
+            Gets or sets the salt value used in the hash. If not null, must be 16 bytes.
+            </summary>
+      <exception cref="T:System.ArgumentException">
+            Attempt to set <see cref="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BConfig.Salt" /> to non-null other than 16 bytes.
+            </exception>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore">
+      <summary>
+            The core of the Blake2 hash.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.BytesToUInt64(System.Byte[],System.Int32)">
+      <summary>
+            Convert a big-endian buffer into a <see cref="T:System.UInt64" />.
+            </summary>
+      <param name="buf">Buffer holding an 8-byte big-endian ulong.</param>
+      <param name="offset">Offset into the buffer to start reading the ulong.</param>
+      <returns>The parsed ulong.</returns>
+      <remarks>
+            No checking is done to verify that an 8-byte value can be read from <paramref name="buf" /> at <paramref name="offset" />.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.Dispose">
+      <summary>
+            Release unmanaged resources.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.HashCore(System.Byte[],System.Int32,System.Int32)">
+      <summary>
+            Update the hash state.
+            </summary>
+      <param name="array">
+            Data to use to update the hash state.
+            </param>
+      <param name="start">
+            Index of the first byte in <paramref name="array" /> to use.
+            </param>
+      <param name="count">
+            Number of bytes in <paramref name="array" /> to use.
+            </param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.HashFinal">
+      <summary>
+            Return the hash.
+            </summary>
+      <returns>
+            The 64-byte hash.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.HashFinal(System.Boolean)">
+      <summary>
+            Return the hash.
+            </summary>
+      <param name="isEndOfLayer">
+            True to signal the last node of a layer in tree-hashing mode; false otherwise.
+            </param>
+      <returns>
+            The 64-byte hash.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.HashFinal(System.Byte[])">
+      <summary>
+            Compute the hash.
+            </summary>
+      <param name="hash">
+            Loaded with the hash.
+            </param>
+      <returns>
+        <paramref name="hash" />.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.HashFinal(System.Byte[],System.Boolean)">
+      <summary>
+            Compute the hash.
+            </summary>
+      <param name="hash">
+            Loaded with the hash.
+            </param>
+      <param name="isEndOfLayer">
+            True to signal the last node of a layer in tree-hashing mode; false otherwise.
+            </param>
+      <returns>
+        <paramref name="hash" />.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.Initialize(System.UInt64[])">
+      <summary>
+            Initialize the hash.
+            </summary>
+      <param name="config">8-element configuration array.</param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BCore.UInt64ToBytes(System.UInt64,System.Byte[],System.Int32)">
+      <summary>
+            Store a ulong into a byte buffer as big-endian.
+            </summary>
+      <param name="value">The ulong to store.</param>
+      <param name="buf">The buffer to load the 8-byte value into.</param>
+      <param name="offset">The offset to start <paramref name="value" /> at in <paramref name="buf" />.</param>
+      <remarks>
+            No checking is done to validate the buffer can store <paramref name="value" /> at <paramref name="offset" />.
+            </remarks>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig">
+      <summary>
+            Parameters for the tree hash.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig.CreateInterleaved(System.Int32)">
+      <summary>
+            Create an instance of the <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig" /> for parallel hash computation.
+            </summary>
+      <param name="parallelism">
+            The amount of parallelism to invoke when generating the hash.
+            </param>
+      <returns>
+            An instance of the <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig" /> suitable for generating a hash.
+            </returns>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig.FanOut">
+      <summary>
+            Gets or sets the tree fan out value.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig.IntermediateHashSize">
+      <summary>
+            Gets or sets the intermediate hash size.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig.LeafSize">
+      <summary>
+            Gets or sets the tree leaf size.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.Cryptography.Blake2BHash.Blake2BTreeConfig.MaxHeight">
+      <summary>
+            Gets or sets the tree maximum height.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.Cryptography.Blake2BHash.Hasher">
+      <summary>
+            The base hasher class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gemstone.Security.Cryptography.Blake2BHash.Hasher</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.AsHashAlgorithm">
+      <summary>
+            Create a <see cref="T:System.Security.Cryptography.HashAlgorithm" /> from this.
+            </summary>
+      <returns>
+            The <see cref="T:System.Security.Cryptography.HashAlgorithm" /> based on this <see cref="T:Gemstone.Security.Cryptography.Blake2BHash.Hasher" />.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.Dispose">
+      <summary>
+            Zero and release sensitive resources.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.Dispose(System.Boolean)">
+      <summary>
+            Disposes resources if <paramref name="disposing" /> is true.
+            </summary>
+      <param name="disposing">
+            Set to true if disposing.
+            </param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.Finish">
+      <summary>
+            Generate the hash from the hash's state.
+            </summary>
+      <returns>
+            The generated hash.
+            </returns>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.Init">
+      <summary>
+            Initialize for hash generation.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.Update(System.Byte[])">
+      <summary>
+            Update the hash's state with the given data.
+            </summary>
+      <param name="data">
+            The data to add to the hash's state.
+            </param>
+    </member>
+    <member name="M:Gemstone.Security.Cryptography.Blake2BHash.Hasher.Update(System.Byte[],System.Int32,System.Int32)">
+      <summary>
+            Update the hash's state with the given data.
+            </summary>
+      <param name="data">
+            The data to add to the hash's state.
+            </param>
+      <param name="start">
+            The index of the first byte of <paramref name="data" /> to add to the hash's state.
+            </param>
+      <param name="count">
+            The number of bytes of <paramref name="data" /> to add to the hash's state.
+            </param>
     </member>
   </members>
 </doc>
