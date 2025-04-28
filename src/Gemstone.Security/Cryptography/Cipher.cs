@@ -133,7 +133,7 @@ public static class Cipher
 
         // Internal key and initialization vector table
         private Dictionary<string, byte[][]> m_keyIVTable = new();
-        private readonly object m_keyIVTableLock = new();
+        private readonly Lock m_keyIVTableLock = new();
 
         #endregion
 
