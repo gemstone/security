@@ -280,7 +280,7 @@ public static class DecodeExtension
     private static int FromBase64(out byte[]? dst, string src, int pos)
     {
         int i = pos;
-        List<byte> buf = new();
+        List<byte> buf = [];
         uint acc = 0;
         uint accLen = 0;
 

@@ -134,7 +134,7 @@ namespace Gemstone.Security.AccessControl
         /// Creates a new instance of the <see cref="AccessControlListBuilder{TIdentity, TResource}"/> class.
         /// </summary>
         public AccessControlListBuilder() =>
-            ResourceListFactories = new List<Func<TIdentity, ResourceList>>();
+            ResourceListFactories = [];
 
         /// <summary>
         /// Adds an allow rule to the access control list.
@@ -175,7 +175,7 @@ namespace Gemstone.Security.AccessControl
         /// <returns>The access control list for the given identity.</returns>
         public IAccessControlList<TResource> Build(TIdentity identity)
         {
-            IEnumerable<TResource> resources = Enumerable.Empty<TResource>();
+            IEnumerable<TResource> resources = [];
             ResourceList resourceList = new(true, true, resources);
 
             foreach (Func<TIdentity, ResourceList> resourceListFactory in ResourceListFactories)

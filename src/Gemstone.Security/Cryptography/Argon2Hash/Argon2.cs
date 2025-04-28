@@ -15,7 +15,7 @@ namespace Gemstone.Security.Cryptography.Argon2Hash;
 /// </summary>
 public sealed partial class Argon2 : IDisposable
 {
-    private readonly List<ZeroedBuffer<ulong>> m_memories = new();
+    private readonly List<ZeroedBuffer<ulong>> m_memories = [];
     private readonly Argon2Config m_config;
 
     /// <summary>

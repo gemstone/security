@@ -27,7 +27,7 @@ public class Blocks
     /// </param>
     public Blocks(IEnumerable<ulong[]> memories)
     {
-        List<BlockValues> bvs = new();
+        List<BlockValues> bvs = [];
         int blockIndex = 0;
         
         foreach (ulong[] memory in memories)
