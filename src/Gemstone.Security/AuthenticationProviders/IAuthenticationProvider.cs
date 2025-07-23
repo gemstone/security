@@ -1,5 +1,5 @@
 ﻿//******************************************************************************************************
-//  IAuthenticationClaimsProvider.cs - Gbtc
+//  IAuthenticationProvider.cs - Gbtc
 //
 //  Copyright © 2025, Grid Protection Alliance.  All Rights Reserved.
 //
@@ -23,14 +23,23 @@
 
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gemstone.Security.AuthenticationProviders;
 
 /// <summary>
 /// Represents a provider of claims for an authentication provider.
 /// </summary>
-public interface IAuthenticationClaimsProvider
+public interface IAuthenticationProvider
 {
+    /// <summary>
+    /// Gets the identity of the user represented by the principal.
+    /// </summary>
+    /// <param name="principal">The principal that represents the user</param>
+    /// <returns>The user's identity.</returns>
+    string GetIdentity(ClaimsPrincipal principal);
+
     /// <summary>
     /// Get the types of claims supported by the authentication provider.
     /// </summary>
@@ -65,4 +74,46 @@ public interface IAuthenticationClaimsProvider
     /// the backslash will be removed.
     /// </remarks>
     IEnumerable<IProviderClaim> FindClaims(string claimType, string searchText);
+}
+
+/// <summary>
+/// Extension methods for setting up an <see cref="IAuthenticationProvider"/>.
+/// </summary>
+public static class AuthenticationProviderExtensions
+{
+    /// <summary>
+    /// Adds an authentication provider as a singleton service.
+    /// </summary>
+    /// <typeparam name="T">The type of authentication provider to be instantiated as the singleton instance</typeparam>
+    /// <param name="services">The collection of services</param>
+    /// <param name="identity">The identity of the authentication provider</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddAuthenticationProvider<T>(this IServiceCollection services, string identity) where T : class, IAuthenticationProvider
+    {
+        return services.AddKeyedSingleton<IAuthenticationProvider, T>(identity);
+    }
+
+    /// <summary>
+    /// Adds an authentication provider as a singleton service.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <param name="identity">The identity of the authentication provider</param>
+    /// <param name="provider">The provider instance to be added as the singleton service</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddAuthenticationProvider(this IServiceCollection services, string identity, IAuthenticationProvider provider)
+    {
+        return services.AddKeyedSingleton(identity, provider);
+    }
+
+    /// <summary>
+    /// Adds the authentication provider as a singleton service.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <param name="identity">The identity of the authentication provider</param>
+    /// <param name="providerFactory">Factory function used to instantiating the singleton instance</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddAuthenticationProvider(this IServiceCollection services, string identity, Func<IServiceProvider, IAuthenticationProvider> providerFactory)
+    {
+        return services.AddKeyedSingleton(identity, providerFactory);
+    }
 }
