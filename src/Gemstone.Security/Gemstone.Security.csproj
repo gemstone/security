@@ -64,6 +64,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\src\Gemstone\Gemstone.Common.csproj" Condition="'$(Configuration)'=='Development'" />
     <PackageReference Include="Gemstone.Common" Version="1.0.128" Condition="'$(Configuration)'!='Development'" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.3" />
     <PackageReference Include="System.DirectoryServices" Version="8.0.0" />
 
     <ProjectReference Include="..\..\..\numeric\src\Gemstone.Numeric\Gemstone.Numeric.csproj" Condition="'$(Configuration)'=='Development'" /> 
