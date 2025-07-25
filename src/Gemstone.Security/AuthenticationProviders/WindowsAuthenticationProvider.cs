@@ -289,7 +289,10 @@ public static class WindowsAuthenticationProviderExtensions
     /// <returns>The collection of services.</returns>
     public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, string identity)
     {
-        return services.AddAuthenticationProvider<WindowsAuthenticationProvider>(identity);
+        services.AddAuthentication().AddNegotiate();
+
+        return services
+            .AddAuthenticationProvider<WindowsAuthenticationProvider>(identity);
     }
 
     /// <summary>
@@ -301,6 +304,8 @@ public static class WindowsAuthenticationProviderExtensions
     /// <returns>The collection of services.</returns>
     public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, string identity, WindowsAuthenticationProviderOptions options)
     {
+        services.AddAuthentication().AddNegotiate();
+
         WindowsAuthenticationProvider provider = new(options);
         return services.AddAuthenticationProvider(identity, provider);
     }
@@ -314,6 +319,8 @@ public static class WindowsAuthenticationProviderExtensions
     /// <returns>The collection of services.</returns>
     public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, string identity, Action<WindowsAuthenticationProviderOptions> configure)
     {
+        services.AddAuthentication().AddNegotiate();
+
         return services.AddKeyedTransient<IAuthenticationProvider>(identity, (_, _) =>
         {
             WindowsAuthenticationProviderOptions options = new();
