@@ -1,5 +1,5 @@
 ﻿//******************************************************************************************************
-//  WindowsAuthenticationClaimsProvider.cs - Gbtc
+//  WindowsAuthenticationProvider.cs - Gbtc
 //
 //  Copyright © 2025, Grid Protection Alliance.  All Rights Reserved.
 //
@@ -25,15 +25,17 @@ using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gemstone.Security.AuthenticationProviders;
 
 /// <summary>
-/// Options for the <see cref="WindowsAuthenticationClaimsProvider"/> class.
+/// Options for the <see cref="WindowsAuthenticationProvider"/> class.
 /// </summary>
-public class WindowsAuthenticationClaimsProviderOptions
+public class WindowsAuthenticationProviderOptions
 {
     /// <summary>
     /// Root path from which LDAP searches should be performed.
@@ -44,8 +46,8 @@ public class WindowsAuthenticationClaimsProviderOptions
 /// <summary>
 /// Provides information about claims available to the Windows authentication provider.
 /// </summary>
-/// <param name="options">Options to configure the <see cref="WindowsAuthenticationClaimsProvider"/></param>
-public partial class WindowsAuthenticationClaimsProvider(WindowsAuthenticationClaimsProviderOptions options) : IAuthenticationClaimsProvider
+/// <param name="options">Options to configure the <see cref="WindowsAuthenticationProvider"/></param>
+public partial class WindowsAuthenticationProvider(WindowsAuthenticationProviderOptions options) : IAuthenticationProvider
 {
     #region [ Members ]
 
@@ -77,6 +79,7 @@ public partial class WindowsAuthenticationClaimsProvider(WindowsAuthenticationCl
     }
 
     // Constants
+    private const string IdentityClaim = System.Security.Claims.ClaimTypes.PrimarySid;
     private const string GroupClaim = System.Security.Claims.ClaimTypes.GroupSid;
 
     #endregion
@@ -84,9 +87,9 @@ public partial class WindowsAuthenticationClaimsProvider(WindowsAuthenticationCl
     #region [ Constructors ]
 
     /// <summary>
-    /// Creates a new instance of the <see cref="WindowsAuthenticationClaimsProvider"/> class.
+    /// Creates a new instance of the <see cref="WindowsAuthenticationProvider"/> class.
     /// </summary>
-    public WindowsAuthenticationClaimsProvider()
+    public WindowsAuthenticationProvider()
         : this(new())
     {
     }
@@ -95,11 +98,22 @@ public partial class WindowsAuthenticationClaimsProvider(WindowsAuthenticationCl
 
     #region [ Properties ]
 
-    private WindowsAuthenticationClaimsProviderOptions Options { get; } = options;
+    private WindowsAuthenticationProviderOptions Options { get; } = options;
 
     #endregion
 
     #region [ Methods ]
+
+    /// <inheritdoc/>
+    public string GetIdentity(ClaimsPrincipal principal)
+    {
+        string? identity = principal
+            .FindFirst(IdentityClaim)?
+            .Value;
+
+        identity ??= principal.Identity?.Name;
+        return identity ?? string.Empty;
+    }
 
     /// <inheritdoc/>
     public IReadOnlyList<string> GetClaimTypes()
@@ -223,4 +237,88 @@ public partial class WindowsAuthenticationClaimsProvider(WindowsAuthenticationCl
     private static partial Regex SpecialCharacterPattern();
 
     #endregion
+}
+
+/// <summary>
+/// Defines extensions for setting up the <see cref="WindowsAuthenticationProvider"/>.
+/// </summary>
+public static class WindowsAuthenticationProviderExtensions
+{
+    /// <summary>
+    /// The identity used by default if one is not provided.
+    /// </summary>
+    public const string DefaultIdentity = "windows";
+
+    /// <summary>
+    /// Adds the windows authentication provider as a singleton service using the default identity and options.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services)
+    {
+        return services.AddWindowsAuthenticationProvider(DefaultIdentity);
+    }
+
+    /// <summary>
+    /// Adds the windows authentication provider as a singleton service using the default identity and given options.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <param name="options">The options used to configure the authentication provider</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, WindowsAuthenticationProviderOptions options)
+    {
+        return services.AddWindowsAuthenticationProvider(DefaultIdentity, options);
+    }
+
+    /// <summary>
+    /// Adds the windows authentication provider as a transient service using the default identity and configured options.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <param name="configure">Method invoked to configure the authentication provider</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, Action<WindowsAuthenticationProviderOptions> configure)
+    {
+        return services.AddWindowsAuthenticationProvider(DefaultIdentity, configure);
+    }
+
+    /// <summary>
+    /// Adds the windows authentication provider as a singleton service using the given identity and default options.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <param name="identity">The identity of the authentication provider</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, string identity)
+    {
+        return services.AddAuthenticationProvider<WindowsAuthenticationProvider>(identity);
+    }
+
+    /// <summary>
+    /// Adds the windows authentication provider as a singleton service using the given identity and options.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <param name="identity">The identity of the authentication provider</param>
+    /// <param name="options">The options used to configure the authentication provider</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, string identity, WindowsAuthenticationProviderOptions options)
+    {
+        WindowsAuthenticationProvider provider = new(options);
+        return services.AddAuthenticationProvider(identity, provider);
+    }
+
+    /// <summary>
+    /// Adds the windows authentication provider as a transient service using the given identity and configured options.
+    /// </summary>
+    /// <param name="services">The collection of services</param>
+    /// <param name="identity">The identity of the authentication provider</param>
+    /// <param name="configure">Method invoked to configure the authentication provider</param>
+    /// <returns>The collection of services.</returns>
+    public static IServiceCollection AddWindowsAuthenticationProvider(this IServiceCollection services, string identity, Action<WindowsAuthenticationProviderOptions> configure)
+    {
+        return services.AddKeyedTransient<IAuthenticationProvider>(identity, (_, _) =>
+        {
+            WindowsAuthenticationProviderOptions options = new();
+            configure(options);
+            return new WindowsAuthenticationProvider(options);
+        });
+    }
 }
