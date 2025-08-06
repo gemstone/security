@@ -27,6 +27,7 @@ using System.Linq;
 using System.Security.Claims;
 using Gemstone.Collections.CollectionExtensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gemstone.Security.AuthenticationProviders;
 
@@ -159,9 +160,9 @@ public static class AuthenticationBuilderExtensions
     /// <returns>The collection of services.</returns>
     public static IServiceCollection AddGemstoneAuthentication<T>(this IServiceCollection services) where T : class, IAuthenticationSetup
     {
-        return services
-            .AddSingleton<IAuthenticationRuntime>(provider => CreateAuthenticationRuntime(services, provider))
-            .AddSingleton<IAuthenticationSetup, T>();
+        services.TryAddSingleton<IAuthenticationRuntime>(provider => CreateAuthenticationRuntime(services, provider));
+        services.TryAddSingleton<IAuthenticationSetup, T>();
+        return services;
     }
 
     /// <summary>
@@ -172,14 +173,16 @@ public static class AuthenticationBuilderExtensions
     /// <returns>The collection of services.</returns>
     public static IServiceCollection AddGemstoneAuthentication(this IServiceCollection services, Action<IAuthenticationBuilder> configure)
     {
-        return services
-            .AddSingleton<IAuthenticationRuntime>(provider => CreateAuthenticationRuntime(services, provider))
-            .AddSingleton<IAuthenticationSetup>(_ =>
-            {
-                AuthenticationBuilder builder = new();
-                configure(builder);
-                return builder.Setup;
-            });
+        services.TryAddSingleton<IAuthenticationRuntime>(provider => CreateAuthenticationRuntime(services, provider));
+
+        services.TryAddSingleton<IAuthenticationSetup>(_ =>
+        {
+            AuthenticationBuilder builder = new();
+            configure(builder);
+            return builder.Setup;
+        });
+
+        return services;
     }
 
     private static AuthenticationRuntime CreateAuthenticationRuntime(IServiceCollection serviceCollection, IServiceProvider serviceProvider)
