@@ -107,6 +107,32 @@
       <param name="deniedResourcesFunc">Function that returns the list of resources that are not included in the rule.</param>
       <returns>The builder, for chaining.</returns>
     </member>
+    <member name="T:Gemstone.Security.AccessControl.ResourceAccessLevel">
+      <summary>
+            Represents the default access levels that can apply to a resource.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.View">
+      <summary>
+            View-only access (read, status, ...)
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.Edit">
+      <summary>
+            Basic level of configuration (start/stop adapters, update connection strings, ...)
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.Admin">
+      <summary>
+            Administrative level of configuration (users, roles, permissions, config files, ...)
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.Special">
+      <summary>
+            Dangerous level of configuration that can be enabled
+            for convenience or necessity (upload files to server, ...)
+            </summary>
+    </member>
     <member name="T:Gemstone.Security.Cryptography.Cipher">
       <summary>
             Provides general use cryptographic functions.
