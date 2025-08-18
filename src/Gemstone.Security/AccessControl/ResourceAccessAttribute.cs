@@ -22,6 +22,8 @@
 //******************************************************************************************************
 
 using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Gemstone.Security.AccessControl;
 
@@ -42,4 +44,47 @@ public class ResourceAccessAttribute(string name, params ResourceAccessLevel[] a
     /// Gets the level of permission required to access the resource.
     /// </summary>
     public ResourceAccessLevel[] Access { get; } = access;
+}
+
+/// <summary>
+/// Extension methods for the <see cref="ResourceAccessAttribute"/> class.
+/// </summary>
+public static class ResourceAccessAttributeExtensions
+{
+    /// <summary>
+    /// Gets the name of the resource, falling back on data from the controller action descriptor.
+    /// </summary>
+    /// <param name="attribute">The attribute defining resource access requirements</param>
+    /// <param name="descriptor">The descriptor providing info about the controller being accessed</param>
+    /// <returns>The name of the resource.</returns>
+    public static string GetResourceName(this ResourceAccessAttribute? attribute, ControllerActionDescriptor descriptor)
+    {
+        return attribute?.Name
+            ?? descriptor.ControllerName;
+    }
+
+    /// <summary>
+    /// Gets the list of access levels required to access the resource.
+    /// </summary>
+    /// <param name="attribute">The attribute defining resource access requirements</param>
+    /// <param name="httpMethod">The HTTP method used to access the resource</param>
+    /// <returns>The access level requirements.</returns>
+    public static ResourceAccessLevel[] GetAccessLevels(this ResourceAccessAttribute? attribute, string httpMethod)
+    {
+        return attribute?.Access
+            ?? ToAccessLevels(httpMethod);
+
+        static ResourceAccessLevel[] ToAccessLevels(string httpMethod)
+        {
+            bool isReadOnly =
+                HttpMethods.IsGet(httpMethod) ||
+                HttpMethods.IsHead(httpMethod) ||
+                HttpMethods.IsOptions(httpMethod) ||
+                HttpMethods.IsTrace(httpMethod);
+
+            return isReadOnly
+                ? [ResourceAccessLevel.Admin, ResourceAccessLevel.Edit, ResourceAccessLevel.View]
+                : [ResourceAccessLevel.Admin, ResourceAccessLevel.Edit];
+        }
+    }
 }
