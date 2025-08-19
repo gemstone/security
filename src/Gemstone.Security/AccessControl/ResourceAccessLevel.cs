@@ -94,7 +94,7 @@ public static class ResourceAccessExtensions
 
         bool IsAllowed() =>
             user.HasClaim(AllowClaim, claimValue) ||
-            user.HasClaim(RoleClaim, claimValue);
+            user.HasClaim(RoleClaim, $"{access}");
 
         return !IsDenied() && IsAllowed();
     }
