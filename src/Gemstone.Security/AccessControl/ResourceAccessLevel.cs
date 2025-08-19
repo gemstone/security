@@ -21,6 +21,9 @@
 //
 //******************************************************************************************************
 
+using System.Linq;
+using System.Security.Claims;
+
 namespace Gemstone.Security.AccessControl;
 
 /// <summary>
@@ -48,4 +51,51 @@ public enum ResourceAccessLevel
     /// for convenience or necessity (upload files to server, ...)
     /// </summary>
     Special
+}
+
+/// <summary>
+/// Extension methods for resource access.
+/// </summary>
+public static class ResourceAccessExtensions
+{
+    /// <summary>
+    /// Determines whether the user has access to a given resource.
+    /// </summary>
+    /// <param name="user">The user who is requesting access</param>
+    /// <param name="resourceType">The type of resource being requested</param>
+    /// <param name="resourceName">The identity of the requested resource</param>
+    /// <param name="access">The levels of access that would satisfy the request</param>
+    /// <returns>A value indicating whether permission is granted or denied.</returns>
+    public static bool HasAccessTo(this ClaimsPrincipal user, string resourceType, string resourceName, params ResourceAccessLevel[] access)
+    {
+        return access
+            .Select(level => user.HasAccessTo(resourceType, resourceName, level))
+            .Any(b => b);
+    }
+
+    /// <summary>
+    /// Determines whether the user has access to a given resource.
+    /// </summary>
+    /// <param name="user">The user who is requesting access</param>
+    /// <param name="resourceType">The type of resource being requested</param>
+    /// <param name="resourceName">The identity of the requested resource</param>
+    /// <param name="access">The level of access requested</param>
+    /// <returns>A value indicating whether permission is granted or denied.</returns>
+    public static bool HasAccessTo(this ClaimsPrincipal user, string resourceType, string resourceName, ResourceAccessLevel access)
+    {
+        const string AllowClaim = "Gemstone.ResourceAccess.Allow";
+        const string DenyClaim = "Gemstone.ResourceAccess.Deny";
+        const string RoleClaim = "Gemstone.Role";
+
+        string claimValue = $"{resourceType} {resourceName} {access}";
+
+        bool IsDenied() =>
+            user.HasClaim(DenyClaim, claimValue);
+
+        bool IsAllowed() =>
+            user.HasClaim(AllowClaim, claimValue) ||
+            user.HasClaim(RoleClaim, claimValue);
+
+        return !IsDenied() && IsAllowed();
+    }
 }
