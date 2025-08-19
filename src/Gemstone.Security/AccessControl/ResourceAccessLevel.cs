@@ -21,32 +21,31 @@
 //
 //******************************************************************************************************
 
-namespace Gemstone.Security.AccessControl
+namespace Gemstone.Security.AccessControl;
+
+/// <summary>
+/// Represents the default access levels that can apply to a resource.
+/// </summary>
+public enum ResourceAccessLevel
 {
     /// <summary>
-    /// Represents the default access levels that can apply to a resource.
+    /// View-only access (read, status, ...)
     /// </summary>
-    public enum ResourceAccessLevel
-    {
-        /// <summary>
-        /// View-only access (read, status, ...)
-        /// </summary>
-        View,
+    View,
 
-        /// <summary>
-        /// Basic level of configuration (start/stop adapters, update connection strings, ...)
-        /// </summary>
-        Edit,
+    /// <summary>
+    /// Basic level of configuration (start/stop adapters, update connection strings, ...)
+    /// </summary>
+    Edit,
 
-        /// <summary>
-        /// Administrative level of configuration (users, roles, permissions, config files, ...)
-        /// </summary>
-        Admin,
+    /// <summary>
+    /// Administrative level of configuration (users, roles, permissions, config files, ...)
+    /// </summary>
+    Admin,
 
-        /// <summary>
-        /// Dangerous level of configuration that can be enabled
-        /// for convenience or necessity (upload files to server, ...)
-        /// </summary>
-        Special
-    }
+    /// <summary>
+    /// Dangerous level of configuration that can be enabled
+    /// for convenience or necessity (upload files to server, ...)
+    /// </summary>
+    Special
 }
