@@ -69,6 +69,13 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
         public string? LastName => lastName;
     }
 
+    private class GroupSID : IClaimType
+    {
+        public string Type { get; } = System.Security.Claims.ClaimTypes.GroupSid;
+        public string Alias { get; } = nameof(System.Security.Claims.ClaimTypes.GroupSid);
+        public string Description { get; } = string.Empty;
+    }
+
     private class ProviderClaim(string value, string description) : IProviderClaim
     {
         /// <summary>Group SID</summary>
@@ -83,7 +90,6 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
 
     // Constants
     private const string IdentityClaim = System.Security.Claims.ClaimTypes.PrimarySid;
-    private const string GroupClaim = System.Security.Claims.ClaimTypes.GroupSid;
 
     #endregion
 
@@ -119,7 +125,7 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     }
 
     /// <inheritdoc/>
-    public IReadOnlyList<string> GetClaimTypes()
+    public IEnumerable<IClaimType> GetClaimTypes()
     {
         return ClaimTypes;
     }
@@ -165,7 +171,7 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     /// <inheritdoc/>
     public IEnumerable<IProviderClaim> FindClaims(string claimType, string searchText)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(claimType, GroupClaim);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(claimType, GroupClaimType.Type);
 
         if (!OperatingSystem.IsWindows())
             yield break;
@@ -216,7 +222,8 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     #region [ Static ]
 
     // Static Properties
-    private static string[] ClaimTypes { get; } = [GroupClaim];
+    private static GroupSID GroupClaimType { get; } = new();
+    private static GroupSID[] ClaimTypes { get; } = [GroupClaimType];
 
     // Static Methods
     private static string Escape(string ldapValue)

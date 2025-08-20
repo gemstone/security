@@ -44,7 +44,7 @@ public interface IAuthenticationProvider
     /// Get the types of claims supported by the authentication provider.
     /// </summary>
     /// <returns>The types of claims supported by the authentication provider.</returns>
-    IReadOnlyList<string> GetClaimTypes();
+    IEnumerable<IClaimType> GetClaimTypes();
 
     /// <summary>
     /// Find user accounts that can be authenticated by the authentication provider.
