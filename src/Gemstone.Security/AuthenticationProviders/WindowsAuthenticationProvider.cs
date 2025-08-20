@@ -76,6 +76,9 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
 
         /// <summary>FQDN (group@domain.com)</summary>
         public string Description => description;
+
+        /// <summary>Empty</summary>
+        public string LongDescription => string.Empty;
     }
 
     // Constants

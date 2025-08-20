@@ -37,4 +37,9 @@ public interface IProviderClaim
     /// Gets a human-readable text description of the claim.
     /// </summary>
     string Description { get; }
+
+    /// <summary>
+    /// Gets a sentence-long description of the claim.
+    /// </summary>
+    string LongDescription { get; }
 }
