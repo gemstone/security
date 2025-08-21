@@ -1,5 +1,5 @@
 ﻿//******************************************************************************************************
-//  ResourceAccessLevel.cs - Gbtc
+//  ResourceAccessType.cs - Gbtc
 //
 //  Copyright © 2025, Grid Protection Alliance.  All Rights Reserved.
 //
@@ -21,36 +21,34 @@
 //
 //******************************************************************************************************
 
-using System.Linq;
 using System.Security.Claims;
 
 namespace Gemstone.Security.AccessControl;
 
 /// <summary>
-/// Represents the default access levels that can apply to a resource.
+/// Represents the default access types that can apply to a resource.
 /// </summary>
-public enum ResourceAccessLevel
+public enum ResourceAccessType
 {
     /// <summary>
-    /// View-only access (read, status, ...)
+    /// Create a new instance of the resource.
     /// </summary>
-    View,
+    Create,
 
     /// <summary>
-    /// Basic level of configuration (start/stop adapters, update connection strings, ...)
+    /// Read information about existing resources.
     /// </summary>
-    Edit,
+    Read,
 
     /// <summary>
-    /// Administrative level of configuration (users, roles, permissions, config files, ...)
+    /// Update information associated with existing resources.
     /// </summary>
-    Admin,
+    Update,
 
     /// <summary>
-    /// Dangerous level of configuration that can be enabled
-    /// for convenience or necessity (upload files to server, ...)
+    /// Delete a resource from existence.
     /// </summary>
-    Special
+    Delete
 }
 
 /// <summary>
@@ -64,28 +62,13 @@ public static class ResourceAccessExtensions
     /// <param name="user">The user who is requesting access</param>
     /// <param name="resourceType">The type of resource being requested</param>
     /// <param name="resourceName">The identity of the requested resource</param>
-    /// <param name="access">The levels of access that would satisfy the request</param>
-    /// <returns>A value indicating whether permission is granted or denied.</returns>
-    public static bool HasAccessTo(this ClaimsPrincipal user, string resourceType, string resourceName, params ResourceAccessLevel[] access)
-    {
-        return access
-            .Select(level => user.HasAccessTo(resourceType, resourceName, level))
-            .Any(b => b);
-    }
-
-    /// <summary>
-    /// Determines whether the user has access to a given resource.
-    /// </summary>
-    /// <param name="user">The user who is requesting access</param>
-    /// <param name="resourceType">The type of resource being requested</param>
-    /// <param name="resourceName">The identity of the requested resource</param>
     /// <param name="access">The level of access requested</param>
     /// <returns>A value indicating whether permission is granted or denied.</returns>
-    public static bool HasAccessTo(this ClaimsPrincipal user, string resourceType, string resourceName, ResourceAccessLevel access)
+    public static bool HasAccessTo(this ClaimsPrincipal user, string resourceType, string resourceName, ResourceAccessType access)
     {
         const string AllowClaim = "Gemstone.ResourceAccess.Allow";
         const string DenyClaim = "Gemstone.ResourceAccess.Deny";
-        const string RoleClaim = "Gemstone.Role";
+        const string BaseClaim = "Gemstone.ResourceAccess.Default";
 
         string claimValue = $"{resourceType} {resourceName} {access}";
 
@@ -94,7 +77,7 @@ public static class ResourceAccessExtensions
 
         bool IsAllowed() =>
             user.HasClaim(AllowClaim, claimValue) ||
-            user.HasClaim(RoleClaim, $"{access}");
+            user.HasClaim(BaseClaim, $"{access}");
 
         return !IsDenied() && IsAllowed();
     }

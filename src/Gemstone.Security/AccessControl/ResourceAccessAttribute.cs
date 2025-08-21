@@ -28,22 +28,56 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 namespace Gemstone.Security.AccessControl;
 
 /// <summary>
-/// Annotation to assign access levels to a resource represented by a class, method, property, etc.
+/// Interface shared by <see cref="ResourceAccessAttribute"/>
+/// and <see cref="NoResourceAccessAttribute"/>.
 /// </summary>
-/// <param name="name">The name of the resource</param>
-/// <param name="access">The level of permission required to access the resource</param>
-[AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
-public class ResourceAccessAttribute(string name, params ResourceAccessLevel[] access) : Attribute
+public interface IResourceAccessAttribute
 {
     /// <summary>
     /// Gets the name of the resource.
     /// </summary>
-    public string Name { get; } = name;
+    string? Name { get; }
 
     /// <summary>
-    /// Gets the level of permission required to access the resource.
+    /// Gets the type of permission required to access the resource.
     /// </summary>
-    public ResourceAccessLevel[] Access { get; } = access;
+    ResourceAccessType Access { get; }
+}
+
+/// <summary>
+/// Annotation to assign an access type to an action on
+/// a resource represented by a class, method, property, etc.
+/// </summary>
+/// <param name="name">The name of the resource</param>
+/// <param name="access">The type of permission required to access the resource</param>
+[AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
+public class ResourceAccessAttribute(string? name, ResourceAccessType access) : Attribute, IResourceAccessAttribute
+{
+    /// <summary>
+    /// Creates a new instance of the <see cref="ResourceAccessAttribute"/> class.
+    /// </summary>
+    /// <param name="access">The type of permission required to access the resource</param>
+    public ResourceAccessAttribute(ResourceAccessType access)
+        : this(null, access)
+    {
+    }
+
+    /// <inheritdoc/>
+    public string? Name { get; } = name;
+
+    /// <inheritdoc/>
+    public ResourceAccessType Access { get; } = access;
+}
+
+/// <summary>
+/// Indicates that resource access logic does not apply
+/// when attempting to access actions on a resource.
+/// </summary>
+[AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
+public class NoResourceAccessAttribute() : Attribute, IResourceAccessAttribute
+{
+    string? IResourceAccessAttribute.Name => throw new NotSupportedException();
+    ResourceAccessType IResourceAccessAttribute.Access => throw new NotSupportedException();
 }
 
 /// <summary>
@@ -57,34 +91,40 @@ public static class ResourceAccessAttributeExtensions
     /// <param name="attribute">The attribute defining resource access requirements</param>
     /// <param name="descriptor">The descriptor providing info about the controller being accessed</param>
     /// <returns>The name of the resource.</returns>
-    public static string GetResourceName(this ResourceAccessAttribute? attribute, ControllerActionDescriptor descriptor)
+    public static string GetResourceName(this IResourceAccessAttribute? attribute, ControllerActionDescriptor descriptor)
     {
         return attribute?.Name
             ?? descriptor.ControllerName;
     }
 
     /// <summary>
-    /// Gets the list of access levels required to access the resource.
+    /// Gets the type of access required to access the resource.
     /// </summary>
     /// <param name="attribute">The attribute defining resource access requirements</param>
     /// <param name="httpMethod">The HTTP method used to access the resource</param>
     /// <returns>The access level requirements.</returns>
-    public static ResourceAccessLevel[] GetAccessLevels(this ResourceAccessAttribute? attribute, string httpMethod)
+    public static ResourceAccessType? GetAccessType(this IResourceAccessAttribute? attribute, string httpMethod)
     {
         return attribute?.Access
-            ?? ToAccessLevels(httpMethod);
+            ?? ToAccessType(httpMethod);
 
-        static ResourceAccessLevel[] ToAccessLevels(string httpMethod)
+        static ResourceAccessType? ToAccessType(string httpMethod)
         {
-            bool isReadOnly =
-                HttpMethods.IsGet(httpMethod) ||
-                HttpMethods.IsHead(httpMethod) ||
-                HttpMethods.IsOptions(httpMethod) ||
-                HttpMethods.IsTrace(httpMethod);
-
-            return isReadOnly
-                ? [ResourceAccessLevel.Admin, ResourceAccessLevel.Edit, ResourceAccessLevel.View]
-                : [ResourceAccessLevel.Admin, ResourceAccessLevel.Edit];
+            if (HttpMethods.IsPost(httpMethod))
+                return ResourceAccessType.Create;
+            if (HttpMethods.IsGet(httpMethod))
+                return ResourceAccessType.Read;
+            if (HttpMethods.IsHead(httpMethod))
+                return ResourceAccessType.Read;
+            if (HttpMethods.IsOptions(httpMethod))
+                return ResourceAccessType.Read;
+            if (HttpMethods.IsTrace(httpMethod))
+                return ResourceAccessType.Read;
+            if (HttpMethods.IsPut(httpMethod))
+                return ResourceAccessType.Update;
+            if (HttpMethods.IsDelete(httpMethod))
+                return ResourceAccessType.Delete;
+            return null;
         }
     }
 }
