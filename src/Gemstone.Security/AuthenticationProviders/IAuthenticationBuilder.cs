@@ -41,7 +41,7 @@ public interface IAuthenticationBuilder
     /// </summary>
     /// <param name="providerIdentity">The identity of the authentication provider</param>
     /// <param name="matchingClaim">Users with this claim will receive the assigned claim</param>
-    /// <param name="assignedClaim">The claimt to be assigned to users</param>
+    /// <param name="assignedClaim">The claim to be assigned to users</param>
     /// <returns>The authentication builder.</returns>
     public IAuthenticationBuilder AddProviderClaim(string providerIdentity, Claim matchingClaim, Claim assignedClaim);
 }
