@@ -122,6 +122,8 @@ public static class ResourceAccessAttributeExtensions
                 return ResourceAccessType.Read;
             if (HttpMethods.IsPut(httpMethod))
                 return ResourceAccessType.Update;
+            if (HttpMethods.IsPatch(httpMethod))
+                return ResourceAccessType.Update;
             if (HttpMethods.IsDelete(httpMethod))
                 return ResourceAccessType.Delete;
             return null;
