@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
@@ -52,27 +53,16 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     #region [ Members ]
 
     // Nested Types
-    private enum ObjectClass { User, Group }
-
-    private class UserAccount(string identity, string accountName, string? firstName, string? lastName) : IUserAccount
+    private static class ClaimTypeAliases
     {
-        /// <summary>User SID</summary>
-        public string Identity => identity;
-
-        /// <summary>User principal name</summary>
-        public string AccountName => accountName;
-
-        /// <summary>Given name</summary>
-        public string? FirstName => firstName;
-
-        /// <summary>Surname</summary>
-        public string? LastName => lastName;
+        public const string UserIdentity = System.Security.Claims.ClaimTypes.PrimarySid;
+        public const string Group = System.Security.Claims.ClaimTypes.GroupSid;
     }
 
-    private class GroupSID : IClaimType
+    private class ClaimType(string type, [CallerArgumentExpression(nameof(type))] string? alias = null) : IClaimType
     {
-        public string Type { get; } = System.Security.Claims.ClaimTypes.GroupSid;
-        public string Alias { get; } = nameof(System.Security.Claims.ClaimTypes.GroupSid);
+        public string Type { get; } = type;
+        public string Alias { get; } = alias ?? string.Empty;
         public string Description { get; } = string.Empty;
     }
 
@@ -87,9 +77,6 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
         /// <summary>Empty</summary>
         public string LongDescription => string.Empty;
     }
-
-    // Constants
-    private const string IdentityClaim = System.Security.Claims.ClaimTypes.PrimarySid;
 
     #endregion
 
@@ -117,7 +104,7 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     public string GetIdentity(ClaimsPrincipal principal)
     {
         string? identity = principal
-            .FindFirst(IdentityClaim)?
+            .FindFirst(ClaimTypeAliases.UserIdentity)?
             .Value;
 
         identity ??= principal.Identity?.Name;
@@ -131,7 +118,24 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     }
 
     /// <inheritdoc/>
-    public IEnumerable<IUserAccount> FindUsers(string searchText)
+    public IEnumerable<IProviderClaim> FindClaims(string claimType, string searchText)
+    {
+        switch (claimType)
+        {
+            case System.Security.Claims.ClaimTypes.PrimarySid:
+                return FindUsers(searchText);
+
+            case System.Security.Claims.ClaimTypes.GroupSid:
+                return FindGroups(searchText);
+
+            default:
+                string paramName = nameof(claimType);
+                string message = $"Claim type not supported: {claimType}";
+                throw new ArgumentOutOfRangeException(paramName, message);
+        }
+    }
+
+    private IEnumerable<IProviderClaim> FindUsers(string searchText)
     {
         if (!OperatingSystem.IsWindows())
             yield break;
@@ -160,19 +164,22 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
                 continue;
 
             SecurityIdentifier sid = new(sidBuffer, 0);
-            string identity = $"{sid}";
             string accountName = $"{userPrincipalName}";
             string firstName = $"{givenName}";
             string lastName = $"{sn}";
-            yield return new UserAccount(identity, accountName, firstName, lastName);
+
+            string value = $"{sid}";
+
+            string description = !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName)
+                ? $"{accountName} ({lastName}, {firstName})"
+                : accountName;
+
+            yield return new ProviderClaim(value, description);
         }
     }
 
-    /// <inheritdoc/>
-    public IEnumerable<IProviderClaim> FindClaims(string claimType, string searchText)
+    private IEnumerable<IProviderClaim> FindGroups(string searchText)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(claimType, GroupClaimType.Type);
-
         if (!OperatingSystem.IsWindows())
             yield break;
 
@@ -222,8 +229,10 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     #region [ Static ]
 
     // Static Properties
-    private static GroupSID GroupClaimType { get; } = new();
-    private static GroupSID[] ClaimTypes { get; } = [GroupClaimType];
+    private static ClaimType[] ClaimTypes { get; } = [
+        new(ClaimTypeAliases.UserIdentity),
+        new(ClaimTypeAliases.Group)
+    ];
 
     // Static Methods
     private static string Escape(string ldapValue)

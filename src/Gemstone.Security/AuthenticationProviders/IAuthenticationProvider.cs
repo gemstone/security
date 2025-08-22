@@ -47,25 +47,12 @@ public interface IAuthenticationProvider
     IEnumerable<IClaimType> GetClaimTypes();
 
     /// <summary>
-    /// Find user accounts that can be authenticated by the authentication provider.
-    /// </summary>
-    /// <param name="searchText">Text used to narrow the results of the search for users</param>
-    /// <returns>A collection of users matching the search text.</returns>
-    /// <remarks>
-    /// Search text can include asterisks as wildcards.
-    /// To include a literal asterisk, use backslash as the escape character.
-    /// A literal backslash can be escaped by another backslash.
-    /// Any other character escaped by a backslash matches the character;
-    /// the backslash will be removed.
-    /// </remarks>
-    IEnumerable<IUserAccount> FindUsers(string searchText);
-
-    /// <summary>
     /// Find claims that can be returned by the authentication provider.
     /// </summary>
     /// <param name="claimType">The type of claim to search for</param>
     /// <param name="searchText">Text used to narrow the results for the search for claims</param>
     /// <returns>A collection of claims matching the search text.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">The claim type is not supported</exception>
     /// <remarks>
     /// Search text can include asterisks as wildcards.
     /// To include a literal asterisk, use backslash as the escape character.

@@ -37,15 +37,6 @@ namespace Gemstone.Security.AuthenticationProviders;
 public interface IAuthenticationBuilder
 {
     /// <summary>
-    /// Adds a claim for a given user identity.
-    /// </summary>
-    /// <param name="providerIdentity">The identity of the authentication provider</param>
-    /// <param name="userIdentity">The identity of the user</param>
-    /// <param name="assignedClaim">The claim to be assigned to the user</param>
-    /// <returns>The authentication builder.</returns>
-    public IAuthenticationBuilder AddUserClaim(string providerIdentity, string userIdentity, Claim assignedClaim);
-
-    /// <summary>
     /// Adds a claim for users with a matching claim.
     /// </summary>
     /// <param name="providerIdentity">The identity of the authentication provider</param>
@@ -64,13 +55,6 @@ public static class AuthenticationBuilderExtensions
     {
         public AuthenticationSetup Setup { get; } = new();
 
-        public IAuthenticationBuilder AddUserClaim(string providerIdentity, string userIdentity, Claim assignedClaim)
-        {
-            List<Claim> claims = Setup.UserClaims.GetOrAdd((providerIdentity, userIdentity), _ => []);
-            claims.Add(assignedClaim);
-            return this;
-        }
-
         public IAuthenticationBuilder AddProviderClaim(string providerIdentity, Claim matchingClaim, Claim assignedClaim)
         {
             List<(Claim, Claim)> claims = Setup.ProviderClaims.GetOrAdd(providerIdentity, _ => []);
@@ -81,26 +65,11 @@ public static class AuthenticationBuilderExtensions
 
     private class AuthenticationSetup : IAuthenticationSetup
     {
-        internal Dictionary<(string Provider, string User), List<Claim>> UserClaims { get; } = [];
         internal Dictionary<string, List<(Claim, Claim)>> ProviderClaims { get; } = [];
 
         public IEnumerable<string> GetProviderIdentities()
         {
             return ProviderClaims.Keys;
-        }
-
-        public IEnumerable<string> GetUserIdentities(string providerIdentity)
-        {
-            return UserClaims
-                .Select(kvp => kvp.Key)
-                .Where(tuple => tuple.Provider == providerIdentity)
-                .Select(tuple => tuple.User);
-        }
-
-        public IEnumerable<Claim> GetUserClaims(string providerIdentity, string userIdentity)
-        {
-            return UserClaims.TryGetValue((providerIdentity, userIdentity), out List<Claim>? claims)
-                ? claims.AsEnumerable() : [];
         }
 
         public IEnumerable<(Claim Match, Claim Assigned)> GetProviderClaims(string providerIdentity)
@@ -136,7 +105,6 @@ public static class AuthenticationBuilderExtensions
                 return [];
 
             string userIdentity = provider.GetIdentity(principal);
-            IEnumerable<Claim> userClaims = Setup.GetUserClaims(providerIdentity, userIdentity);
 
             IEnumerable<Claim> providerClaims = Setup
                 .GetProviderClaims(providerIdentity)
@@ -144,7 +112,7 @@ public static class AuthenticationBuilderExtensions
                 .Prepend(new(UserIdentityClaim, userIdentity))
                 .Prepend(new(ProviderIdentityClaim, providerIdentity));
 
-            return userClaims.Concat(providerClaims);
+            return providerClaims;
         }
 
         private static (string, string) ToKey((Claim Match, Claim) tuple)

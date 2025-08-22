@@ -38,21 +38,6 @@ public interface IAuthenticationSetup
     IEnumerable<string> GetProviderIdentities();
 
     /// <summary>
-    /// Gets the list of user identities for a given provider defined in the setup data.
-    /// </summary>
-    /// <param name="providerIdentity">The identity of the authentication provider</param>
-    /// <returns>The list of user identities.</returns>
-    IEnumerable<string> GetUserIdentities(string providerIdentity);
-
-    /// <summary>
-    /// Gets a list of claims assigned to a given user.
-    /// </summary>
-    /// <param name="providerIdentity">The identity of the authentication provider</param>
-    /// <param name="userIdentity">The identity of the user</param>
-    /// <returns>The list of claims assigned to the user.</returns>
-    IEnumerable<Claim> GetUserClaims(string providerIdentity, string userIdentity);
-
-    /// <summary>
     /// Gets a list of mappings between claims provided by the authentication
     /// provider and claims assigned to users with matching claims.
     /// </summary>
