@@ -1,5 +1,5 @@
 ﻿//******************************************************************************************************
-//  IUserAccount.cs - Gbtc
+//  IClaimType.cs - Gbtc
 //
 //  Copyright © 2025, Grid Protection Alliance.  All Rights Reserved.
 //
@@ -16,7 +16,7 @@
 //
 //  Code Modification History:
 //  ----------------------------------------------------------------------------------------------------
-//  07/11/2025 - Stephen C. Wills
+//  08/20/2025 - Stephen C. Wills
 //       Generated original version of source code.
 //
 //******************************************************************************************************
@@ -24,27 +24,22 @@
 namespace Gemstone.Security.AuthenticationProviders;
 
 /// <summary>
-/// Represents a user account that identifies a user who logs in via an authentication provider.
+/// Represents a type of claim that an authentication provider can make about a user.
 /// </summary>
-public interface IUserAccount
+public interface IClaimType
 {
     /// <summary>
-    /// Gets a string identifier that uniquely identifies the user.
+    /// Gets an identity value that represents the claim type.
     /// </summary>
-    string Identity { get; }
+    string Type { get; }
 
     /// <summary>
-    /// Gets the name of the user's account.
+    /// Gets a human-readable alias for the claim type.
     /// </summary>
-    string AccountName { get; }
+    string Alias { get; }
 
     /// <summary>
-    /// Gets the given name of the user.
+    /// Gets a sentence-long description of the claim type.
     /// </summary>
-    string? FirstName { get; }
-
-    /// <summary>
-    /// Gets the surname of the user.
-    /// </summary>
-    string? LastName { get; }
+    string Description { get; }
 }
