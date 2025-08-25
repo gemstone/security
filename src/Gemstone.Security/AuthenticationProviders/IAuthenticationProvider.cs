@@ -23,7 +23,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Security.Claims;
+using Gemstone.Reflection.AssemblyExtensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gemstone.Security.AuthenticationProviders;
@@ -102,5 +105,55 @@ public static class AuthenticationProviderExtensions
     public static IServiceCollection AddAuthenticationProvider(this IServiceCollection services, string identity, Func<IServiceProvider, IAuthenticationProvider> providerFactory)
     {
         return services.AddKeyedSingleton(identity, providerFactory);
+    }
+
+    /// <summary>
+    /// Loads an icon from embedded resources associated with the authentication provider.
+    /// </summary>
+    /// <param name="provider">The provider which is visually represented by the icon</param>
+    /// <returns>The icon associated with the provider.</returns>
+    /// <remarks>
+    /// <para>
+    /// Supported file types are jpg, png, gif, svg, and webp.
+    /// </para>
+    ///
+    /// <para>
+    /// For a hypothetical <c>ExampleProvider</c> in the <c>Gemstone.Example</c> namespace,
+    /// the embedded resource name for a jpg icon would be <c>Gemstone.Example.ExampleProvider.jpg</c>.
+    /// </para>
+    ///
+    /// <para>
+    /// Expect that icons will be rendered in an approximately square space, 32 pixels tall.
+    /// Therefore, a good target size would be 32x32, but it can be a bit wider or narrower.
+    /// </para>
+    /// </remarks>
+    public static (string MediaType, Stream Data)? LoadIcon(this IAuthenticationProvider provider)
+    {
+        Span<(string, string)> mimeTypes =
+        [
+            (System.Net.Mime.MediaTypeNames.Image.Jpeg, "jpg"),
+            (System.Net.Mime.MediaTypeNames.Image.Png, "png"),
+            (System.Net.Mime.MediaTypeNames.Image.Gif, "gif"),
+            (System.Net.Mime.MediaTypeNames.Image.Svg, "svg"),
+            (System.Net.Mime.MediaTypeNames.Image.Webp, "webp")
+        ];
+
+        Type providerType = provider.GetType();
+        string? providerTypeName = providerType.FullName;
+        Span<Assembly> searchAssemblies = [Assembly.GetExecutingAssembly(), providerType.Assembly];
+
+        foreach (Assembly assembly in searchAssemblies)
+        {
+            foreach ((string mimeType, string extension) in mimeTypes)
+            {
+                string resourceName = $"{providerTypeName}.{extension}";
+                Stream? resourceStream = assembly.GetEmbeddedResource(resourceName);
+
+                if (resourceStream is not null)
+                    return (mimeType, resourceStream);
+            }
+        }
+
+        return null;
     }
 }
