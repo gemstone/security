@@ -1,5 +1,5 @@
 ﻿//******************************************************************************************************
-//  IProviderClaim.cs - Gbtc
+//  IAuthenticationSetup.cs - Gbtc
 //
 //  Copyright © 2025, Grid Protection Alliance.  All Rights Reserved.
 //
@@ -16,30 +16,32 @@
 //
 //  Code Modification History:
 //  ----------------------------------------------------------------------------------------------------
-//  07/11/2025 - Stephen C. Wills
+//  07/24/2025 - Stephen C. Wills
 //       Generated original version of source code.
 //
 //******************************************************************************************************
 
+using System.Collections.Generic;
+using System.Security.Claims;
+
 namespace Gemstone.Security.AuthenticationProviders;
 
 /// <summary>
-/// Represents a claim that can be returned by an authentication provider.
+/// Represents the provider of setup data for Gemstone authentication.
 /// </summary>
-public interface IProviderClaim
+public interface IAuthenticationSetup
 {
     /// <summary>
-    /// Gets the value of the claim.
+    /// Gets the list of provider identities defined in the setup data.
     /// </summary>
-    string Value { get; }
+    /// <returns>The list of provider identities.</returns>
+    IEnumerable<string> GetProviderIdentities();
 
     /// <summary>
-    /// Gets a human-readable text description of the claim.
+    /// Gets a list of mappings between claims provided by the authentication
+    /// provider and claims assigned to users with matching claims.
     /// </summary>
-    string Description { get; }
-
-    /// <summary>
-    /// Gets a sentence-long description of the claim.
-    /// </summary>
-    string LongDescription { get; }
+    /// <param name="providerIdentity">The identity of the authentication provider</param>
+    /// <returns>The list of mappings between provider claims and assigned claims.</returns>
+    IEnumerable<(Claim Match, Claim Assigned)> GetProviderClaims(string providerIdentity);
 }
