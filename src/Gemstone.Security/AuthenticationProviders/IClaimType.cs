@@ -1,5 +1,5 @@
 ﻿//******************************************************************************************************
-//  ResourceAccessLevel.cs - Gbtc
+//  IClaimType.cs - Gbtc
 //
 //  Copyright © 2025, Grid Protection Alliance.  All Rights Reserved.
 //
@@ -16,37 +16,30 @@
 //
 //  Code Modification History:
 //  ----------------------------------------------------------------------------------------------------
-//  02/24/2025 - Stephen C. Wills
+//  08/20/2025 - Stephen C. Wills
 //       Generated original version of source code.
 //
 //******************************************************************************************************
 
-namespace Gemstone.Security.AccessControl
+namespace Gemstone.Security.AuthenticationProviders;
+
+/// <summary>
+/// Represents a type of claim that an authentication provider can make about a user.
+/// </summary>
+public interface IClaimType
 {
     /// <summary>
-    /// Represents the default access levels that can apply to a resource.
+    /// Gets an identity value that represents the claim type.
     /// </summary>
-    public enum ResourceAccessLevel
-    {
-        /// <summary>
-        /// View-only access (read, status, ...)
-        /// </summary>
-        View,
+    string Type { get; }
 
-        /// <summary>
-        /// Basic level of configuration (start/stop adapters, update connection strings, ...)
-        /// </summary>
-        Edit,
+    /// <summary>
+    /// Gets a human-readable alias for the claim type.
+    /// </summary>
+    string Alias { get; }
 
-        /// <summary>
-        /// Administrative level of configuration (users, roles, permissions, config files, ...)
-        /// </summary>
-        Admin,
-
-        /// <summary>
-        /// Dangerous level of configuration that can be enabled
-        /// for convenience or necessity (upload files to server, ...)
-        /// </summary>
-        Special
-    }
+    /// <summary>
+    /// Gets a sentence-long description of the claim type.
+    /// </summary>
+    string Description { get; }
 }
