@@ -107,30 +107,456 @@
       <param name="deniedResourcesFunc">Function that returns the list of resources that are not included in the rule.</param>
       <returns>The builder, for chaining.</returns>
     </member>
-    <member name="T:Gemstone.Security.AccessControl.ResourceAccessLevel">
+    <member name="T:Gemstone.Security.AccessControl.IResourceAccessAttribute">
       <summary>
-            Represents the default access levels that can apply to a resource.
+            Interface shared by <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" />
+            and <see cref="T:Gemstone.Security.AccessControl.NoResourceAccessAttribute" />.
             </summary>
     </member>
-    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.View">
+    <member name="P:Gemstone.Security.AccessControl.IResourceAccessAttribute.Access">
       <summary>
-            View-only access (read, status, ...)
+            Gets the type of permission required to access the resource.
             </summary>
     </member>
-    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.Edit">
+    <member name="P:Gemstone.Security.AccessControl.IResourceAccessAttribute.Name">
       <summary>
-            Basic level of configuration (start/stop adapters, update connection strings, ...)
+            Gets the name of the resource.
             </summary>
     </member>
-    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.Admin">
+    <member name="T:Gemstone.Security.AccessControl.NoResourceAccessAttribute">
       <summary>
-            Administrative level of configuration (users, roles, permissions, config files, ...)
+            Indicates that resource access logic does not apply
+            when attempting to access actions on a resource.
             </summary>
     </member>
-    <member name="F:Gemstone.Security.AccessControl.ResourceAccessLevel.Special">
+    <member name="M:Gemstone.Security.AccessControl.NoResourceAccessAttribute.#ctor">
       <summary>
-            Dangerous level of configuration that can be enabled
-            for convenience or necessity (upload files to server, ...)
+            Indicates that resource access logic does not apply
+            when attempting to access actions on a resource.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AccessControl.ResourceAccessAttribute">
+      <summary>
+            Annotation to assign an access type to an action on
+            a resource represented by a class, method, property, etc.
+            </summary>
+      <param name="name">The name of the resource</param>
+      <param name="access">The type of permission required to access the resource</param>
+    </member>
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttribute.#ctor(Gemstone.Security.AccessControl.ResourceAccessType)">
+      <summary>
+            Creates a new instance of the <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" /> class.
+            </summary>
+      <param name="access">The type of permission required to access the resource</param>
+    </member>
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttribute.#ctor(System.String,Gemstone.Security.AccessControl.ResourceAccessType)">
+      <summary>
+            Annotation to assign an access type to an action on
+            a resource represented by a class, method, property, etc.
+            </summary>
+      <param name="name">The name of the resource</param>
+      <param name="access">The type of permission required to access the resource</param>
+    </member>
+    <member name="P:Gemstone.Security.AccessControl.ResourceAccessAttribute.Access">
+      <summary>
+            Gets the type of permission required to access the resource.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AccessControl.ResourceAccessAttribute.Name">
+      <summary>
+            Gets the name of the resource.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions">
+      <summary>
+            Extension methods for the <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions.GetAccessType(Gemstone.Security.AccessControl.IResourceAccessAttribute,System.String)">
+      <summary>
+            Gets the type of access required to access the resource.
+            </summary>
+      <param name="attribute">The attribute defining resource access requirements</param>
+      <param name="httpMethod">The HTTP method used to access the resource</param>
+      <returns>The access level requirements.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions.GetResourceName(Gemstone.Security.AccessControl.IResourceAccessAttribute,Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)">
+      <summary>
+            Gets the name of the resource, falling back on data from the controller action descriptor.
+            </summary>
+      <param name="attribute">The attribute defining resource access requirements</param>
+      <param name="descriptor">The descriptor providing info about the controller being accessed</param>
+      <returns>The name of the resource.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AccessControl.ResourceAccessExtensions">
+      <summary>
+            Extension methods for resource access.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessExtensions.HasAccessTo(System.Security.Claims.ClaimsPrincipal,System.String,System.String,Gemstone.Security.AccessControl.ResourceAccessType)">
+      <summary>
+            Determines whether the user has access to a given resource.
+            </summary>
+      <param name="user">The user who is requesting access</param>
+      <param name="resourceType">The type of resource being requested</param>
+      <param name="resourceName">The identity of the requested resource</param>
+      <param name="access">The level of access requested</param>
+      <returns>A value indicating whether permission is granted or denied.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AccessControl.ResourceAccessType">
+      <summary>
+            Represents the default access types that can apply to a resource.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.Create">
+      <summary>
+            Create a new instance of the resource.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.Read">
+      <summary>
+            Read information about existing resources.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.Update">
+      <summary>
+            Update information associated with existing resources.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.Delete">
+      <summary>
+            Delete a resource from existence.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.AuthenticationBuilderExtensions">
+      <summary>
+            Extensions for the authentication builder.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.AuthenticationBuilderExtensions.AddGemstoneAuthentication``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+            Adds the Gemstone authentication runtime to the services collection.
+            </summary>
+      <param name="services">The collection of services</param>
+      <typeparam name="T">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>typeparam</parameter>
+            <parameter>T</parameter>
+            <parameter>M:Gemstone.Security.AuthenticationProviders.AuthenticationBuilderExtensions.AddGemstoneAuthentication``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)</parameter>
+          </include>
+        </markup>
+      </typeparam>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.AuthenticationBuilderExtensions.AddGemstoneAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Gemstone.Security.AuthenticationProviders.IAuthenticationBuilder})">
+      <summary>
+            Adds the Gemstone authentication runtime to the services collection.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="configure">Method to configure the runtime</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.AuthenticationProviderExtensions">
+      <summary>
+            Extension methods for setting up an <see cref="T:Gemstone.Security.AuthenticationProviders.IAuthenticationProvider" />.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.AuthenticationProviderExtensions.AddAuthenticationProvider``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+      <summary>
+            Adds an authentication provider as a singleton service.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <typeparam name="T">The type of authentication provider to be instantiated as the singleton instance</typeparam>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.AuthenticationProviderExtensions.AddAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,Gemstone.Security.AuthenticationProviders.IAuthenticationProvider)">
+      <summary>
+            Adds an authentication provider as a singleton service.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <param name="provider">The provider instance to be added as the singleton service</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.AuthenticationProviderExtensions.AddAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Func{System.IServiceProvider,Gemstone.Security.AuthenticationProviders.IAuthenticationProvider})">
+      <summary>
+            Adds the authentication provider as a singleton service.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <param name="providerFactory">Factory function used to instantiating the singleton instance</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.AuthenticationProviderExtensions.LoadIcon(Gemstone.Security.AuthenticationProviders.IAuthenticationProvider)">
+      <summary>
+             Loads an icon from embedded resources associated with the authentication provider.
+             </summary>
+      <param name="provider">The provider which is visually represented by the icon</param>
+      <returns>The icon associated with the provider.</returns>
+      <remarks>
+        <para>
+             Supported file types are jpg, png, gif, svg, and webp.
+             </para>
+        <para>
+             For a hypothetical <c>ExampleProvider</c> in the <c>Gemstone.Example</c> namespace,
+             the embedded resource name for a jpg icon would be <c>Gemstone.Example.ExampleProvider.jpg</c>.
+             </para>
+        <para>
+             Expect that icons will be rendered in an approximately square space, 32 pixels tall.
+             Therefore, a good target size would be 32x32, but it can be a bit wider or narrower.
+             </para>
+      </remarks>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.IAuthenticationBuilder">
+      <summary>
+            Represents a builder for Gemstone authentication.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationBuilder.AddProviderClaim(System.String,System.Security.Claims.Claim,System.Security.Claims.Claim)">
+      <summary>
+            Adds a claim for users with a matching claim.
+            </summary>
+      <param name="providerIdentity">The identity of the authentication provider</param>
+      <param name="matchingClaim">Users with this claim will receive the assigned claim</param>
+      <param name="assignedClaim">The claim to be assigned to users</param>
+      <returns>The authentication builder.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.IAuthenticationProvider">
+      <summary>
+            Represents a provider of claims for an authentication provider.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationProvider.FindClaims(System.String,System.String)">
+      <summary>
+            Find claims that can be returned by the authentication provider.
+            </summary>
+      <param name="claimType">The type of claim to search for</param>
+      <param name="searchText">Text used to narrow the results for the search for claims</param>
+      <returns>A collection of claims matching the search text.</returns>
+      <remarks>
+            Search text can include asterisks as wildcards.
+            To include a literal asterisk, use backslash as the escape character.
+            A literal backslash can be escaped by another backslash.
+            Any other character escaped by a backslash matches the character;
+            the backslash will be removed.
+            </remarks>
+      <exception cref="T:System.ArgumentOutOfRangeException">The claim type is not supported</exception>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationProvider.GetClaimTypes">
+      <summary>
+            Get the types of claims supported by the authentication provider.
+            </summary>
+      <returns>The types of claims supported by the authentication provider.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationProvider.GetIdentity(System.Security.Claims.ClaimsPrincipal)">
+      <summary>
+            Gets the identity of the user represented by the principal.
+            </summary>
+      <param name="principal">The principal that represents the user</param>
+      <returns>The user's identity.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.IAuthenticationRuntime">
+      <summary>
+            Represents a provider of runtime configuration for Gemstone authentication.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationRuntime.GetAssignedClaims(System.String,System.Security.Claims.ClaimsPrincipal)">
+      <summary>
+            Assigns claims to the user represented by the principal.
+            </summary>
+      <param name="providerIdentity">Identity of the user's authentication provider</param>
+      <param name="principal">The principal that represents the user</param>
+      <returns>The list of claims assigned to the user.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationRuntime.GetProviderIdentities">
+      <summary>
+            Gets the list of identities for active authentication provider.
+            </summary>
+      <returns>The list of provider identities.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.IAuthenticationSetup">
+      <summary>
+            Represents the provider of setup data for Gemstone authentication.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationSetup.GetProviderClaims(System.String)">
+      <summary>
+            Gets a list of mappings between claims provided by the authentication
+            provider and claims assigned to users with matching claims.
+            </summary>
+      <param name="providerIdentity">The identity of the authentication provider</param>
+      <returns>The list of mappings between provider claims and assigned claims.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.IAuthenticationSetup.GetProviderIdentities">
+      <summary>
+            Gets the list of provider identities defined in the setup data.
+            </summary>
+      <returns>The list of provider identities.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.IClaimType">
+      <summary>
+            Represents a type of claim that an authentication provider can make about a user.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.IClaimType.Alias">
+      <summary>
+            Gets a human-readable alias for the claim type.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.IClaimType.Description">
+      <summary>
+            Gets a sentence-long description of the claim type.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.IClaimType.Type">
+      <summary>
+            Gets an identity value that represents the claim type.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.IProviderClaim">
+      <summary>
+            Represents a claim that can be returned by an authentication provider.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.IProviderClaim.Description">
+      <summary>
+            Gets a human-readable text description of the claim.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.IProviderClaim.LongDescription">
+      <summary>
+            Gets a sentence-long description of the claim.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.IProviderClaim.Value">
+      <summary>
+            Gets the value of the claim.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider">
+      <summary>
+            Provides information about claims available to the Windows authentication provider.
+            </summary>
+      <param name="options">Options to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider" /></param>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.#ctor">
+      <summary>
+            Creates a new instance of the <see cref="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.#ctor(Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions)">
+      <summary>
+            Provides information about claims available to the Windows authentication provider.
+            </summary>
+      <param name="options">Options to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider" /></param>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.FindClaims(System.String,System.String)">
+      <summary>
+            Find claims that can be returned by the authentication provider.
+            </summary>
+      <param name="claimType">The type of claim to search for</param>
+      <param name="searchText">Text used to narrow the results for the search for claims</param>
+      <returns>A collection of claims matching the search text.</returns>
+      <remarks>
+            Search text can include asterisks as wildcards.
+            To include a literal asterisk, use backslash as the escape character.
+            A literal backslash can be escaped by another backslash.
+            Any other character escaped by a backslash matches the character;
+            the backslash will be removed.
+            </remarks>
+      <exception cref="T:System.ArgumentOutOfRangeException">The claim type is not supported</exception>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.GetClaimTypes">
+      <summary>
+            Get the types of claims supported by the authentication provider.
+            </summary>
+      <returns>The types of claims supported by the authentication provider.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.GetIdentity(System.Security.Claims.ClaimsPrincipal)">
+      <summary>
+            Gets the identity of the user represented by the principal.
+            </summary>
+      <param name="principal">The principal that represents the user</param>
+      <returns>The user's identity.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions">
+      <summary>
+            Defines extensions for setting up the <see cref="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider" />.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions.AddWindowsAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+            Adds the windows authentication provider as a singleton service using the default identity and options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions.AddWindowsAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions)">
+      <summary>
+            Adds the windows authentication provider as a singleton service using the default identity and given options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="options">The options used to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions.AddWindowsAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions})">
+      <summary>
+            Adds the windows authentication provider as a transient service using the default identity and configured options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="configure">Method invoked to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions.AddWindowsAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+      <summary>
+            Adds the windows authentication provider as a singleton service using the given identity and default options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions.AddWindowsAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions)">
+      <summary>
+            Adds the windows authentication provider as a singleton service using the given identity and options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <param name="options">The options used to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions.AddWindowsAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions})">
+      <summary>
+            Adds the windows authentication provider as a transient service using the given identity and configured options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <param name="configure">Method invoked to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="F:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions.DefaultIdentity">
+      <summary>
+            The identity used by default if one is not provided.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions">
+      <summary>
+            Options for the <see cref="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions.LDAPPath">
+      <summary>
+            Root path from which LDAP searches should be performed.
             </summary>
     </member>
     <member name="T:Gemstone.Security.Cryptography.Cipher">
