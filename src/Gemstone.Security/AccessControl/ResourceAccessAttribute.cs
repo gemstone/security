@@ -22,62 +22,61 @@
 //******************************************************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Gemstone.Security.AccessControl;
 
 /// <summary>
-/// Interface shared by <see cref="ResourceAccessAttribute"/>
-/// and <see cref="NoResourceAccessAttribute"/>.
-/// </summary>
-public interface IResourceAccessAttribute
-{
-    /// <summary>
-    /// Gets the name of the resource.
-    /// </summary>
-    string? Name { get; }
-
-    /// <summary>
-    /// Gets the type of permission required to access the resource.
-    /// </summary>
-    ResourceAccessType Access { get; }
-}
-
-/// <summary>
 /// Annotation to assign an access type to an action on
 /// a resource represented by a class, method, property, etc.
 /// </summary>
-/// <param name="name">The name of the resource</param>
-/// <param name="access">The type of permission required to access the resource</param>
 [AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
-public class ResourceAccessAttribute(string? name, ResourceAccessType access) : Attribute, IResourceAccessAttribute
+public class ResourceAccessAttribute : Attribute
 {
+    private struct PrivateTag { }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="ResourceAccessAttribute"/> class.
+    /// </summary>
+    /// <param name="name">The name of the resource</param>
+    public ResourceAccessAttribute(string name)
+        : this(new(), name, ResourceAccessType.NotSpecified)
+    {
+    }
+
     /// <summary>
     /// Creates a new instance of the <see cref="ResourceAccessAttribute"/> class.
     /// </summary>
     /// <param name="access">The type of permission required to access the resource</param>
     public ResourceAccessAttribute(ResourceAccessType access)
-        : this(null, access)
+        : this(new(), null, access)
     {
     }
 
-    /// <inheritdoc/>
-    public string? Name { get; } = name;
+    /// <summary>
+    /// Creates a new instance of the <see cref="ResourceAccessAttribute"/> class.
+    /// </summary>
+    /// <param name="name">The name of the resource</param>
+    /// <param name="access">The type of permission required to access the resource</param>
+    public ResourceAccessAttribute(string name, ResourceAccessType access)
+        : this(new(), name, access)
+    {
+    }
+
+    private ResourceAccessAttribute(PrivateTag _, string? name, ResourceAccessType access)
+    {
+        Name = name;
+        Access = access;
+    }
 
     /// <inheritdoc/>
-    public ResourceAccessType Access { get; } = access;
-}
+    public string? Name { get; }
 
-/// <summary>
-/// Indicates that resource access logic does not apply
-/// when attempting to access actions on a resource.
-/// </summary>
-[AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = false)]
-public class NoResourceAccessAttribute() : Attribute, IResourceAccessAttribute
-{
-    string? IResourceAccessAttribute.Name => throw new NotSupportedException();
-    ResourceAccessType IResourceAccessAttribute.Access => throw new NotSupportedException();
+    /// <inheritdoc/>
+    public ResourceAccessType Access { get; }
 }
 
 /// <summary>
@@ -88,27 +87,38 @@ public static class ResourceAccessAttributeExtensions
     /// <summary>
     /// Gets the name of the resource, falling back on data from the controller action descriptor.
     /// </summary>
-    /// <param name="attribute">The attribute defining resource access requirements</param>
+    /// <param name="attributes">The list of attributes defining resource access requirements in ascending order of precedence</param>
     /// <param name="descriptor">The descriptor providing info about the controller being accessed</param>
     /// <returns>The name of the resource.</returns>
-    public static string GetResourceName(this IResourceAccessAttribute? attribute, ControllerActionDescriptor descriptor)
+    public static string GetResourceName(this IEnumerable<ResourceAccessAttribute> attributes, ControllerActionDescriptor descriptor)
     {
-        return attribute?.Name
-            ?? descriptor.ControllerName;
+        return attributes
+            .Select(attribute => attribute.Name)
+            .Where(name => name is not null)
+            .LastOrDefault() ?? descriptor.ControllerName;
     }
 
     /// <summary>
     /// Gets the type of access required to access the resource.
     /// </summary>
-    /// <param name="attribute">The attribute defining resource access requirements</param>
+    /// <param name="attributes">The list of attributes defining resource access requirements in ascending order of precedence</param>
     /// <param name="httpMethod">The HTTP method used to access the resource</param>
     /// <returns>The access level requirements.</returns>
-    public static ResourceAccessType? GetAccessType(this IResourceAccessAttribute? attribute, string httpMethod)
+    /// <remarks>
+    /// This method will never return <see cref="ResourceAccessType.NotSpecified"/> or <see cref="ResourceAccessType.Default"/>.
+    /// If no access type is explicitly specified by any <see cref="ResourceAccessAttribute"/>,
+    /// or if <see cref="ResourceAccessType.Default"/> is explicitly specified,
+    /// then it will determine the appropriate level of access based on the <paramref name="httpMethod"/>.
+    /// </remarks>
+    public static ResourceAccessType GetAccessType(this IEnumerable<ResourceAccessAttribute> attributes, string httpMethod)
     {
-        return attribute?.Access
-            ?? ToAccessType(httpMethod);
+        ResourceAccessType access = attributes.GetAccessType();
 
-        static ResourceAccessType? ToAccessType(string httpMethod)
+        return access == ResourceAccessType.Default
+            ? ToAccessType(httpMethod)
+            : access;
+
+        static ResourceAccessType ToAccessType(string httpMethod)
         {
             if (HttpMethods.IsPost(httpMethod))
                 return ResourceAccessType.Create;
@@ -126,7 +136,26 @@ public static class ResourceAccessAttributeExtensions
                 return ResourceAccessType.Update;
             if (HttpMethods.IsDelete(httpMethod))
                 return ResourceAccessType.Delete;
-            return null;
+            return ResourceAccessType.None;
         }
+    }
+
+    /// <summary>
+    /// Gets the type of access required to access the resource.
+    /// </summary>
+    /// <param name="attributes">The list of attributes defining resource access requirements in ascending order of precedence</param>
+    /// <returns>The access level requirements.</returns>
+    /// <remarks>
+    /// This method will never return <see cref="ResourceAccessType.NotSpecified"/>.
+    /// If no access type is explicitly specified by any <see cref="ResourceAccessAttribute"/>,
+    /// then it will return <see cref="ResourceAccessType.Default"/> instead.
+    /// </remarks>
+    public static ResourceAccessType GetAccessType(this IEnumerable<ResourceAccessAttribute> attributes)
+    {
+        return attributes
+            .Select(attribute => attribute.Access)
+            .Where(access => access != ResourceAccessType.NotSpecified)
+            .DefaultIfEmpty(ResourceAccessType.Default)
+            .Last();
     }
 }
