@@ -21,6 +21,7 @@
 //
 //******************************************************************************************************
 
+using System;
 using System.Security.Claims;
 
 namespace Gemstone.Security.AccessControl;
@@ -48,7 +49,22 @@ public enum ResourceAccessType
     /// <summary>
     /// Delete a resource from existence.
     /// </summary>
-    Delete
+    Delete,
+
+    /// <summary>
+    /// A level of access that cannot be satisfied.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// The default level of access, as defined by the resource type.
+    /// </summary>
+    Default,
+
+    /// <summary>
+    /// No resource access type was explicitly specified.
+    /// </summary>
+    NotSpecified
 }
 
 /// <summary>
@@ -64,11 +80,26 @@ public static class ResourceAccessExtensions
     /// <param name="resourceName">The identity of the requested resource</param>
     /// <param name="access">The level of access requested</param>
     /// <returns>A value indicating whether permission is granted or denied.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///   <paramref name="access"/> is not one of:
+    ///   <list type="bullet">
+    ///     <item><see cref="ResourceAccessType.Create"/></item>
+    ///     <item><see cref="ResourceAccessType.Read"/></item>
+    ///     <item><see cref="ResourceAccessType.Update"/></item>
+    ///     <item><see cref="ResourceAccessType.Delete"/></item>
+    ///     <item><see cref="ResourceAccessType.None"/></item>
+    ///   </list>
+    /// </exception>
     public static bool HasAccessTo(this ClaimsPrincipal user, string resourceType, string resourceName, ResourceAccessType access)
     {
+        ThrowIfNotValid(access);
+
         const string AllowClaim = "Gemstone.ResourceAccess.Allow";
         const string DenyClaim = "Gemstone.ResourceAccess.Deny";
         const string BaseClaim = "Gemstone.ResourceAccess.Default";
+
+        if (access == ResourceAccessType.None)
+            return false;
 
         string claimValue = $"{resourceType} {resourceName} {access}";
 
@@ -80,5 +111,21 @@ public static class ResourceAccessExtensions
             user.HasClaim(BaseClaim, $"{access}");
 
         return !IsDenied() && IsAllowed();
+    }
+
+    private static void ThrowIfNotValid(ResourceAccessType access)
+    {
+        switch (access)
+        {
+            case ResourceAccessType.Create:
+            case ResourceAccessType.Read:
+            case ResourceAccessType.Update:
+            case ResourceAccessType.Delete:
+            case ResourceAccessType.None:
+                return;
+        }
+
+        string message = $"Invalid access type for resource: {access}";
+        throw new ArgumentOutOfRangeException(nameof(access), access, message);
     }
 }
