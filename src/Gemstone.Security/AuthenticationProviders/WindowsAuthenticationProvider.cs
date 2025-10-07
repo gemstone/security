@@ -59,10 +59,10 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
         public const string Group = System.Security.Claims.ClaimTypes.GroupSid;
     }
 
-    private class ClaimType(string type, [CallerArgumentExpression(nameof(type))] string? alias = null) : IClaimType
+    private class ClaimType(string type, string alias) : IClaimType
     {
         public string Type { get; } = type;
-        public string Alias { get; } = alias ?? string.Empty;
+        public string Alias { get; } = alias;
         public string Description { get; } = string.Empty;
     }
 
@@ -230,8 +230,8 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
 
     // Static Properties
     private static ClaimType[] ClaimTypes { get; } = [
-        new(ClaimTypeAliases.UserIdentity),
-        new(ClaimTypeAliases.Group)
+        new(ClaimTypeAliases.UserIdentity, "User Identity"),
+        new(ClaimTypeAliases.Group, "Group")
     ];
 
     // Static Methods
