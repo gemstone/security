@@ -107,41 +107,11 @@
       <param name="deniedResourcesFunc">Function that returns the list of resources that are not included in the rule.</param>
       <returns>The builder, for chaining.</returns>
     </member>
-    <member name="T:Gemstone.Security.AccessControl.IResourceAccessAttribute">
-      <summary>
-            Interface shared by <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" />
-            and <see cref="T:Gemstone.Security.AccessControl.NoResourceAccessAttribute" />.
-            </summary>
-    </member>
-    <member name="P:Gemstone.Security.AccessControl.IResourceAccessAttribute.Access">
-      <summary>
-            Gets the type of permission required to access the resource.
-            </summary>
-    </member>
-    <member name="P:Gemstone.Security.AccessControl.IResourceAccessAttribute.Name">
-      <summary>
-            Gets the name of the resource.
-            </summary>
-    </member>
-    <member name="T:Gemstone.Security.AccessControl.NoResourceAccessAttribute">
-      <summary>
-            Indicates that resource access logic does not apply
-            when attempting to access actions on a resource.
-            </summary>
-    </member>
-    <member name="M:Gemstone.Security.AccessControl.NoResourceAccessAttribute.#ctor">
-      <summary>
-            Indicates that resource access logic does not apply
-            when attempting to access actions on a resource.
-            </summary>
-    </member>
     <member name="T:Gemstone.Security.AccessControl.ResourceAccessAttribute">
       <summary>
             Annotation to assign an access type to an action on
             a resource represented by a class, method, property, etc.
             </summary>
-      <param name="name">The name of the resource</param>
-      <param name="access">The type of permission required to access the resource</param>
     </member>
     <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttribute.#ctor(Gemstone.Security.AccessControl.ResourceAccessType)">
       <summary>
@@ -149,42 +119,75 @@
             </summary>
       <param name="access">The type of permission required to access the resource</param>
     </member>
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttribute.#ctor(System.String)">
+      <summary>
+            Creates a new instance of the <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" /> class.
+            </summary>
+      <param name="name">The name of the resource</param>
+    </member>
     <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttribute.#ctor(System.String,Gemstone.Security.AccessControl.ResourceAccessType)">
       <summary>
-            Annotation to assign an access type to an action on
-            a resource represented by a class, method, property, etc.
+            Creates a new instance of the <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" /> class.
             </summary>
       <param name="name">The name of the resource</param>
       <param name="access">The type of permission required to access the resource</param>
     </member>
     <member name="P:Gemstone.Security.AccessControl.ResourceAccessAttribute.Access">
       <summary>
-            Gets the type of permission required to access the resource.
-            </summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>P:Gemstone.Security.AccessControl.ResourceAccessAttribute.Access</parameter>
+          </include>
+        </markup>
+      </summary>
     </member>
     <member name="P:Gemstone.Security.AccessControl.ResourceAccessAttribute.Name">
       <summary>
-            Gets the name of the resource.
-            </summary>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>summary</parameter>
+            <parameter>P:Gemstone.Security.AccessControl.ResourceAccessAttribute.Name</parameter>
+          </include>
+        </markup>
+      </summary>
     </member>
     <member name="T:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions">
       <summary>
             Extension methods for the <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" /> class.
             </summary>
     </member>
-    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions.GetAccessType(Gemstone.Security.AccessControl.IResourceAccessAttribute,System.String)">
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions.GetAccessType(System.Collections.Generic.IEnumerable{Gemstone.Security.AccessControl.ResourceAccessAttribute})">
       <summary>
             Gets the type of access required to access the resource.
             </summary>
-      <param name="attribute">The attribute defining resource access requirements</param>
+      <param name="attributes">The list of attributes defining resource access requirements in ascending order of precedence</param>
+      <returns>The access level requirements.</returns>
+      <remarks>
+            This method will never return <see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.NotSpecified" />.
+            If no access type is explicitly specified by any <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" />,
+            then it will return <see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.Default" /> instead.
+            </remarks>
+    </member>
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions.GetAccessType(System.Collections.Generic.IEnumerable{Gemstone.Security.AccessControl.ResourceAccessAttribute},System.String)">
+      <summary>
+            Gets the type of access required to access the resource.
+            </summary>
+      <param name="attributes">The list of attributes defining resource access requirements in ascending order of precedence</param>
       <param name="httpMethod">The HTTP method used to access the resource</param>
       <returns>The access level requirements.</returns>
+      <remarks>
+            This method will never return <see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.NotSpecified" /> or <see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.Default" />.
+            If no access type is explicitly specified by any <see cref="T:Gemstone.Security.AccessControl.ResourceAccessAttribute" />,
+            or if <see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.Default" /> is explicitly specified,
+            then it will determine the appropriate level of access based on the <paramref name="httpMethod" />.
+            </remarks>
     </member>
-    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions.GetResourceName(Gemstone.Security.AccessControl.IResourceAccessAttribute,Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)">
+    <member name="M:Gemstone.Security.AccessControl.ResourceAccessAttributeExtensions.GetResourceName(System.Collections.Generic.IEnumerable{Gemstone.Security.AccessControl.ResourceAccessAttribute},Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)">
       <summary>
             Gets the name of the resource, falling back on data from the controller action descriptor.
             </summary>
-      <param name="attribute">The attribute defining resource access requirements</param>
+      <param name="attributes">The list of attributes defining resource access requirements in ascending order of precedence</param>
       <param name="descriptor">The descriptor providing info about the controller being accessed</param>
       <returns>The name of the resource.</returns>
     </member>
@@ -202,6 +205,9 @@
       <param name="resourceName">The identity of the requested resource</param>
       <param name="access">The level of access requested</param>
       <returns>A value indicating whether permission is granted or denied.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+        <paramref name="access" /> is not one of:
+              <list type="bullet"><item><see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.Create" /></item><item><see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.Read" /></item><item><see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.Update" /></item><item><see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.Delete" /></item><item><see cref="F:Gemstone.Security.AccessControl.ResourceAccessType.None" /></item></list></exception>
     </member>
     <member name="T:Gemstone.Security.AccessControl.ResourceAccessType">
       <summary>
@@ -226,6 +232,21 @@
     <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.Delete">
       <summary>
             Delete a resource from existence.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.None">
+      <summary>
+            A level of access that cannot be satisfied.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.Default">
+      <summary>
+            The default level of access, as defined by the resource type.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.NotSpecified">
+      <summary>
+            No resource access type was explicitly specified.
             </summary>
     </member>
     <member name="T:Gemstone.Security.AuthenticationProviders.AuthenticationBuilderExtensions">
