@@ -170,6 +170,7 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
         section.ClientSecret = ("ClientSecret", "Defines the secret used to autheticate the client with the OpenID Connect provider.");
         section.Authority = ("https://auth.gridprotectionalliance.org/realms/Test", "Defines the authority URL of the OpenID Connect provider.");
         section.UserIdClaim = ("sub", "Defines the claim used to identify the user.");
+        section.Enabled = (false, "Defines a flag to enable the OAuth authentication provider.");
 
     }
     #endregion
