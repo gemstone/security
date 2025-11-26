@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 using Gemstone.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -155,25 +154,6 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
     } = [new ClaimType("Gemstone.AllUsers")];
 
     // Static Methods
-    private static string Escape(string ldapValue)
-    {
-        Regex pattern = SpecialCharacterPattern();
-
-        return pattern.Replace(ldapValue, match => match.Value switch
-        {
-            @"\*" => @"\2A",
-            "(" => @"\28",
-            ")" => @"\29",
-            @"\\" => @"\5C",
-            "\0" => @"\00",
-
-            // Character escaped with backslash
-            string v => v[1..]
-        });
-    }
-
-    [GeneratedRegex(@"\\.|[()\0]")]
-    private static partial Regex SpecialCharacterPattern();
 
     /// <summary>
     /// Defines the settings used to configure the <see cref="OAuthAuthenticationProvider"/> in the Configuration File.
@@ -189,8 +169,8 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
         section.Authority = ("https://auth.gridprotectionalliance.org/realms/Test", "Defines the authority URL of the OpenID Connect provider.");
         section.UserIdClaim = ("sub", "Defines the claim used to identify the user.");
         section.Enabled = (false, "Defines a flag to enable the OAuth authentication provider.");
-
     }
+
     #endregion
 }
 
