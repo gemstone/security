@@ -23,11 +23,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.DirectoryServices;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Text.RegularExpressions;
 using Gemstone.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,9 +38,29 @@ namespace Gemstone.Security.AuthenticationProviders;
 public class OAuthAuthenticationProviderOptions
 {
     /// <summary>
-    /// The claimType used to identify the user uniquly.
+    /// The claimType used to identify the user uniquely.
     /// </summary>
-    public string? UserIdClaim { get; set; }
+    public string? UserIdClaim { get; set; } = "sub";
+
+    /// <summary>
+    /// The Authority to use when making OpenIdConnect calls.
+    /// </summary>
+    public string Authority { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Identifier for the client application.
+    /// </summary>
+    public string ClientId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Secret used to authenticate the client application.
+    /// </summary>
+    public string ClientSecret { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The space-separated list of permissions to request.
+    /// </summary>
+    public string Scopes { get; set; } = string.Empty;
 }
 
 /// <summary>
