@@ -456,6 +456,156 @@
             Gets the value of the claim.
             </summary>
     </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider">
+      <summary>
+            Provides information about claims available to the OAuth authentication provider.
+            </summary>
+      <param name="options">Options to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider" /></param>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider.#ctor">
+      <summary>
+            Creates a new instance of the <see cref="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider.#ctor(Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions)">
+      <summary>
+            Provides information about claims available to the OAuth authentication provider.
+            </summary>
+      <param name="options">Options to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider" /></param>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider.DefineSettings(Gemstone.Configuration.Settings)">
+      <summary>
+            Defines the settings used to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider" /> in the Configuration File.
+            </summary>
+      <param name="settings"></param>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider.FindClaims(System.String,System.String)">
+      <summary>
+            Find claims that can be returned by the authentication provider.
+            </summary>
+      <param name="claimType">The type of claim to search for</param>
+      <param name="searchText">Text used to narrow the results for the search for claims</param>
+      <returns>A collection of claims matching the search text.</returns>
+      <remarks>
+            Search text can include asterisks as wildcards.
+            To include a literal asterisk, use backslash as the escape character.
+            A literal backslash can be escaped by another backslash.
+            Any other character escaped by a backslash matches the character;
+            the backslash will be removed.
+            </remarks>
+      <exception cref="T:System.ArgumentOutOfRangeException">The claim type is not supported</exception>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider.GetClaimTypes">
+      <summary>
+            Get the types of claims supported by the authentication provider.
+            </summary>
+      <returns>The types of claims supported by the authentication provider.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider.GetIdentity(System.Security.Claims.ClaimsPrincipal)">
+      <summary>
+            Gets the identity of the user represented by the principal.
+            </summary>
+      <param name="principal">The principal that represents the user</param>
+      <returns>The user's identity.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions">
+      <summary>
+            Defines extensions for setting up the <see cref="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider" />.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions.AddOAuthAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+            Adds the OAuth authentication provider as a singleton service using the default identity and options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions.AddOAuthAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions)">
+      <summary>
+            Adds the OAuth authentication provider as a singleton service using the default identity and given options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="options">The options used to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions.AddOAuthAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions})">
+      <summary>
+            Adds the OAuth authentication provider as a transient service using the default identity and configured options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="configure">Method invoked to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions.AddOAuthAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+      <summary>
+            Adds the OAuth authentication provider as a singleton service using the given identity and default options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions.AddOAuthAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions)">
+      <summary>
+            Adds the OAuth authentication provider as a singleton service using the given identity and options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <param name="options">The options used to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions.AddOAuthAuthenticationProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions})">
+      <summary>
+            Adds the OAuth authentication provider as a transient service using the given identity and configured options.
+            </summary>
+      <param name="services">The collection of services</param>
+      <param name="identity">The identity of the authentication provider</param>
+      <param name="configure">Method invoked to configure the authentication provider</param>
+      <returns>The collection of services.</returns>
+    </member>
+    <member name="F:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions.DefaultIdentity">
+      <summary>
+            The identity used by default if one is not provided.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions">
+      <summary>
+            Options for the <see cref="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions.Authority">
+      <summary>
+            The Authority to use when making OpenIdConnect calls.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions.ClientId">
+      <summary>
+            Identifier for the client application.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions.ClientSecret">
+      <summary>
+            Secret used to authenticate the client application.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions.Scopes">
+      <summary>
+            The space-separated list of permissions to request.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderOptions.UserIdClaim">
+      <summary>
+            The claimType used to identify the user uniquely.
+            </summary>
+    </member>
     <member name="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider">
       <summary>
             Provides information about claims available to the Windows authentication provider.
