@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
+using System.Management;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -42,6 +43,11 @@ public class WindowsAuthenticationProviderOptions
     /// Root path from which LDAP searches should be performed.
     /// </summary>
     public string? LDAPPath { get; set; }
+
+    /// <summary>
+    /// Flag to indicate whether the UI will also search local Users and Groups.
+    /// </summary>
+    public bool AllowLocalAccounts { get; set; } = false;
 }
 
 /// <summary>
@@ -176,6 +182,27 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
 
             yield return new ProviderClaim(value, description);
         }
+
+        if (!Options.AllowLocalAccounts)
+            yield break;
+
+        using ManagementObjectSearcher localSearcher = new ("root\\CIMV2", $"SELECT * FROM Win32_UserAccount WHERE LocalAccount = True AND Name LIKE '{escapedSearchText.Replace("*", "%")}'");
+
+        foreach (ManagementObject user in localSearcher.Get())
+        {
+            string? name = user["Name"]?.ToString();
+            string? sid = user["SID"]?.ToString();
+            string? fullName = user["FullName"]?.ToString();
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(sid))
+                continue;
+
+            string description = !string.IsNullOrEmpty(fullName)
+                ? $"{name} ({fullName}. Local)"
+                : $"{name} (Local)";
+
+            yield return new ProviderClaim(sid, description);
+        }
     }
 
     private IEnumerable<IProviderClaim> FindGroups(string searchText)
@@ -221,6 +248,28 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
                 .Select(n => n[3..]);
 
             return string.Join('.', dc);
+        }
+
+        if (!Options.AllowLocalAccounts)
+            yield break;
+
+        
+        using ManagementObjectSearcher localSearcher = new("root\\CIMV2", $"SELECT * FROM Win32_Group WHERE LocalAccount = True AND Name LIKE '{escapedSearchText.Replace("*", "%")}'");
+
+        foreach (ManagementObject group in localSearcher.Get())
+        {
+            string? name = group["Name"]?.ToString();
+            string? sid = group["SID"]?.ToString();
+            string? description = group["Description"]?.ToString();
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(sid))
+                continue;
+
+            string groupDescription = !string.IsNullOrEmpty(description)
+                ? $"{name} ({description}. Local)"
+                : $"{name} (Local)";
+
+            yield return new ProviderClaim(sid, groupDescription);
         }
     }
 
