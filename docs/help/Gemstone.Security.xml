@@ -725,6 +725,11 @@
         </markup>
       </summary>
     </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions.AllowLocalAccounts">
+      <summary>
+            Flag to indicate whether the UI will also search local Users and Groups.
+            </summary>
+    </member>
     <member name="P:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderOptions.LDAPPath">
       <summary>
             Root path from which LDAP searches should be performed.
