@@ -90,6 +90,9 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
         public string LongDescription => string.Empty;
     }
 
+    //Constants
+    public const string SettingsSection = "Security.OpenIDConnect";
+
     #endregion
 
     #region [ Constructors ]
@@ -161,7 +164,7 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
     /// <param name="settings"></param>
     public static void DefineSettings(Settings settings)
     {
-        dynamic section = settings["Security.OpenIDConnect"];
+        dynamic section = settings[SettingsSection];
 
         section.Scopes = ("profile", "Defines the scopes requested from the OpenID Connect provider in a comma sepperated list.");
         section.ClientId = ("ClientID", "Defines the client ID of the application.");
