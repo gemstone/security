@@ -44,4 +44,12 @@ public interface IAuthenticationSetup
     /// <param name="providerIdentity">The identity of the authentication provider</param>
     /// <returns>The list of mappings between provider claims and assigned claims.</returns>
     IEnumerable<(Claim Match, Claim Assigned)> GetProviderClaims(string providerIdentity);
+
+    /// <summary>
+    /// Extends the given <see cref="ClaimsPrincipal"/> with additional claims or identities
+    /// based on the specified authentication provider.
+    /// </summary>
+    /// <param name="claimsPrincipal">The claims principal to extend.</param>
+    /// <param name="providerIdentity">The identity of the authentication provider.</param>
+    void ExtendClaimPrincipal(ClaimsPrincipal claimsPrincipal, string providerIdentity);
 }

@@ -77,6 +77,11 @@ public static class AuthenticationBuilderExtensions
             return ProviderClaims.TryGetValue(providerIdentity, out List<(Claim, Claim)>? claims)
                 ? claims.AsEnumerable() : [];
         }
+
+        public void ExtendClaimPrincipal(ClaimsPrincipal claimsPrincipal, string providerIdentity)
+        {
+            //no default implementation, but this allows for the setup to extend the claim principle with additional claims or identities as needed 
+        }
     }
 
     private class AuthenticationRuntime(IServiceCollection services, IAuthenticationSetup setup, Func<string, IAuthenticationProvider?> providerLookup) : IAuthenticationRuntime
@@ -105,6 +110,8 @@ public static class AuthenticationBuilderExtensions
                 return [];
 
             string userIdentity = provider.GetIdentity(principal);
+
+            Setup.ExtendClaimPrincipal(principal, providerIdentity);
 
             IEnumerable<Claim> providerClaims = Setup
                 .GetProviderClaims(providerIdentity)
