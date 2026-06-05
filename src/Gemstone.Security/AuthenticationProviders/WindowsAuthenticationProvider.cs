@@ -26,10 +26,10 @@ using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
 using System.Management;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
+using Gemstone.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gemstone.Security.AuthenticationProviders;
@@ -57,6 +57,11 @@ public class WindowsAuthenticationProviderOptions
 public partial class WindowsAuthenticationProvider(WindowsAuthenticationProviderOptions options) : IAuthenticationProvider
 {
     #region [ Members ]
+    //Constants
+    /// <summary>
+    /// The section of the configuration file used to configure the provider when using the default options.
+    /// </summary>
+    public const string SettingsSection = "WindowsAuthentication";
 
     // Nested Types
     private static class ClaimTypeAliases
@@ -303,6 +308,18 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
 
     [GeneratedRegex(@"\\.|[()\0]")]
     private static partial Regex SpecialCharacterPattern();
+
+    /// <summary>
+    /// Defines the settings used to configure the <see cref="OAuthAuthenticationProvider"/> in the Configuration File.
+    /// </summary>
+    /// <param name="settings">The settings to define.</param>
+    public static void DefineSettings(Settings settings)
+    {
+        dynamic section = settings[SettingsSection];
+
+        section.LDAPPath = ("", "LDAP path to use for Windows Authentication");
+        section.AllowLocalAccounts = (false, "Allow local accounts to authenticate with Windows Authentication");
+    }
 
     #endregion
 }
