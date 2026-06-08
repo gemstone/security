@@ -57,9 +57,10 @@ public class WindowsAuthenticationProviderOptions
 public partial class WindowsAuthenticationProvider(WindowsAuthenticationProviderOptions options) : IAuthenticationProvider
 {
     #region [ Members ]
-    //Constants
+    // Constants
+
     /// <summary>
-    /// The section of the configuration file used to configure the provider when using the default options.
+    /// The section of the configuration file that could be used to configure the provider.
     /// </summary>
     public const string SettingsSection = "WindowsAuthentication";
 
@@ -310,15 +311,15 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     private static partial Regex SpecialCharacterPattern();
 
     /// <summary>
-    /// Defines the settings used to configure the <see cref="OAuthAuthenticationProvider"/> in the Configuration File.
+    /// Defines the settings used to configure the <see cref="WindowsAuthenticationProvider"/> in the Configuration File.
     /// </summary>
     /// <param name="settings">The settings to define.</param>
     public static void DefineSettings(Settings settings)
     {
         dynamic section = settings[SettingsSection];
 
-        section.LDAPPath = ("", "LDAP path to use for Windows Authentication");
-        section.AllowLocalAccounts = (false, "Allow local accounts to authenticate with Windows Authentication");
+        section.LDAPPath = ("", "Root path from which LDAP searches should be performed");
+        section.AllowLocalAccounts = (false, "Indicates whether the UI will also search local Users and Groups");
     }
 
     #endregion
