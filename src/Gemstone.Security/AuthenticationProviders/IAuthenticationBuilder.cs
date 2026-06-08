@@ -111,8 +111,6 @@ public static class AuthenticationBuilderExtensions
 
             string userIdentity = provider.GetIdentity(principal);
 
-            Setup.ExtendClaimPrincipal(principal, providerIdentity);
-
             IEnumerable<Claim> providerClaims = Setup
                 .GetProviderClaims(providerIdentity)
                 .Join(principal.Claims, ToKey, ToKey, (providerClaim, _) => providerClaim.Assigned)
