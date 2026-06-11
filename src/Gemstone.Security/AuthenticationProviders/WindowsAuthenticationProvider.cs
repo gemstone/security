@@ -57,12 +57,6 @@ public class WindowsAuthenticationProviderOptions
 public partial class WindowsAuthenticationProvider(WindowsAuthenticationProviderOptions options) : IAuthenticationProvider
 {
     #region [ Members ]
-    // Constants
-
-    /// <summary>
-    /// The section of the configuration file that could be used to configure the provider.
-    /// </summary>
-    public const string SettingsSection = "WindowsAuthentication";
 
     // Nested Types
     private static class ClaimTypeAliases
@@ -89,6 +83,13 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
         /// <summary>Empty</summary>
         public string LongDescription => string.Empty;
     }
+
+    // Constants
+
+    /// <summary>
+    /// The section of the configuration file that could be used to configure the provider.
+    /// </summary>
+    public const string SettingsSection = "WindowsAuthentication";
 
     #endregion
 
@@ -313,7 +314,7 @@ public partial class WindowsAuthenticationProvider(WindowsAuthenticationProvider
     /// <summary>
     /// Defines the settings used to configure the <see cref="WindowsAuthenticationProvider"/> in the Configuration File.
     /// </summary>
-    /// <param name="settings">The settings to define.</param>
+    /// <param name="settings">The instance in which to define the settings.</param>
     public static void DefineSettings(Settings settings)
     {
         dynamic section = settings[SettingsSection];
