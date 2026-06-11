@@ -90,7 +90,11 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
         public string LongDescription => string.Empty;
     }
 
-    //Constants
+    // Constants
+
+    /// <summary>
+    /// The section of the configuration file that could be used to configure the provider.
+    /// </summary>
     public const string SettingsSection = "Security.OpenIDConnect";
 
     #endregion
