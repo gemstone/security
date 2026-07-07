@@ -127,7 +127,7 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
                 .Claims
                 .Select(claim => claim.Type)
                 .Distinct()
-                .Select(type => new ClaimType(type)).Prepend(new ClaimType("Gemstone.AllUsers")).ToArray();
+                .Select(type => new ClaimType(type)).ToArray();
 
         string? identity = principal
             .FindFirst(Options.UserIdClaim ?? "sub")?
@@ -158,7 +158,7 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
     {
         get;
         set;
-    } = [new ClaimType("Gemstone.AllUsers")];
+    } = [new ClaimType(GemstoneClaimTypes.AllUsers), new (GemstoneClaimTypes.UserIdentity)];
 
     // Static Methods
 

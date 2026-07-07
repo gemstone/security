@@ -96,9 +96,6 @@ public static class AuthenticationBuilderExtensions
 
         public IEnumerable<Claim> GetAssignedClaims(string providerIdentity, ClaimsPrincipal principal)
         {
-            const string ProviderIdentityClaim = "Gemstone.ProviderIdentity";
-            const string UserIdentityClaim = "Gemstone.UserIdentity";
-
             IAuthenticationProvider? provider = ProviderLookup(providerIdentity);
 
             if (provider is null)
@@ -106,11 +103,13 @@ public static class AuthenticationBuilderExtensions
 
             string userIdentity = provider.GetIdentity(principal);
 
-            IEnumerable<Claim> providerClaims = Setup
-                .GetProviderClaims(providerIdentity)
-                .Join(principal.Claims, ToKey, ToKey, (providerClaim, _) => providerClaim.Assigned)
-                .Prepend(new(UserIdentityClaim, userIdentity))
-                .Prepend(new(ProviderIdentityClaim, providerIdentity));
+            IEnumerable<Claim> principalClaims = principal.Claims
+                .Append(new(GemstoneClaimTypes.AllUsers,string.Empty));
+
+            IEnumerable<Claim> providerClaims = Setup.GetProviderClaims(providerIdentity)
+                .Join(principalClaims, ToKey, ToKey, (providerClaim, _) => providerClaim.Assigned)
+                .Prepend(new(GemstoneClaimTypes.UserIdentity, userIdentity))
+                .Prepend(new(GemstoneClaimTypes.ProviderIdentity, providerIdentity));
 
             return providerClaims;
         }
