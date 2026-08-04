@@ -122,10 +122,12 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
     /// <inheritdoc/>
     public string GetIdentity(ClaimsPrincipal principal)
     {
-        if (ClaimTypes.Length == 1)
+        if (ClaimTypes is null)
             ClaimTypes = principal
                 .Claims
                 .Select(claim => claim.Type)
+                .Prepend(GemstoneClaimTypes.UserIdentity)
+                .Prepend(GemstoneClaimTypes.AllUsers)
                 .Distinct()
                 .Select(type => new ClaimType(type)).ToArray();
 
@@ -140,7 +142,7 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
     /// <inheritdoc/>
     public IEnumerable<IClaimType> GetClaimTypes()
     {
-        return ClaimTypes;
+        return ClaimTypes ?? [new ClaimType(GemstoneClaimTypes.AllUsers), new(GemstoneClaimTypes.UserIdentity)];
     }
 
     /// <inheritdoc/>
@@ -154,11 +156,11 @@ public partial class OAuthAuthenticationProvider(OAuthAuthenticationProviderOpti
     #region [ Static ]
 
     // Static Properties
-    private static ClaimType[] ClaimTypes
+    private static ClaimType[]? ClaimTypes
     {
         get;
         set;
-    } = [new ClaimType(GemstoneClaimTypes.AllUsers), new (GemstoneClaimTypes.UserIdentity)];
+    } = null;
 
     // Static Methods
 
@@ -256,7 +258,7 @@ public static class OAuthAuthenticationProviderExtensions
     /// <returns>The collection of services.</returns>
     public static IServiceCollection AddOAuthAuthenticationProvider(this IServiceCollection services, string identity, Action<OAuthAuthenticationProviderOptions> configure)
     {
-        return services.AddKeyedTransient<IAuthenticationProvider>(identity, (_, _) =>
+        return services.AddKeyedSingleton<IAuthenticationProvider>(identity, (_, _) =>
         {
             OAuthAuthenticationProviderOptions options = new();
             configure(options);
