@@ -21,43 +21,42 @@
 //
 //******************************************************************************************************
 
-using System.Runtime.CompilerServices;
-
 namespace Gemstone.Security
 {
     /// <summary>
-    /// The Claim Types used bu the <see cref="Gemstone.Security"/> namespace 
+    /// The claim types used by the <see cref="Security"/> namespace.
     /// </summary>
     public static class GemstoneClaimTypes
     {
         /// <summary>
-        /// Holds the unique identifier for the User.
+        /// Assigned claim that holds the unique identifier for the User.
         /// </summary>
         public const string UserIdentity = "Gemstone.UserIdentity";
+
         /// <summary>
-        /// Holds the unique identifier for the Authentication Provider.
+        /// Assigned claim that holds the unique identifier for the Authentication Provider.
         /// </summary>
         public const string ProviderIdentity = "Gemstone.ProviderIdentity";
 
         /// <summary>
-        /// Is used in Matrching Claims to match any user, regardless of claims they have
+        /// Implicit claim that masquerades as a provider claim and applies
+        /// to any user principal regardless of what claims they have.
         /// </summary>
         public const string AllUsers = "Gemstone.AllUsers";
 
         /// <summary>
-        /// Allows a user to access a resource.
+        /// Assigned claim that allows a user to access a resource.
         /// </summary>
         public const string AllowClaim = "Gemstone.ResourceAccess.Allow";
 
         /// <summary>
-        /// Denies a user access to a resource.
+        /// Assigned claim that denies a user access to a resource.
         /// </summary>
         public const string DenyClaim = "Gemstone.ResourceAccess.Deny";
 
         /// <summary>
-        /// Allows access to the value as the default access level.
+        /// Assigned claim that allows access to the value as the default access level.
         /// </summary>
         public const string BaseClaim = "Gemstone.ResourceAccess.Default";
-
     }
 }
