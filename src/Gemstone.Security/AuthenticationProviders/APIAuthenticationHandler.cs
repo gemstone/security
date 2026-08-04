@@ -69,8 +69,12 @@ public class APIToken
 public class APIAuthenticationHandler(IOptionsMonitor<APIAuthenticationProviderOptions> options, ILoggerFactory logger, UrlEncoder encoder)
     : AuthenticationHandler<APIAuthenticationProviderOptions>(options, logger, encoder)
 {
+    /// <summary>
+    /// Authentication type used for API authentication.
+    /// </summary>
+    public const string AuthenticationType = "APIAuthentication";
+
     private const string HttpAuthenticationScheme = "Bearer";
-    private const string AuthenticationType = "APIAuthentication";
 
     private string AuthorizationHeader => Request.Headers.Authorization.ToString();
 
