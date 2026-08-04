@@ -103,15 +103,16 @@ public static class AuthenticationBuilderExtensions
 
             string userIdentity = provider.GetIdentity(principal);
 
-            IEnumerable<Claim> principalClaims = principal.Claims
+            IEnumerable<Claim> providerClaims = principal.Claims
                 .Append(new(GemstoneClaimTypes.AllUsers,string.Empty));
 
-            IEnumerable<Claim> providerClaims = Setup.GetProviderClaims(providerIdentity)
-                .Join(principalClaims, ToKey, ToKey, (providerClaim, _) => providerClaim.Assigned)
+            IEnumerable<Claim> assignedClaims = Setup
+                .GetProviderClaims(providerIdentity)
+                .Join(providerClaims, ToKey, ToKey, (mapping, _) => mapping.Assigned)
                 .Prepend(new(GemstoneClaimTypes.UserIdentity, userIdentity))
                 .Prepend(new(GemstoneClaimTypes.ProviderIdentity, providerIdentity));
 
-            return providerClaims;
+            return assignedClaims;
         }
 
         private static (string, string) ToKey((Claim Match, Claim) tuple)
