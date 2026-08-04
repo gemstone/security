@@ -104,7 +104,7 @@ public static class AuthenticationBuilderExtensions
             string userIdentity = provider.GetIdentity(principal);
 
             IEnumerable<Claim> providerClaims = principal.Claims
-                .Append(new(GemstoneClaimTypes.AllUsers,string.Empty));
+                .Append(new(GemstoneClaimTypes.AllUsers, string.Empty));
 
             IEnumerable<Claim> assignedClaims = Setup
                 .GetProviderClaims(providerIdentity)
