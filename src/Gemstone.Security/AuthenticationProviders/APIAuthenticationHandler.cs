@@ -34,7 +34,7 @@ namespace Gemstone.Security.AuthenticationProviders;
 /// <summary>
 /// Options for the <see cref="APIAuthenticationHandler"/> class.
 /// </summary>
-public class APIAuthenticationProviderOptions : AuthenticationSchemeOptions
+public class APIAuthenticationOptions : AuthenticationSchemeOptions
 {
     /// <summary>
     /// Function that parses and validates an API token.
@@ -66,8 +66,8 @@ public class APIToken
 /// <summary>
 /// Represents an authentication handler for API users.
 /// </summary>
-public class APIAuthenticationHandler(IOptionsMonitor<APIAuthenticationProviderOptions> options, ILoggerFactory logger, UrlEncoder encoder)
-    : AuthenticationHandler<APIAuthenticationProviderOptions>(options, logger, encoder)
+public class APIAuthenticationHandler(IOptionsMonitor<APIAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+    : AuthenticationHandler<APIAuthenticationOptions>(options, logger, encoder)
 {
     /// <summary>
     /// Authentication type used for API authentication.
@@ -129,5 +129,57 @@ public class APIAuthenticationHandler(IOptionsMonitor<APIAuthenticationProviderO
         ClaimsPrincipal principal = new(identity);
         AuthenticationTicket ticket = new(principal, Scheme.Name);
         return AuthenticateResult.Success(ticket);
+    }
+}
+
+/// <summary>
+/// Extension methods for <see cref="APIAuthenticationHandler"/>.
+/// </summary>
+public static class APIAuthenticationHandlerExtensions
+{
+    /// <summary>
+    /// Adds the API authentication handler to the application.
+    /// </summary>
+    /// <param name="builder">The builder used to configure authentication</param>
+    /// <returns>The builder used to configure authentication.</returns>
+    public static AuthenticationBuilder AddAPIAuthentication(this AuthenticationBuilder builder)
+    {
+        return builder.AddAPIAuthentication(options => { });
+    }
+
+    /// <summary>
+    /// Adds the API authentication handler to the application.
+    /// </summary>
+    /// <param name="builder">The builder used to configure authentication</param>
+    /// <param name="configureOptions">Action to configure the <see cref="APIAuthenticationOptions"/></param>
+    /// <returns>The builder used to configure authentication.</returns>
+    public static AuthenticationBuilder AddAPIAuthentication(this AuthenticationBuilder builder, Action<APIAuthenticationOptions> configureOptions)
+    {
+        return builder.AddAPIAuthentication("api", configureOptions);
+    }
+
+    /// <summary>
+    /// Adds the API authentication handler to the application.
+    /// </summary>
+    /// <param name="builder">The builder used to configure authentication</param>
+    /// <param name="authenticationScheme">The name of the scheme</param>
+    /// <param name="configureOptions">Action to configure the <see cref="APIAuthenticationOptions"/></param>
+    /// <returns>The builder used to configure authentication.</returns>
+    public static AuthenticationBuilder AddAPIAuthentication(this AuthenticationBuilder builder, string authenticationScheme, Action<APIAuthenticationOptions> configureOptions)
+    {
+        return builder.AddAPIAuthentication(authenticationScheme, null, configureOptions);
+    }
+
+    /// <summary>
+    /// Adds the API authentication handler to the application.
+    /// </summary>
+    /// <param name="builder">The builder used to configure authentication</param>
+    /// <param name="authenticationScheme">The name of the scheme</param>
+    /// <param name="displayName">The display name of the scheme</param>
+    /// <param name="configureOptions">Action to configure the <see cref="APIAuthenticationOptions"/></param>
+    /// <returns>The builder used to configure authentication.</returns>
+    public static AuthenticationBuilder AddAPIAuthentication(this AuthenticationBuilder builder, string authenticationScheme, string? displayName, Action<APIAuthenticationOptions> configureOptions)
+    {
+        return builder.AddScheme<APIAuthenticationOptions, APIAuthenticationHandler>(authenticationScheme, displayName, configureOptions);
     }
 }
