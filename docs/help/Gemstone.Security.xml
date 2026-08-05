@@ -508,6 +508,11 @@
       <param name="principal">The principal that represents the user</param>
       <returns>The user's identity.</returns>
     </member>
+    <member name="F:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider.SettingsSection">
+      <summary>
+            The section of the configuration file that could be used to configure the provider.
+            </summary>
+    </member>
     <member name="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProviderExtensions">
       <summary>
             Defines extensions for setting up the <see cref="T:Gemstone.Security.AuthenticationProviders.OAuthAuthenticationProvider" />.
@@ -623,6 +628,12 @@
             </summary>
       <param name="options">Options to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider" /></param>
     </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.DefineSettings(Gemstone.Configuration.Settings)">
+      <summary>
+            Defines the settings used to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider" /> in the Configuration File.
+            </summary>
+      <param name="settings">The instance in which to define the settings.</param>
+    </member>
     <member name="M:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.FindClaims(System.String,System.String)">
       <summary>
             Find claims that can be returned by the authentication provider.
@@ -651,6 +662,11 @@
             </summary>
       <param name="principal">The principal that represents the user</param>
       <returns>The user's identity.</returns>
+    </member>
+    <member name="F:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProvider.SettingsSection">
+      <summary>
+            The section of the configuration file that could be used to configure the provider.
+            </summary>
     </member>
     <member name="T:Gemstone.Security.AuthenticationProviders.WindowsAuthenticationProviderExtensions">
       <summary>
