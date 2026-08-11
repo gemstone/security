@@ -26,6 +26,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -133,6 +134,17 @@ public class APIAuthenticationHandler(IOptionsMonitor<APIAuthenticationOptions> 
 }
 
 /// <summary>
+/// Default values related to API authentication handler.
+/// </summary>
+public static class APIAuthenticationDefaults
+{
+    /// <summary>
+    /// Default authentication scheme used by the API authentication handler.
+    /// </summary>
+    public const string AuthenticationScheme = "api";
+}
+
+/// <summary>
 /// Extension methods for <see cref="APIAuthenticationHandler"/>.
 /// </summary>
 public static class APIAuthenticationHandlerExtensions
@@ -144,7 +156,7 @@ public static class APIAuthenticationHandlerExtensions
     /// <returns>The builder used to configure authentication.</returns>
     public static AuthenticationBuilder AddAPIAuthentication(this AuthenticationBuilder builder)
     {
-        return builder.AddAPIAuthentication(options => { });
+        return builder.AddAPIAuthentication(null!);
     }
 
     /// <summary>
@@ -155,7 +167,7 @@ public static class APIAuthenticationHandlerExtensions
     /// <returns>The builder used to configure authentication.</returns>
     public static AuthenticationBuilder AddAPIAuthentication(this AuthenticationBuilder builder, Action<APIAuthenticationOptions> configureOptions)
     {
-        return builder.AddAPIAuthentication("api", configureOptions);
+        return builder.AddAPIAuthentication(APIAuthenticationDefaults.AuthenticationScheme, configureOptions);
     }
 
     /// <summary>
@@ -180,6 +192,7 @@ public static class APIAuthenticationHandlerExtensions
     /// <returns>The builder used to configure authentication.</returns>
     public static AuthenticationBuilder AddAPIAuthentication(this AuthenticationBuilder builder, string authenticationScheme, string? displayName, Action<APIAuthenticationOptions> configureOptions)
     {
+        builder.Services.AddOptions<APIAuthenticationOptions>(authenticationScheme).Validate(options => options.ValidateToken is not null);
         return builder.AddScheme<APIAuthenticationOptions, APIAuthenticationHandler>(authenticationScheme, displayName, configureOptions);
     }
 }
