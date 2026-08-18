@@ -23,6 +23,7 @@
 
 using System;
 using System.Security.Claims;
+using Gemstone.Security.AuthenticationProviders;
 
 namespace Gemstone.Security.AccessControl;
 
@@ -94,23 +95,24 @@ public static class ResourceAccessExtensions
     {
         ThrowIfNotValid(access);
 
-        const string AllowClaim = "Gemstone.ResourceAccess.Allow";
-        const string DenyClaim = "Gemstone.ResourceAccess.Deny";
-        const string BaseClaim = "Gemstone.ResourceAccess.Default";
-
         if (access == ResourceAccessType.None)
             return false;
 
         string claimValue = $"{resourceType} {resourceName} {access}";
 
         bool IsDenied() =>
-            user.HasClaim(DenyClaim, claimValue);
+            user.HasClaim(GemstoneClaimTypes.DenyClaim, claimValue);
 
         bool IsAllowed() =>
-            user.HasClaim(AllowClaim, claimValue) ||
-            user.HasClaim(BaseClaim, $"{access}");
+            user.HasClaim(GemstoneClaimTypes.AllowClaim, claimValue) ||
+            (!user.IsAPIUser() && user.HasClaim(GemstoneClaimTypes.BaseClaim, $"{access}"));
 
         return !IsDenied() && IsAllowed();
+    }
+
+    private static bool IsAPIUser(this ClaimsPrincipal user)
+    {
+        return user.Identity?.AuthenticationType == APIAuthenticationHandler.AuthenticationType;
     }
 
     private static void ThrowIfNotValid(ResourceAccessType access)
