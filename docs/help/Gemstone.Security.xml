@@ -4,6 +4,42 @@
     <name>Gemstone.Security</name>
   </assembly>
   <members>
+    <member name="T:Gemstone.Security.GemstoneClaimTypes">
+      <summary>
+            The claim types used by the <see cref="N:Gemstone.Security" /> namespace.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.GemstoneClaimTypes.AllowClaim">
+      <summary>
+            Assigned claim that allows a user to access a resource.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.GemstoneClaimTypes.AllUsers">
+      <summary>
+            Implicit claim that masquerades as a provider claim and applies
+            to any user principal regardless of what claims they have.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.GemstoneClaimTypes.BaseClaim">
+      <summary>
+            Assigned claim that allows access to the value as the default access level.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.GemstoneClaimTypes.DenyClaim">
+      <summary>
+            Assigned claim that denies a user access to a resource.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.GemstoneClaimTypes.ProviderIdentity">
+      <summary>
+            Assigned claim that holds the unique identifier for the Authentication Provider.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.GemstoneClaimTypes.UserIdentity">
+      <summary>
+            Assigned claim that holds the unique identifier for the User.
+            </summary>
+    </member>
     <member name="T:Gemstone.Security.AccessControl.AccessControlListBuilder`2">
       <summary>
             Builds access control lists for users given a collection of rules.
@@ -247,6 +283,173 @@
     <member name="F:Gemstone.Security.AccessControl.ResourceAccessType.NotSpecified">
       <summary>
             No resource access type was explicitly specified.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationDefaults">
+      <summary>
+            Default values related to API authentication handler.
+            </summary>
+    </member>
+    <member name="F:Gemstone.Security.AuthenticationProviders.APIAuthenticationDefaults.AuthenticationScheme">
+      <summary>
+            Default authentication scheme used by the API authentication handler.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler">
+      <summary>
+            Represents an authentication handler for API users.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions},Microsoft.Extensions.Logging.ILoggerFactory,System.Text.Encodings.Web.UrlEncoder)">
+      <summary>
+            Represents an authentication handler for API users.
+            </summary>
+      <param name="options">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>options</parameter>
+            <parameter>M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions},Microsoft.Extensions.Logging.ILoggerFactory,System.Text.Encodings.Web.UrlEncoder)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="logger">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>logger</parameter>
+            <parameter>M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions},Microsoft.Extensions.Logging.ILoggerFactory,System.Text.Encodings.Web.UrlEncoder)</parameter>
+          </include>
+        </markup>
+      </param>
+      <param name="encoder">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>encoder</parameter>
+            <parameter>M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions},Microsoft.Extensions.Logging.ILoggerFactory,System.Text.Encodings.Web.UrlEncoder)</parameter>
+          </include>
+        </markup>
+      </param>
+    </member>
+    <member name="F:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.AuthenticationType">
+      <summary>
+            Authentication type used for API authentication.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.HandleAuthenticateAsync">
+      <summary>
+            Parses the Authorization header and API token.
+            </summary>
+      <returns>The result of authentication.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.HandleChallengeAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+      <summary>
+            Returns a 401 Unauthorized response with the WWW-Authenticate header.
+            </summary>
+      <param name="properties">
+        <markup>
+          <include item="SMCMissingParamTag">
+            <parameter>param</parameter>
+            <parameter>properties</parameter>
+            <parameter>M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.HandleChallengeAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)</parameter>
+          </include>
+        </markup>
+      </param>
+      <returns>
+        <markup>
+          <include item="SMCMissingTag">
+            <parameter>returns</parameter>
+            <parameter>M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler.HandleChallengeAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)</parameter>
+          </include>
+        </markup>
+      </returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandlerExtensions">
+      <summary>
+            Extension methods for <see cref="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler" />.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandlerExtensions.AddAPIAuthentication(Microsoft.AspNetCore.Authentication.AuthenticationBuilder)">
+      <summary>
+            Adds the API authentication handler to the application.
+            </summary>
+      <param name="builder">The builder used to configure authentication</param>
+      <returns>The builder used to configure authentication.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandlerExtensions.AddAPIAuthentication(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions})">
+      <summary>
+            Adds the API authentication handler to the application.
+            </summary>
+      <param name="builder">The builder used to configure authentication</param>
+      <param name="configureOptions">Action to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions" /></param>
+      <returns>The builder used to configure authentication.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandlerExtensions.AddAPIAuthentication(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions})">
+      <summary>
+            Adds the API authentication handler to the application.
+            </summary>
+      <param name="builder">The builder used to configure authentication</param>
+      <param name="authenticationScheme">The name of the scheme</param>
+      <param name="configureOptions">Action to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions" /></param>
+      <returns>The builder used to configure authentication.</returns>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandlerExtensions.AddAPIAuthentication(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.String,System.Action{Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions})">
+      <summary>
+            Adds the API authentication handler to the application.
+            </summary>
+      <param name="builder">The builder used to configure authentication</param>
+      <param name="authenticationScheme">The name of the scheme</param>
+      <param name="displayName">The display name of the scheme</param>
+      <param name="configureOptions">Action to configure the <see cref="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions" /></param>
+      <returns>The builder used to configure authentication.</returns>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions">
+      <summary>
+            Options for the <see cref="T:Gemstone.Security.AuthenticationProviders.APIAuthenticationHandler" /> class.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.APIAuthenticationOptions.ValidateToken">
+      <summary>
+            Function that parses and validates an API token.
+            </summary>
+    </member>
+    <member name="T:Gemstone.Security.AuthenticationProviders.APIToken">
+      <summary>
+            Represents metadata associated with an API token.
+            </summary>
+    </member>
+    <member name="M:Gemstone.Security.AuthenticationProviders.APIToken.#ctor">
+      <summary>
+        <markup>
+          <include item="SMCAutoDocConstructor">
+            <parameter>Gemstone.Security.AuthenticationProviders.APIToken</parameter>
+          </include>
+        </markup>
+      </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.APIToken.Claims">
+      <summary>
+            Gets or sets the list of claims assigned to the API user.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.APIToken.Expiration">
+      <summary>
+            Gets or sets the time at which the token expires.
+            </summary>
+    </member>
+    <member name="P:Gemstone.Security.AuthenticationProviders.APIToken.Name">
+      <summary>
+            Gets or sets the name of the API user.
             </summary>
     </member>
     <member name="T:Gemstone.Security.AuthenticationProviders.AuthenticationBuilderExtensions">
